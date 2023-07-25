@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    
+
+
     # packages
     "rest_framework",
     'rest_framework.authtoken',
@@ -89,7 +89,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = DEFAULT_FROM_EMAIL ="kamal.@gmail.com"
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = "kamal.@gmail.com"
 EMAIL_HOST_PASSWORD = "guhwrrcrmkxanuaz"
 EMAIL_SUBJECT_PREFIX = 'Find-Need'
 
@@ -154,7 +154,7 @@ STATIC_URL = "static/"
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/') ##specify static root
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')  # specify static root
 
 
 # Default primary key field type
