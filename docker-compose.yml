@@ -40,7 +40,12 @@ services:
     depends_on:
       - web
     restart: always
-
+    
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   # certbot:
   #   image: certbot/certbot:latest
   #   volumes:
