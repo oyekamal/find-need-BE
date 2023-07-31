@@ -19,6 +19,7 @@ from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from accountProfile.views import CustomRegisterView
 
 
 schema_view = get_schema_view(
@@ -34,7 +35,8 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('dj_rest_auth.urls')),
-    path('account/registration/', include('dj_rest_auth.registration.urls')),
+    # path('account/registration/', include('dj_rest_auth.registration.urls')),
+    path('account/registration/', CustomRegisterView.as_view(), name='custom_register'),
 
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',
             schema_view.without_ui(cache_timeout=0), name='schema-json'),
