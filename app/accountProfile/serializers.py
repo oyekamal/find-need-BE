@@ -20,3 +20,9 @@ class CustomRegisterSerializer(RegisterSerializer):
         if profile_picture:
             user.profile_picture = profile_picture
             user.save()
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = ['id', 'name', 'flag_pictures']

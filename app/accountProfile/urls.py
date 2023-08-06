@@ -1,7 +1,8 @@
-# from django.urls import path
-# from .views import CustomRegisterView
 
-# urlpatterns = [
-#     # Your other urlpatterns
-#     path('account/registration/', CustomRegisterView.as_view(), name='custom_register'),
-# ]
+
+from django.urls import path
+from .views import LanguageListCreate
+
+urlpatterns = [
+    path('languages/', LanguageListCreate.as_view(), name='language-list-create'),
+]

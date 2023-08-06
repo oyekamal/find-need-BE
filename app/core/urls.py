@@ -35,9 +35,10 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('dj_rest_auth.urls')),
+    path("", include('accountProfile.urls')),
     # path('account/registration/', include('dj_rest_auth.registration.urls')),
     path('account/registration/', CustomRegisterView.as_view(), name='custom_register'),
-
+    
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',
             schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger',
