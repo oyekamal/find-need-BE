@@ -1,10 +1,10 @@
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer
+from .serializers import CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer, CustomUserUpdateSerializer
 from .models import Language, CustomUser
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-
+from rest_framework.authentication import TokenAuthentication
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
 
@@ -29,3 +29,21 @@ class UserLanguageUpdate(generics.RetrieveUpdateAPIView):
         self.perform_update(serializer)
         updated_instance = self.get_object()  # Get the updated user instance
         return Response(UserSerializer(updated_instance).data, status=status.HTTP_200_OK)
+
+
+from rest_framework import generics
+from .models import CustomUser
+from .serializers import CustomUserSerializer
+
+class CustomUserDetail(generics.RetrieveAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+class CustomUserUpdate(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserUpdateSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

@@ -51,3 +51,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'languages']
 
+class CustomUserSerializer(serializers.ModelSerializer):
+    languages = LanguageSerializer(many=True)
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'languages', 'profile_picture']
+
+class CustomUserUpdateSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = CustomUser
+        fields = ['id','email', 'first_name', 'last_name', 'phone_number', 'profile_picture']
