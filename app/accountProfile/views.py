@@ -47,3 +47,29 @@ class CustomUserUpdate(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    
+    
+from .models import Country, City
+from .serializers import CountrySerializer, CitySerializer
+
+class CountryList(generics.ListAPIView):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
+
+class CityList(generics.ListAPIView):
+    serializer_class = CitySerializer
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned cities to a given country,
+        by filtering against a `country` query parameter in the URL.
+        """
+        queryset = City.objects.all()
+        country = self.request.query_params.get('country', None)
+        if country is not None:
+            country_objs = Country.objects.filter(name__name=country)
+            if country_objs:
+                queryset = City.objects.filter(country=country_objs.first())
+            else:
+                return []
+        return queryset
