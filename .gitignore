@@ -1,14 +1,14 @@
 # Setting File
 
 # */migrations/
-*/migrations/*.py
+# */migrations/*.py
 *.pyc 
 
 .vscode/
 
 # Ignore Django migration files
-**/migrations/*.py
-**/migrations/*.pyc
+# **/migrations/*.py
+# **/migrations/*.pyc
 **/migrations/__pycache__/
 
 # Ignore database files (if you use SQLite)
