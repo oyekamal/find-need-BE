@@ -23,6 +23,14 @@ from accountProfile.views import CustomRegisterView
 from django.conf import settings
 from django.conf.urls.static import static
 
+# urls.py
+
+from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView
+from django.urls import path, include, re_path
+
+   
+
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Find-need",
@@ -39,13 +47,15 @@ urlpatterns = [
     path("", include('accountProfile.urls')),
     # path('account/registration/', include('dj_rest_auth.registration.urls')),
     path('account/registration/', CustomRegisterView.as_view(), name='custom_register'),
-    
+    path('password-reset/', PasswordResetView.as_view(), name='password_reset'),
+    re_path(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',
             schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger',
             cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc',
             cache_timeout=0), name='schema-redoc'),
+
 ]
 
 if settings.DEBUG:
