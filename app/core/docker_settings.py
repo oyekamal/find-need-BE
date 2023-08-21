@@ -26,7 +26,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-
+print("--"*30)
+print(ALLOWED_HOSTS)
+print("--"*30)
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
@@ -36,7 +38,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+# allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 CORS_ALLOWED_ORIGINS = ['https://' + host for host in allowed_hosts] + ['http://' + host for host in allowed_hosts]
 CSRF_TRUSTED_ORIGINS = ['https://' + host for host in allowed_hosts] + ['http://' + host for host in allowed_hosts]
@@ -51,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'accountProfile',
 
     # packages
     "rest_framework",
@@ -62,7 +64,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    'django_countries',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,12 +125,13 @@ DATABASES = {
     }
 }
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
 }
+
+AUTH_USER_MODEL = 'accountProfile.CustomUser'
 
 
 # Password validation
@@ -150,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
         "OPTIONS": {
-            "min_length": 8,
+            "min_length": 5,
         },
     },
 ]
@@ -170,7 +175,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = "static/"
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/') ##specify static root# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')  # specify static root
