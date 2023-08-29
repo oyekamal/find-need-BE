@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'django_countries',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
