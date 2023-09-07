@@ -19,12 +19,29 @@ class Command(BaseCommand):
 
         # Create or skip Posts
         for i in range(100):  # Adjust the number of posts you want to create
+
+            choice_categories = choice(categories)
+            # Check if subcategories for the chosen category exist
+            subcategories_for_category = subcategories.filter(category=choice_categories)
+            if subcategories_for_category.exists():
+                choice_subcategories = choice(subcategories_for_category)
+            else:
+                self.stdout.write(self.style.NOTICE(f'Skipped Post: No subcategories for {choice_categories}'))
+                continue
+
+            # Check if post types for the chosen subcategory exist
+            post_types_for_subcategory = post_types.filter(sub_category=choice_subcategories)
+            if post_types_for_subcategory.exists():
+                choice_post_types = choice(post_types_for_subcategory)
+            else:
+                self.stdout.write(self.style.NOTICE(f'Skipped Post: No post types for {choice_subcategories}'))
+                continue
             post = Post(
                 user=CustomUser.objects.first(),  # You need to specify the actual user here
                 city=choice(cities),
-                category=choice(categories),
-                sub_category=choice(subcategories),
-                post_type=choice(post_types),
+                category=choice_categories,
+                sub_category=choice_subcategories,
+                post_type=choice_post_types,
                 year=randint(2000, 2023),
                 region=choice(regions),
                 body_condition=choice(['poor', 'fair', 'good', 'excellent', 'other']),
