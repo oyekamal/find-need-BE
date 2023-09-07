@@ -33,9 +33,16 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+# Model for vehicle categories
+class Color(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 # Model for car makers (e.g., Acura, Audi, BMW)
-class CarMaker(models.Model):
+class Subcategory(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
     name = models.CharField(max_length=100)
@@ -43,26 +50,26 @@ class CarMaker(models.Model):
     def __str__(self):
         return self.name
 
-# Model for car models (linked to CarMaker)
-class CarModel(models.Model):
+# Model for car models (linked to Subcategory)
+class PostType(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
-    maker = models.ForeignKey(CarMaker, on_delete=models.CASCADE)
+    maker = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 # Model for vehicle posts
-class VehiclePost(models.Model):
+class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Adding user field
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     images = models.ManyToManyField('Image')  # Assuming you have an Image model
 
     # Other fields
-    car_maker = models.ForeignKey(CarMaker, on_delete=models.CASCADE)
-    car_model = models.ForeignKey(CarModel, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    post_type = models.ForeignKey(PostType, on_delete=models.CASCADE)
     year = models.PositiveIntegerField()
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
@@ -99,7 +106,7 @@ class VehiclePost(models.Model):
     ]
     insurance = models.CharField(max_length=20, choices=INSURANCE_CHOICES)
     
-    color = models.CharField(max_length=50)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
     PAYMENT_METHOD_CHOICES = [
         ('cash', 'Cash Only'),
         ('installments', 'Installments Only'),

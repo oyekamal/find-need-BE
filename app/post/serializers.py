@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Option, Region, Category, CarMaker, CarModel, Image
+from .models import Option, Region, Category, Subcategory, PostType, Image
 
 
 class OptionSerializer(serializers.ModelSerializer):
@@ -18,14 +18,14 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
-class CarMakerSerializer(serializers.ModelSerializer):
+class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = CarMaker
+        model = Subcategory
         fields = '__all__'
 
-class CarModelSerializer(serializers.ModelSerializer):
+class PostTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CarModel
+        model = PostType
         fields = '__all__'
 
 class ImageSerializer(serializers.ModelSerializer):

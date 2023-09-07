@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Image, Option, Region, Category, CarMaker, CarModel, VehiclePost
+from .models import Image, Option, Region, Category, Color, Subcategory, PostType, Post
 
 
 @admin.register(Image)
@@ -26,28 +26,34 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-@admin.register(CarMaker)
-class CarMakerAdmin(admin.ModelAdmin):
+@admin.register(Color)
+class ColorAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+
+
+@admin.register(Subcategory)
+class SubcategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'image', 'name')
     search_fields = ('name',)
 
 
-@admin.register(CarModel)
-class CarModelAdmin(admin.ModelAdmin):
+@admin.register(PostType)
+class PostTypeAdmin(admin.ModelAdmin):
     list_display = ('id', 'image', 'maker', 'name')
     list_filter = ('maker',)
     search_fields = ('name',)
 
 
-@admin.register(VehiclePost)
-class VehiclePostAdmin(admin.ModelAdmin):
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'user',
         'city',
         'category',
-        'car_maker',
-        'car_model',
+        'sub_category',
+        'post_type',
         'year',
         'region',
         'body_condition',
@@ -67,8 +73,9 @@ class VehiclePostAdmin(admin.ModelAdmin):
         'user',
         'city',
         'category',
-        'car_maker',
-        'car_model',
+        'sub_category',
+        'post_type',
         'region',
+        'color',
     )
     raw_id_fields = ('images', 'options')
