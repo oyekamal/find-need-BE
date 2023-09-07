@@ -46,19 +46,20 @@ class Subcategory(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
     name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
-# Model for car models (linked to Subcategory)
 class PostType(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
-    maker = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
 
 # Model for vehicle posts
 class Post(models.Model):

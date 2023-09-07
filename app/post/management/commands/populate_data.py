@@ -1,13 +1,13 @@
 from django.core.management.base import BaseCommand
-from post.models import Option, Region, Category, CarMaker, CarModel
+from post.models import Option, Region, Category, Subcategory, PostType, Color
 
 class Command(BaseCommand):
     help = 'Populate initial data for models'
 
     def handle(self, *args, **options):
         # Create or skip Options
-        options = ['Sunroof', 'Electric Mirror', 'Navigation System', 'Cruise Control', 'Keyless Entry']
-        for option in options:
+        options_data = ['Sunroof', 'Electric Mirror', 'Navigation System', 'Cruise Control', 'Keyless Entry']
+        for option in options_data:
             if not Option.objects.filter(name=option).exists():
                 Option.objects.create(name=option)
                 self.stdout.write(self.style.SUCCESS(f'Added Option: {option}'))
@@ -15,8 +15,8 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.NOTICE(f'Skipped Option: {option}'))
 
         # Create or skip Regions
-        regions = ['Japanese', 'American', 'Other']
-        for region in regions:
+        regions_data = ['Japanese', 'American', 'Other']
+        for region in regions_data:
             if not Region.objects.filter(name=region).exists():
                 Region.objects.create(name=region)
                 self.stdout.write(self.style.SUCCESS(f'Added Region: {region}'))
@@ -24,40 +24,81 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.NOTICE(f'Skipped Region: {region}'))
 
         # Create or skip Categories
-        categories = ['Used Cars', 'Motorcycles', 'Auto Accessories and Parts', 'Heavy Vehicles']
-        for category in categories:
+        categories_data = ['Used Cars', 'Motorcycles', 'Auto Accessories and Parts', 'Heavy Vehicles', 'Boats']
+        for category in categories_data:
             if not Category.objects.filter(name=category).exists():
                 Category.objects.create(name=category)
                 self.stdout.write(self.style.SUCCESS(f'Added Category: {category}'))
             else:
                 self.stdout.write(self.style.NOTICE(f'Skipped Category: {category}'))
 
-        # Create or skip Car Makers
-        car_makers = ['Acura', 'Audi', 'BMW']
-        for car_maker in car_makers:
-            if not CarMaker.objects.filter(name=car_maker).exists():
-                CarMaker.objects.create(name=car_maker)
-                self.stdout.write(self.style.SUCCESS(f'Added Car Maker: {car_maker}'))
-            else:
-                self.stdout.write(self.style.NOTICE(f'Skipped Car Maker: {car_maker}'))
-
-        # Create or skip Car Models
-        car_models = [
-            {'maker': 'Acura', 'models': ['MDX', 'RDX', 'NSX']},
-            {'maker': 'Audi', 'models': ['A3', 'A4', 'Q7']},
-            {'maker': 'BMW', 'models': ['X5', 'M3', 'i8']}
+        # Create or skip Subcategories
+        subcategories_data = [
+            {'name': 'Sport Bike', 'category': 'Motorcycles'},
+            {'name': 'Adventure/Touring', 'category': 'Motorcycles'},
+            {'name': 'Off Road', 'category': 'Motorcycles'},
+            {'name': 'Motorboats', 'category': 'Boats'},
+            {'name': 'Sailboats', 'category': 'Boats'},
+            {'name': 'Fishing Boat', 'category': 'Boats'},
+            {'name': 'Outboard Dayboat', 'category': 'Boats'},
+            {'name': 'Private Car', 'category': 'Used Cars'},
+            {'name': 'Acura', 'category': 'Used Cars'},
+            {'name': 'Audi', 'category': 'Used Cars'},
+            {'name': 'BMW', 'category': 'Used Cars'},
         ]
 
-        for item in car_models:
-            try:
-                maker = CarMaker.objects.filter(name=item['maker']).first()
-            except CarMaker.DoesNotExist:
-                continue  # Skip if the CarMaker doesn't exist
-
-            for model in item['models']:
-                if not CarModel.objects.filter(maker=maker, name=model).exists():
-                    CarModel.objects.create(maker=maker, name=model)
-                    self.stdout.write(self.style.SUCCESS(f'Added Car Model: {maker} - {model}'))
+        for subcategory_data in subcategories_data:
+            category_name = subcategory_data['category']
+            category = Category.objects.filter(name=category_name).first()  # Use filter() and first() instead of get()
+            
+            if category:
+                if not Subcategory.objects.filter(name=subcategory_data['name'], category=category).exists():
+                    Subcategory.objects.create(name=subcategory_data['name'], category=category)
+                    self.stdout.write(self.style.SUCCESS(f'Added Subcategory: {subcategory_data["name"]}'))
                 else:
-                    self.stdout.write(self.style.NOTICE(f'Skipped Car Model: {maker} - {model}'))
+                    self.stdout.write(self.style.NOTICE(f'Skipped Subcategory: {subcategory_data["name"]}'))
+            else:
+                self.stdout.write(self.style.ERROR(f'Category not found: {category_name}'))
 
+
+
+        # Create or skip PostTypes
+        post_types_data = [
+            {'name': 'MDX', 'subcategories': 'Acura'},
+            {'name': 'RDX', 'subcategories': 'Acura'},
+            {'name': 'NSX', 'subcategories': 'Acura'},
+            {'name': 'A3', 'subcategories': 'Audi'},
+            {'name': 'A4', 'subcategories': 'Audi'},
+            {'name': 'A7', 'subcategories': 'Audi'},
+            {'name': 'Hyper sports', 'subcategories': 'Sport Bike'},
+            {'name': 'Super bike', 'subcategories': 'Sport Bike'},
+            {'name': 'Super Sports', 'subcategories': 'Sport Bike'},
+            {'name': 'Catamaran', 'subcategories': 'Sailboats'},
+            {'name': 'Dingly', 'subcategories': 'Sailboats'}
+        ]
+
+        for item in post_types_data:
+            subcategory_name = item['subcategories']
+            subcategory = Subcategory.objects.filter(name=subcategory_name).first()  # Use filter() and first() instead of get()
+
+
+            if subcategory:
+                if not PostType.objects.filter(name=item['name'], sub_category=subcategory).exists():
+                    PostType.objects.create(name=item['name'], sub_category=subcategory)
+                    self.stdout.write(self.style.SUCCESS(f'Added PostType: {item["name"]}'))
+                else:
+                    self.stdout.write(self.style.NOTICE(f'Skipped PostType: {item["name"]}'))
+            else:
+                self.stdout.write(self.style.ERROR(f'Subcategory not found: {subcategory_name}'))
+
+
+
+
+        # Create or skip Colors
+        colors_data = ['Red', 'Blue', 'Green', 'Black', 'White']
+        for color in colors_data:
+            if not Color.objects.filter(name=color).exists():
+                Color.objects.create(name=color)
+                self.stdout.write(self.style.SUCCESS(f'Added Color: {color}'))
+            else:
+                self.stdout.write(self.style.NOTICE(f'Skipped Color: {color}'))

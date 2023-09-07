@@ -34,14 +34,15 @@ class ColorAdmin(admin.ModelAdmin):
 
 @admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'image', 'name')
+    list_display = ('id', 'image', 'name', 'category')
+    list_filter = ('category',)
     search_fields = ('name',)
 
 
 @admin.register(PostType)
 class PostTypeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'image', 'maker', 'name')
-    list_filter = ('maker',)
+    list_display = ('id', 'image', 'sub_category', 'name')
+    list_filter = ('sub_category',)
     search_fields = ('name',)
 
 
