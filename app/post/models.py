@@ -3,21 +3,23 @@ from accountProfile.models import City
 from django.conf import settings
 
 
-
 # Model for storing uploaded images
 class Image(models.Model):
     image = models.ImageField(upload_to='post', blank=True, null=True)
 
     def __str__(self):
-        return self.image.name 
-    
+        return self.image.name
+
 # Model for additional options (e.g., sunroof, electric mirror, etc.)
+
+
 class Option(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
-    
+
+
 class Region(models.Model):
     image = models.ImageField(upload_to='region', blank=True, null=True)
     name = models.CharField(max_length=100)
@@ -26,6 +28,8 @@ class Region(models.Model):
         return self.name
 
 # Model for vehicle categories
+
+
 class Category(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
@@ -33,15 +37,15 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
-# Model for vehicle categories
+
+
 class Color(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
-# Model for car makers (e.g., Acura, Audi, BMW)
+
 class Subcategory(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
@@ -51,10 +55,12 @@ class Subcategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class PostType(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
-    sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True, blank=True)
+    sub_category = models.ForeignKey(
+        Subcategory, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -63,10 +69,12 @@ class PostType(models.Model):
 
 # Model for vehicle posts
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Adding user field
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)  # Adding user field
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    images = models.ManyToManyField('Image')  # Assuming you have an Image model
+    # Assuming you have an Image model
+    images = models.ManyToManyField('Image')
 
     # Other fields
     sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
@@ -82,14 +90,16 @@ class Post(models.Model):
         ('other', 'Other'),
     ]
     body_condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
-    mechanical_condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
-    
+    mechanical_condition = models.CharField(
+        max_length=20, choices=CONDITION_CHOICES)
+
     kilometers = models.PositiveIntegerField()
     TRANSMISSION_CHOICES = [
         ('automatic', 'Automatic'),
         ('manual', 'Manual'),
     ]
-    transmission = models.CharField(max_length=20, choices=TRANSMISSION_CHOICES)
+    transmission = models.CharField(
+        max_length=20, choices=TRANSMISSION_CHOICES)
     FUEL_CHOICES = [
         ('gasoline', 'Gasoline'),
         ('diesel', 'Diesel'),
@@ -106,15 +116,16 @@ class Post(models.Model):
         ('not_insured', 'Not Insured'),
     ]
     insurance = models.CharField(max_length=20, choices=INSURANCE_CHOICES)
-    
+
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     PAYMENT_METHOD_CHOICES = [
         ('cash', 'Cash Only'),
         ('installments', 'Installments Only'),
         ('cash_installments', 'Cash or Installments'),
     ]
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
-    
+    payment_method = models.CharField(
+        max_length=20, choices=PAYMENT_METHOD_CHOICES)
+
     title = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -122,7 +133,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
-
-
-
