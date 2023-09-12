@@ -45,6 +45,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('dj_rest_auth.urls')),
     path("", include('accountProfile.urls')),
+    path("", include('post.urls')),
     # path('account/registration/', include('dj_rest_auth.registration.urls')),
     path('account/registration/', CustomRegisterView.as_view(), name='custom_register'),
     path('password-reset/', PasswordResetView.as_view(), name='password_reset'),
