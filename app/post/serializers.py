@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Option, Region, Category, Subcategory, PostType, Image, Color
+from .models import Option, Region, Category, Subcategory, PostType, Image, Color, Post
 
 
 class OptionSerializer(serializers.ModelSerializer):
@@ -40,3 +40,10 @@ class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
         fields = '__all__'
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
+        depth = 2

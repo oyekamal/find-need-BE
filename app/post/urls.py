@@ -1,7 +1,13 @@
-from django.urls import path
-from .views import OptionListDetail, RegionListDetail, CategoryListDetail, SubcategoryListDetail, PostTypeListDetail, ColorListDetail
+from django.urls import path, include
+from .views import OptionListDetail, RegionListDetail, CategoryListDetail, SubcategoryListDetail, PostTypeListDetail, ColorListDetail, PostViewSet
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+router.register('posts', PostViewSet)
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('option/', OptionListDetail.as_view(), name='option-detail'),
     path('option/<int:id>/', OptionListDetail.as_view(), name='option_detail'),
     path('region/', RegionListDetail.as_view(), name='region_list'),
