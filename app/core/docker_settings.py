@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accountProfile',
+    'post',
 
     # packages
     "rest_framework",
