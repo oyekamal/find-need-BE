@@ -157,6 +157,10 @@ class Post(models.Model):
     
     view_count = models.PositiveIntegerField(default=0)  # Number of times the post has been viewed
 
+    # Add fields for latitude and longitude
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+
     # Add the custom manager
     objects = PostManager()
     
