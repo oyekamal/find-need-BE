@@ -1,7 +1,8 @@
 from django.db import models
 from accountProfile.models import City
 from django.conf import settings
-
+from django.utils import timezone
+from datetime import timedelta
 
 # Model for storing uploaded images
 class Image(models.Model):
@@ -66,6 +67,20 @@ class PostType(models.Model):
     def __str__(self):
         return self.name
 
+class BoostPackage(models.Model):
+    name = models.CharField(max_length=100)
+    duration_days = models.PositiveIntegerField()  # Duration of boost in days
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        # Filter out expired boosted posts and order by boost score
+        return super().get_queryset().filter(
+            models.Q(boost_package__isnull=True) | models.Q(expiration_date__gt=timezone.now())
+        ).order_by('-boost_score')
 
 # Model for vehicle posts
 class Post(models.Model):
@@ -130,6 +145,26 @@ class Post(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     phone_number = models.CharField(max_length=50)
+
+    # ForeignKey to represent the selected boost package
+    boost_package = models.ForeignKey(BoostPackage, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    # Add a field for the boost score
+    boost_score = models.IntegerField(default=0)
+    
+    # Add an expiration date field
+    expiration_date = models.DateTimeField(null=True, blank=True)
+    
+    view_count = models.PositiveIntegerField(default=0)  # Number of times the post has been viewed
+
+    # Add the custom manager
+    objects = PostManager()
+    
+    def save(self, *args, **kwargs):
+        # Calculate the expiration date based on the boost package duration
+        if self.boost_package:
+            self.expiration_date = timezone.now() + timedelta(days=self.boost_package.duration_days)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
