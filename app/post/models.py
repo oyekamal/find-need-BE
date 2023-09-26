@@ -7,7 +7,9 @@ from datetime import timedelta
 # Model for storing uploaded images
 class Image(models.Model):
     image = models.ImageField(upload_to='post', blank=True, null=True)
-
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.image.name
 
@@ -16,7 +18,9 @@ class Image(models.Model):
 
 class Option(models.Model):
     name = models.CharField(max_length=100)
-
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
 
@@ -24,6 +28,9 @@ class Option(models.Model):
 class Region(models.Model):
     image = models.ImageField(upload_to='region', blank=True, null=True)
     name = models.CharField(max_length=100)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -35,13 +42,18 @@ class Category(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
     name = models.CharField(max_length=100)
-
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
 
 
 class Color(models.Model):
     name = models.CharField(max_length=100)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -52,7 +64,9 @@ class Subcategory(models.Model):
         upload_to='category', blank=True, null=True)
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
 
@@ -63,7 +77,9 @@ class PostType(models.Model):
     sub_category = models.ForeignKey(
         Subcategory, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
-
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.name
 
@@ -71,6 +87,9 @@ class BoostPackage(models.Model):
     name = models.CharField(max_length=100)
     duration_days = models.PositiveIntegerField()  # Duration of boost in days
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -161,6 +180,9 @@ class Post(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     # Add the custom manager
     objects = PostManager()
     

@@ -8,6 +8,9 @@ class Language(models.Model):
     name = models.CharField(max_length=150)
     flag_pictures = models.ImageField(
         upload_to='flag_pictures', blank=True, null=True)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -15,6 +18,9 @@ class Language(models.Model):
 
 class Country(models.Model):
     name = CountryField()
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.name.name
@@ -22,6 +28,9 @@ class Country(models.Model):
 class City(models.Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.name + " : " + self.country.name.name
@@ -34,6 +43,9 @@ class CustomUser(AbstractUser):
     profile_picture = models.ImageField(
         upload_to='profile_pictures', blank=True, null=True)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='following')
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
     def save(self, *args, **kwargs):
