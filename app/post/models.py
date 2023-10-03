@@ -38,10 +38,21 @@ class Region(models.Model):
 # Model for vehicle categories
 
 
+class PreCategory(models.Model):
+    image = models.ImageField(
+        upload_to='pre_category', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.name
+
 class Category(models.Model):
     image = models.ImageField(
         upload_to='category', blank=True, null=True)
     name = models.CharField(max_length=100)
+    pre_category = models.ForeignKey(PreCategory, on_delete=models.CASCADE, blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -106,6 +117,7 @@ class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)  # Adding user field
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+    pre_category = models.ForeignKey(PreCategory, on_delete=models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # Assuming you have an Image model
     images = models.ManyToManyField('Image')
@@ -179,6 +191,7 @@ class Post(models.Model):
     # Add fields for latitude and longitude
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    loaction_name = models.CharField(max_length=200, null=True, blank=True)
 
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
