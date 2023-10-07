@@ -9,92 +9,40 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from django_filters import CharFilter, NumberFilter, ChoiceFilter
 
-class OptionListDetail(generics.GenericAPIView,
-                       mixins.ListModelMixin,
-                       mixins.RetrieveModelMixin):
-    serializer_class = OptionSerializer
+class OptionViewSet(ModelViewSet):
     queryset = Option.objects.all()
-    lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            return self.list(request, *args, **kwargs)
-
-
-class RegionListDetail(generics.GenericAPIView,
-                       mixins.ListModelMixin,
-                       mixins.RetrieveModelMixin):
-    serializer_class = RegionSerializer
+    serializer_class = OptionSerializer
+    
+class RegionViewSet(ModelViewSet):
     queryset = Region.objects.all()
-    lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            return self.list(request, *args, **kwargs)
-
-# Repeat this pattern for all other models.
-
-
-class CategoryListDetail(generics.GenericAPIView,
-                         mixins.ListModelMixin,
-                         mixins.RetrieveModelMixin):
-    serializer_class = CategorySerializer
+    serializer_class = RegionSerializer
+    
+  
+class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
-    lookup_field = 'id'
+    serializer_class = CategorySerializer
+      
 
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            return self.list(request, *args, **kwargs)
-
-
-class SubcategoryListDetail(generics.GenericAPIView,
-                            mixins.ListModelMixin,
-                            mixins.RetrieveModelMixin):
-    serializer_class = SubcategorySerializer
+class SubcategoryViewSet(ModelViewSet):
     queryset = Subcategory.objects.all()
-    lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            return self.list(request, *args, **kwargs)
-
-
-class PostTypeListDetail(generics.GenericAPIView,
-                         mixins.ListModelMixin,
-                         mixins.RetrieveModelMixin):
-    serializer_class = PostTypeSerializer
+    serializer_class = SubcategorySerializer
+    
+    
+class PostTypeViewSet(ModelViewSet):
     queryset = PostType.objects.all()
-    lookup_field = 'id'
+    serializer_class = PostTypeSerializer
+      
 
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            return self.list(request, *args, **kwargs)
-
-
-class ColorListDetail(generics.GenericAPIView,
-                      mixins.ListModelMixin,
-                      mixins.RetrieveModelMixin):
-    serializer_class = ColorSerializer
+class ImageViewSet(ModelViewSet):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+      
+      
+class ColorViewSet(ModelViewSet):
     queryset = Color.objects.all()
-    lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            return self.list(request, *args, **kwargs)
-        
-
+    serializer_class = ColorSerializer
+      
+      
 class PostFilter(drf_filters.FilterSet):
     title = CharFilter(lookup_expr='icontains')
     city = CharFilter(field_name='city__name', lookup_expr='icontains')
