@@ -1,6 +1,34 @@
 from rest_framework import serializers
-from .models import Option, Region, Category, Subcategory, PostType, Image, Color, Post
+from .models import (Option, Region, 
+                     PreCategory, Category, Subcategory, 
+                     PostType, Image, Color, Post,
+                     Condition, Transmission, FuelType,Insurance,PaymentMethod)
 
+
+class ConditionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Condition
+        fields = '__all__'
+
+class TransmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transmission
+        fields = '__all__'
+
+class FuelTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FuelType
+        fields = '__all__'
+
+class InsuranceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Insurance
+        fields = '__all__'
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentMethod
+        fields = '__all__'
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,6 +41,11 @@ class RegionSerializer(serializers.ModelSerializer):
         model = Region
         fields = '__all__'
 
+class PreCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PreCategory
+        fields = '__all__'
+        
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

@@ -1,7 +1,12 @@
 from rest_framework import generics, mixins
 
-from .models import Option, Region, Category, Subcategory, PostType, Image, Color, Post
-from .serializers import OptionSerializer, RegionSerializer, CategorySerializer, SubcategorySerializer, PostTypeSerializer, ImageSerializer, ColorSerializer, PostSerializer
+from .models import (Option, Region, 
+                     PreCategory, Category, Subcategory, 
+                     PostType, Image, Color, Post,
+                     Condition, Transmission, FuelType,Insurance,PaymentMethod)
+from .serializers import (OptionSerializer, RegionSerializer, CategorySerializer, SubcategorySerializer, 
+                          PostTypeSerializer, ImageSerializer, ColorSerializer, PostSerializer,
+                          PreCategorySerializer)
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from django_filters import rest_framework as drf_filters
@@ -17,10 +22,14 @@ class RegionViewSet(ModelViewSet):
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
     
-  
+
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    
+class PreCategoryViewSet(ModelViewSet):
+    queryset = PreCategory.objects.all()
+    serializer_class = PreCategorySerializer
       
 
 class SubcategoryViewSet(ModelViewSet):
@@ -48,12 +57,12 @@ class PostFilter(drf_filters.FilterSet):
     city = CharFilter(field_name='city__name', lookup_expr='icontains')
     category = CharFilter(field_name='category__name', lookup_expr='icontains')
     price = NumberFilter(lookup_expr='lte')
-    body_condition = ChoiceFilter(choices=Post.CONDITION_CHOICES)
-    mechanical_condition = ChoiceFilter(choices=Post.CONDITION_CHOICES)
-    transmission = ChoiceFilter(choices=Post.TRANSMISSION_CHOICES)
-    fuel_type = ChoiceFilter(choices=Post.FUEL_CHOICES)
-    insurance = ChoiceFilter(choices=Post.INSURANCE_CHOICES)
-    payment_method = ChoiceFilter(choices=Post.PAYMENT_METHOD_CHOICES)
+    # body_condition = ChoiceFilter(choices=Post.CONDITION_CHOICES)
+    # mechanical_condition = ChoiceFilter(choices=Post.CONDITION_CHOICES)
+    # transmission = ChoiceFilter(choices=Post.TRANSMISSION_CHOICES)
+    # fuel_type = ChoiceFilter(choices=Post.FUEL_CHOICES)
+    # insurance = ChoiceFilter(choices=Post.INSURANCE_CHOICES)
+    # payment_method = ChoiceFilter(choices=Post.PAYMENT_METHOD_CHOICES)
     kilometers = NumberFilter(lookup_expr='lte')
     year = NumberFilter(lookup_expr='exact')
 
