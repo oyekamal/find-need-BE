@@ -37,12 +37,12 @@ class City(models.Model):
 
 
 class CustomUser(AbstractUser):
-    phone_number = models.CharField(max_length=150)
-    languages = models.ManyToManyField(Language)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=150, blank=True, null=True)
+    languages = models.ManyToManyField(Language, blank=True, null=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
     profile_picture = models.ImageField(
         upload_to='profile_pictures', blank=True, null=True)
-    followers = models.ManyToManyField('self', symmetrical=False, related_name='following')
+    followers = models.ManyToManyField('self', symmetrical=False, related_name='following', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
