@@ -14,6 +14,9 @@ from django_filters import rest_framework as drf_filters
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from django_filters import CharFilter, NumberFilter, ChoiceFilter
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+
 
 class ConditionViewSet(ModelViewSet):
     queryset = Condition.objects.all()
@@ -45,6 +48,8 @@ class RegionViewSet(ModelViewSet):
     
 
 class CategoryViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     
