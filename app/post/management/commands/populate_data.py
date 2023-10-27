@@ -1,10 +1,40 @@
 from django.core.management.base import BaseCommand
-from post.models import Option, Region, Category, Subcategory, PostType, Color
+from post.models import *
 
 class Command(BaseCommand):
     help = 'Populate initial data for models'
 
     def handle(self, *args, **options):
+
+                # Populate Condition model
+        conditions_data = ['poor', 'fair', 'good', 'excellent', 'other']
+        for condition_name in conditions_data:
+            Condition.objects.get_or_create(name=condition_name)
+            self.stdout.write(self.style.SUCCESS(f'Added Condition: {condition_name}'))
+
+        # Populate Transmission model
+        transmissions_data = ['automatic', 'manual']
+        for transmission_name in transmissions_data:
+            Transmission.objects.get_or_create(name=transmission_name)
+            self.stdout.write(self.style.SUCCESS(f'Added Transmission: {transmission_name}'))
+
+        # Populate FuelType model
+        fuel_types_data = ['gasoline', 'diesel', 'hybrid', 'electric', 'plug_in_hybrid']
+        for fuel_type_name in fuel_types_data:
+            FuelType.objects.get_or_create(name=fuel_type_name)
+            self.stdout.write(self.style.SUCCESS(f'Added FuelType: {fuel_type_name}'))
+
+        # Populate Insurance model
+        insurance_data = ['compulsory', 'comprehensive', 'not_insured']
+        for insurance_name in insurance_data:
+            Insurance.objects.get_or_create(name=insurance_name)
+            self.stdout.write(self.style.SUCCESS(f'Added Insurance: {insurance_name}'))
+
+        # Populate PaymentMethod model
+        payment_methods_data = ['cash', 'installments', 'cash_installments']
+        for payment_method_name in payment_methods_data:
+            PaymentMethod.objects.get_or_create(name=payment_method_name)
+            self.stdout.write(self.style.SUCCESS(f'Added PaymentMethod: {payment_method_name}'))
         # Create or skip Options
         options_data = ['Sunroof', 'Electric Mirror', 'Navigation System', 'Cruise Control', 'Keyless Entry']
         for option in options_data:

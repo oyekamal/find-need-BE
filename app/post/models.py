@@ -17,36 +17,42 @@ class Image(models.Model):
 
 class Condition(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='condition', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Transmission(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='transmission', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class FuelType(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='fuel_type', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Insurance(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='insurance', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='payment_method', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Option(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='option', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -94,6 +100,7 @@ class Category(models.Model):
 
 class Color(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='color', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
