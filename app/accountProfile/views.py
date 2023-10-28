@@ -5,10 +5,14 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.viewsets import ModelViewSet
+
+
+
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
 
-class LanguageListCreate(generics.ListCreateAPIView):
+class LanguageViewSet(ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     permission_classes = [AllowAny]
@@ -52,24 +56,25 @@ class CustomUserUpdate(generics.UpdateAPIView):
 from .models import Country, City
 from .serializers import CountrySerializer, CitySerializer
 
-class CountryList(generics.ListAPIView):
+class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
 
-class CityList(generics.ListAPIView):
+class CityViewSet(ModelViewSet):
+    queryset = City.objects.all()
     serializer_class = CitySerializer
 
-    def get_queryset(self):
-        """
-        Optionally restricts the returned cities to a given country,
-        by filtering against a `country` query parameter in the URL.
-        """
-        queryset = City.objects.all()
-        country = self.request.query_params.get('country', None)
-        if country is not None:
-            country_objs = Country.objects.filter(name__name=country)
-            if country_objs:
-                queryset = City.objects.filter(country=country_objs.first())
-            else:
-                return []
-        return queryset
+    # def get_queryset(self):
+    #     """
+    #     Optionally restricts the returned cities to a given country,
+    #     by filtering against a `country` query parameter in the URL.
+    #     """
+    #     queryset = City.objects.all()
+    #     country = self.request.query_params.get('country', None)
+    #     if country is not None:
+    #         country_objs = Country.objects.filter(name__name=country)
+    #         if country_objs:
+    #             queryset = City.objects.filter(country=country_objs.first())
+    #         else:
+    #             return []
+    #     return queryset

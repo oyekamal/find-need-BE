@@ -1,12 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from PIL import Image
-from django_countries.fields import CountryField
+# from django_countries.fields import CountryField
 
 
 class Language(models.Model):
     name = models.CharField(max_length=150)
-    flag_pictures = models.ImageField(
+    image = models.ImageField(
         upload_to='flag_pictures', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
@@ -17,7 +17,9 @@ class Language(models.Model):
 
 
 class Country(models.Model):
-    name = CountryField()
+    name = models.CharField(max_length=150)
+    image = models.ImageField(
+        upload_to='flag_pictures', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -27,6 +29,8 @@ class Country(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(
+        upload_to='flag_pictures', blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)

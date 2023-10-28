@@ -31,7 +31,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ['id', 'name', 'flag_pictures']
+        fields = "__all__"
 
 
 class UserLanguageUpdateSerializer(serializers.ModelSerializer):
@@ -76,27 +76,28 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
 
 
 class CountrySerializer(serializers.ModelSerializer):
-    flag = serializers.SerializerMethodField()
-    name = serializers.SerializerMethodField()
-    code = serializers.SerializerMethodField()
+    # flag = serializers.SerializerMethodField()
+    # name = serializers.SerializerMethodField()
+    # code = serializers.SerializerMethodField()
     class Meta:
         model = Country
-        fields = ['id','name', 'flag', "code"]
+        fields = '__all__'
 
-    def get_flag(self, obj):
-        flag_path = obj.name.flag
-        return flag_path
+    # def get_flag(self, obj):
+    #     flag_path = obj.name.flag
+    #     return flag_path
 
-    def get_name(self, obj):
-        return obj.name.name
+    # def get_name(self, obj):
+    #     return obj.name.name
     
-    def get_code(self, obj):
-        return obj.name.code
+    # def get_code(self, obj):
+    #     return obj.name.code
 
 
 class CitySerializer(serializers.ModelSerializer):
-    country = CountrySerializer()
+    # country = CountrySerializer()
 
     class Meta:
         model = City
-        fields = ['id','name', 'country']
+        fields = '__all__'
+        depth = 1
