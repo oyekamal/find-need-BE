@@ -159,18 +159,18 @@ class PostManager(models.Manager):
 
 class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)  # Adding user field
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, null=True, blank=True)  # Adding user field
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
     pre_category = models.ForeignKey(
         PreCategory, on_delete=models.CASCADE, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     # Assuming you have an Image model
-    images = models.ManyToManyField('Image')
+    images = models.ManyToManyField('Image', null=True, blank=True)
     # Other fields
-    sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
-    post_type = models.ForeignKey(PostType, on_delete=models.CASCADE)
+    sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True, blank=True)
+    post_type = models.ForeignKey(PostType, on_delete=models.CASCADE, null=True, blank=True)
     year = models.PositiveIntegerField()
-    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True, blank=True)
     body_condition = models.ForeignKey(
         Condition, on_delete=models.CASCADE, blank=True, null=True)
     mechanical_condition = models.ForeignKey(
@@ -183,22 +183,22 @@ class Post(models.Model):
         Insurance, on_delete=models.CASCADE, blank=True, null=True)
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.CASCADE, blank=True, null=True)
-    kilometers = models.PositiveIntegerField()
+    kilometers = models.PositiveIntegerField(null=True, blank=True)
     options = models.ManyToManyField('Option')
-    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    phone_number = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=50, null=True, blank=True)
     # ForeignKey to represent the selected boost package
     boost_package = models.ForeignKey(
         BoostPackage, on_delete=models.SET_NULL, null=True, blank=True)
     # Add a field for the boost score
-    boost_score = models.IntegerField(default=0)
+    boost_score = models.IntegerField(default=0, null=True, blank=True)
     # Add an expiration date field
     expiration_date = models.DateTimeField(null=True, blank=True)
     # Number of times the post has been viewed
-    view_count = models.PositiveIntegerField(default=0)
+    view_count = models.PositiveIntegerField(default=0, null=True, blank=True)
     # Add fields for latitude and longitude
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
