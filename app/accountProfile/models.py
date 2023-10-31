@@ -25,7 +25,7 @@ class Country(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.name.name
+        return self.name
 
 class City(models.Model):
     name = models.CharField(max_length=100)
