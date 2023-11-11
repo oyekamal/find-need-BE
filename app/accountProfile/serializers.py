@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Language, CustomUser, Country, City
 from django.conf import settings
 from django.templatetags.static import static
-
+from drf_extra_fields.fields import Base64ImageField
 class CustomRegisterSerializer(RegisterSerializer):
     phone_number = serializers.CharField(max_length=150, required=False)
     languages = serializers.PrimaryKeyRelatedField(
@@ -76,6 +76,7 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
 
 
 class CountrySerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
     # flag = serializers.SerializerMethodField()
     # name = serializers.SerializerMethodField()
     # code = serializers.SerializerMethodField()
