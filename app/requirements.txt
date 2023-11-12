@@ -9,14 +9,11 @@ defusedxml==0.7.1
 dj-rest-auth==4.0.1
 Django==4.2.2
 django-allauth==0.54.0
-django-cors-headers==4.3.0
 django-countries==7.5.1
 django-extensions==3.2.3
 django-filter==23.2
 djangorestframework==3.14.0
-drf-extra-fields==3.7.0
 drf-yasg==1.21.5
-filetype==1.2.0
 idna==3.4
 inflection==0.5.1
 itypes==1.2.0
@@ -27,9 +24,7 @@ packaging==23.1
 Pillow==10.0.0
 psycopg2-binary==2.9.6
 pycparser==2.21
-pygraphviz==1.11
 PyJWT==2.7.0
-pyparsing==3.1.1
 python3-openid==3.2.0
 pytz==2023.3
 requests==2.31.0
@@ -40,3 +35,5 @@ sqlparse==0.4.4
 typing_extensions==4.6.3
 uritemplate==4.1.1
 urllib3==2.0.2
+drf-extra-fields==3.7.0
+django-cors-headers==4.3.0
