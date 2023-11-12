@@ -4,14 +4,14 @@ from .models import Language, CustomUser, Country, City
 from django.conf import settings
 from django.templatetags.static import static
 from drf_extra_fields.fields import Base64ImageField
+
+
 class CustomRegisterSerializer(RegisterSerializer):
     phone_number = serializers.CharField(max_length=150, required=False)
     languages = serializers.PrimaryKeyRelatedField(
         queryset=Language.objects.all(), many=True, required=False
     )
-    profile_picture = serializers.ImageField(
-        max_length=None, use_url=True, required=False
-    )
+    profile_picture = Base64ImageField(required=False)
     first_name = serializers.CharField(max_length=150, required=True)
     last_name = serializers.CharField(max_length=150, required=True)
 
@@ -29,6 +29,8 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 
 class LanguageSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+
     class Meta:
         model = Language
         fields = "__all__"
@@ -80,6 +82,7 @@ class CountrySerializer(serializers.ModelSerializer):
     # flag = serializers.SerializerMethodField()
     # name = serializers.SerializerMethodField()
     # code = serializers.SerializerMethodField()
+
     class Meta:
         model = Country
         fields = '__all__'
@@ -90,13 +93,14 @@ class CountrySerializer(serializers.ModelSerializer):
 
     # def get_name(self, obj):
     #     return obj.name.name
-    
+
     # def get_code(self, obj):
     #     return obj.name.code
 
 
 class CitySerializer(serializers.ModelSerializer):
     # country = CountrySerializer()
+    image = Base64ImageField(required=False)
 
     class Meta:
         model = City

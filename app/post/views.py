@@ -19,30 +19,44 @@ from rest_framework.authentication import TokenAuthentication
 
 
 class ConditionViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Condition.objects.all()
     serializer_class = ConditionSerializer
 
 class TransmissionViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Transmission.objects.all()
     serializer_class = TransmissionSerializer
 
 class FuelTypeViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = FuelType.objects.all()
     serializer_class = FuelTypeSerializer
 
 class InsuranceViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Insurance.objects.all()
     serializer_class = InsuranceSerializer
 
 class PaymentMethodViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = PaymentMethod.objects.all()
     serializer_class = PaymentMethodSerializer
 
 class OptionViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
     
 class RegionViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
     
@@ -54,26 +68,36 @@ class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
     
 class PreCategoryViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = PreCategory.objects.all()
     serializer_class = PreCategorySerializer
       
 
 class SubcategoryViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializer
     
     
 class PostTypeViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = PostType.objects.all()
     serializer_class = PostTypeSerializer
       
 
 class ImageViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
       
       
 class ColorViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
       
@@ -104,6 +128,8 @@ class LimitOffsetPaginationCustom(LimitOffsetPagination):
     max_limit = 1000
 
 class PostViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]

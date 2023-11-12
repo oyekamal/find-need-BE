@@ -6,11 +6,21 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.viewsets import ModelViewSet
-
-
+from rest_framework.response import Response
 
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"message": "User created successfully."}, status=201, headers=headers)
+
+    def perform_create(self, serializer):
+        user = serializer.save(self.request)
+        # Additional logic if needed
 
 class LanguageViewSet(ModelViewSet):
     queryset = Language.objects.all()
