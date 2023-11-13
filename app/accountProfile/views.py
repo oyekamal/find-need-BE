@@ -52,10 +52,14 @@ class UserLanguageUpdate(generics.RetrieveUpdateAPIView):
         return Response(UserSerializer(updated_instance).data, status=status.HTTP_200_OK)
 
 
-class CustomUserDetail(generics.RetrieveAPIView):
+class CustomUserDetail(ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
+    search_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
 
 class CustomUserUpdate(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()

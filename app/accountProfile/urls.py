@@ -14,11 +14,12 @@ router = DefaultRouter()
 router.register('country', CountryViewSet)
 router.register('city', CityViewSet)
 router.register('languages', LanguageViewSet)
+router.register('user', CustomUserDetail)
 
 
 urlpatterns = [
     path('users/languages/', UserLanguageUpdate.as_view(), name='user-language-update'),
-    path('account/user/<int:pk>/', CustomUserDetail.as_view(), name='user-detail'),
+    # path('account/user/<int:pk>/', CustomUserDetail.as_view(), name='user-detail'),
     path('account/user/update/', CustomUserUpdate.as_view(), name='user-update'),
     path('', include(router.urls)),
 
