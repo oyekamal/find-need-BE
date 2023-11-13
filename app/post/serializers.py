@@ -68,14 +68,14 @@ class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
         fields = '__all__'
-        depth = 1
+        # depth = 1
 
 class PostTypeSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
     class Meta:
         model = PostType
         fields = '__all__'
-        depth = 2
+        # depth = 2
 
 class ImageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
@@ -95,4 +95,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = '__all__'
-        depth = 2
+        # depth = 2
