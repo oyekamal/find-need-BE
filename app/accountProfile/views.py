@@ -47,6 +47,9 @@ class LanguageViewSet(ModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     permission_classes = [AllowAny]
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 
 class UserLanguageUpdate(generics.RetrieveUpdateAPIView):
@@ -89,10 +92,17 @@ class CustomUserUpdate(generics.UpdateAPIView):
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 
 class CityViewSet(ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ['name', 'country']
