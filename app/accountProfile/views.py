@@ -12,7 +12,22 @@ from rest_framework import filters
 from django_filters import rest_framework as drf_filters
 from .serializers import CustomUserSerializer
 
+from dj_rest_auth.serializers import LoginSerializer
+from dj_rest_auth.views import LoginView
+from rest_framework import serializers
 
+class CustomLoginView(LoginView):
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        user = self.request.user
+        response.data['email'] = user.email
+        response.data['username'] = user.username
+        response.data['first_name'] = user.first_name
+        response.data['last_name'] = user.last_name
+        response.data['phone_number'] = user.phone_number
+        return response
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
 

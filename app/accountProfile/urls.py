@@ -5,9 +5,10 @@ from .views import LanguageViewSet, UserLanguageUpdate
 
 from .views import CustomUserDetail, CustomUserUpdate
 
-from .views import CountryViewSet, CityViewSet
+from .views import CountryViewSet, CityViewSet, CustomLoginView
 
 from rest_framework.routers import DefaultRouter
+from dj_rest_auth.views import LoginView
 
 
 router = DefaultRouter()
@@ -18,6 +19,8 @@ router.register('user', CustomUserDetail)
 
 
 urlpatterns = [
+    path('account/login/', CustomLoginView.as_view(), name='rest_login'),
+
     path('users/languages/', UserLanguageUpdate.as_view(), name='user-language-update'),
     # path('account/user/<int:pk>/', CustomUserDetail.as_view(), name='user-detail'),
     path('account/user/update/', CustomUserUpdate.as_view(), name='user-update'),
