@@ -16,49 +16,71 @@ from rest_framework.pagination import PageNumberPagination, LimitOffsetPaginatio
 from django_filters import CharFilter, NumberFilter, ChoiceFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-
+from rest_framework import filters
+from django_filters import rest_framework as drf_filters
 
 class ConditionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Condition.objects.all()
     serializer_class = ConditionSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 class TransmissionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Transmission.objects.all()
     serializer_class = TransmissionSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 class FuelTypeViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = FuelType.objects.all()
     serializer_class = FuelTypeSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 class InsuranceViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Insurance.objects.all()
     serializer_class = InsuranceSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 class PaymentMethodViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = PaymentMethod.objects.all()
     serializer_class = PaymentMethodSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
 
 class OptionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Option.objects.all()
     serializer_class = OptionSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
     
 class RegionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
     
 
 class CategoryViewSet(ModelViewSet):
@@ -66,12 +88,18 @@ class CategoryViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name', 'pre_category']
+    search_fields = ['name']
     
 class PreCategoryViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = PreCategory.objects.all()
     serializer_class = PreCategorySerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
       
 
 class SubcategoryViewSet(ModelViewSet):
@@ -79,6 +107,9 @@ class SubcategoryViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name', 'category']
+    search_fields = ['name']
     
     
 class PostTypeViewSet(ModelViewSet):
@@ -86,6 +117,9 @@ class PostTypeViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = PostType.objects.all()
     serializer_class = PostTypeSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name', 'sub_category']
+    search_fields = ['name']
       
 
 class ImageViewSet(ModelViewSet):
@@ -100,6 +134,9 @@ class ColorViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ['name']
+    search_fields = ['name']
       
       
 class PostFilter(drf_filters.FilterSet):

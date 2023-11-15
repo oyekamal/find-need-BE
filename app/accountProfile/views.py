@@ -14,7 +14,6 @@ from .serializers import CustomUserSerializer
 
 from dj_rest_auth.serializers import LoginSerializer
 from dj_rest_auth.views import LoginView
-from rest_framework import serializers
 
 class CustomLoginView(LoginView):
     serializer_class = LoginSerializer
