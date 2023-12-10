@@ -12,7 +12,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(Condition)
 class ConditionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'created_at', 'updated_at')
+    list_display = ('id', 'name', 'created_at', 'updated_at','delete')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('name',)
     date_hierarchy = 'created_at'

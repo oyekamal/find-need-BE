@@ -18,6 +18,7 @@ class Image(models.Model):
 class Condition(models.Model):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to='condition', blank=True, null=True)
+    delete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
