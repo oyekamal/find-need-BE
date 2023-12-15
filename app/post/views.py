@@ -7,7 +7,7 @@ from .models import (Option, Region,
 from .serializers import (OptionSerializer, RegionSerializer, CategorySerializer, SubcategorySerializer, 
                           PostTypeSerializer, ImageSerializer, ColorSerializer, PostSerializer,
                           PreCategorySerializer, ConditionSerializer, TransmissionSerializer,
-                          FuelTypeSerializer, InsuranceSerializer, PaymentMethodSerializer)
+                          FuelTypeSerializer, InsuranceSerializer, PaymentMethodSerializer, ListCategorySerializer)
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
 from django_filters import rest_framework as drf_filters
@@ -90,6 +90,13 @@ class CategoryViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ['name', 'pre_category']
     search_fields = ['name']
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ListCategorySerializer
+        elif self.action == 'retrieve':
+            return ListCategorySerializer
+        return CategorySerializer
     
 class PreCategoryViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]

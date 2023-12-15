@@ -63,6 +63,13 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = '__all__'
 
+class ListCategorySerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+    class Meta:
+        model = Category
+        fields = '__all__'
+        depth = 1
+
 class SubcategorySerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
     class Meta:
