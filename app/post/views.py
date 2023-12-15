@@ -20,18 +20,13 @@ from rest_framework import filters
 from django_filters import rest_framework as drf_filters
 
 class ConditionViewSet(ModelViewSet):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Condition.objects.all()
     serializer_class = ConditionSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ['name']
     search_fields = ['name']
-    def perform_destroy(self, instance):
-        # Instead of actually deleting the record, update the delete field to True
-        instance.delete = True
-        instance.save()
-
 class TransmissionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
