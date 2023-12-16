@@ -77,12 +77,29 @@ class SubcategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
         # depth = 1
 
+class ListSubcategorySerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+    class Meta:
+        model = Subcategory
+        fields = '__all__'
+        depth = 1
+        
+
 class PostTypeSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
     class Meta:
         model = PostType
         fields = '__all__'
         # depth = 2
+
+class ListPostTypeSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+    class Meta:
+        model = PostType
+        fields = '__all__'
+        depth = 1
+
+        
 
 class ImageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
