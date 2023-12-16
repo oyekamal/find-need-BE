@@ -14,19 +14,59 @@ from .serializers import CustomUserSerializer
 
 from dj_rest_auth.serializers import LoginSerializer
 from dj_rest_auth.views import LoginView
+from rest_framework.authtoken.models import Token
+
 
 class CustomLoginView(LoginView):
-    serializer_class = LoginSerializer
-
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        user = self.request.user
-        response.data['email'] = user.email
-        response.data['username'] = user.username
-        response.data['first_name'] = user.first_name
-        response.data['last_name'] = user.last_name
-        response.data['phone_number'] = user.phone_number
-        return response
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request})
+        if not serializer.is_valid():
+            return Response(
+            {
+                "message": f"Fail to login",
+                "error": serializer.errors
+
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+        # serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        user.auth_token.delete()
+        token, created = Token.objects.get_or_create(user=user)
+        return Response(
+            {
+                "key": token.key,
+                "message": "Login successful",
+                'email' : user.email,
+                'username' : user.username,
+                'first_name' : user.first_name,
+                'last_name' : user.last_name,
+                'phone_number' : user.phone_number,
+                'error' : {}
+
+            },
+            status=status.HTTP_200_OK
+        )
+
+# class CustomLoginView(LoginView):
+#     serializer_class = LoginSerializer
+#     def get_response(self):
+#         orginal_response = super().get_response()
+#         mydata = {"message": "some message", "status": "success"}
+#         orginal_response.data.update(mydata)
+#         return orginal_response
+
+    # def post(self, request, *args, **kwargs):
+    #     response = super().post(request, *args, **kwargs)
+    #     user = self.request.user
+    #     response.data['email'] = user.email
+    #     response.data['username'] = user.username
+    #     response.data['first_name'] = user.first_name
+    #     response.data['last_name'] = user.last_name
+    #     response.data['phone_number'] = user.phone_number
+    #     return response
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
 
