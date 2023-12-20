@@ -1,5 +1,5 @@
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import FollowSerializer, CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer, CustomUserUpdateSerializer
+from .serializers import ListFollowSerializer, FollowSerializer, CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer, CustomUserUpdateSerializer
 from .models import Language, CustomUser, Country, City, Follow
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -18,11 +18,20 @@ from rest_framework.authtoken.models import Token
 
 
 class FollowViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ['follower', 'following']
     search_fields = ['follower', 'following']
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ListFollowSerializer
+        elif self.action == 'retrieve':
+            return ListFollowSerializer
+        return FollowSerializer
 
 class CustomLoginView(LoginView):
     def post(self, request, *args, **kwargs):

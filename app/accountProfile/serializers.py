@@ -33,6 +33,21 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = '__all__'
 
+class ListFollowSerializer(serializers.ModelSerializer):
+    follower_username = serializers.SerializerMethodField()
+    following_username = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Follow
+        fields = '__all__'
+        # depth = 1
+
+    def get_follower_username(self, obj):
+        return obj.follower.username
+    
+    def get_following_username(self, obj):
+        return obj.following.username
+
 class LanguageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
 
