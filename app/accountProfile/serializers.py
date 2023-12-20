@@ -1,6 +1,6 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from .models import Language, CustomUser, Country, City
+from .models import Language, CustomUser, Country, City, Follow
 from django.conf import settings
 from django.templatetags.static import static
 from drf_extra_fields.fields import Base64ImageField
@@ -27,6 +27,11 @@ class CustomRegisterSerializer(RegisterSerializer):
             user.profile_picture = profile_picture
             user.save()
 
+
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = '__all__'
 
 class LanguageSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)

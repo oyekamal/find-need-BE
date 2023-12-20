@@ -5,7 +5,7 @@ from .views import LanguageViewSet, UserLanguageUpdate
 
 from .views import CustomUserDetail, CustomUserUpdate
 
-from .views import CountryViewSet, CityViewSet, CustomLoginView
+from .views import CountryViewSet, CityViewSet, CustomLoginView, FollowViewSet
 
 from rest_framework.routers import DefaultRouter
 from dj_rest_auth.views import LoginView
@@ -16,6 +16,7 @@ router.register('country', CountryViewSet)
 router.register('city', CityViewSet)
 router.register('languages', LanguageViewSet)
 router.register('user', CustomUserDetail)
+router.register('follow', FollowViewSet)
 
 
 urlpatterns = [
