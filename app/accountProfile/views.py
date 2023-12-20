@@ -1,5 +1,5 @@
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import ListFollowSerializer, FollowSerializer, CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer, CustomUserUpdateSerializer
+from .serializers import GetCustomUserSerializer, ListFollowSerializer, FollowSerializer, CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer, CustomUserUpdateSerializer
 from .models import Language, CustomUser, Country, City, Follow
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -133,6 +133,13 @@ class CustomUserDetail(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
     search_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return GetCustomUserSerializer
+        elif self.action == 'retrieve':
+            return GetCustomUserSerializer
+        return CustomUserSerializer
+
 
 class CustomUserUpdate(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
