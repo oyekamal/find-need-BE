@@ -15,6 +15,38 @@ from .serializers import CustomUserSerializer
 from dj_rest_auth.serializers import LoginSerializer
 from dj_rest_auth.views import LoginView
 from rest_framework.authtoken.models import Token
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListAPIView
+
+class FollowingListView(ListAPIView):
+    serializer_class = CustomUserUpdateSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        user = get_object_or_404(CustomUser, id=user_id)
+        following = Follow.objects.filter(follower=user).values_list('following', flat=True)
+        return CustomUser.objects.filter(id__in=following)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class FollowerListView(ListAPIView):
+    serializer_class = CustomUserUpdateSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        user = get_object_or_404(CustomUser, id=user_id)
+        followers = Follow.objects.filter(following=user).values_list('follower', flat=True)
+        return CustomUser.objects.filter(id__in=followers)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 
 class FollowViewSet(ModelViewSet):
