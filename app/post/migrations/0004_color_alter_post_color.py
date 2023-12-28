@@ -5,22 +5,31 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('post', '0003_rename_vehiclepost_post'),
+        ("post", "0003_rename_vehiclepost_post"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Color',
+            name="Color",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.AlterField(
-            model_name='post',
-            name='color',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.color'),
+            model_name="post",
+            name="color",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="post.color"
+            ),
         ),
     ]

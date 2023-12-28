@@ -1,5 +1,14 @@
 from dj_rest_auth.registration.views import RegisterView
-from .serializers import GetCustomUserSerializer, ListFollowSerializer, FollowSerializer, CustomRegisterSerializer, LanguageSerializer, UserLanguageUpdateSerializer, UserSerializer, CustomUserUpdateSerializer
+from .serializers import (
+    GetCustomUserSerializer,
+    ListFollowSerializer,
+    FollowSerializer,
+    CustomRegisterSerializer,
+    LanguageSerializer,
+    UserLanguageUpdateSerializer,
+    UserSerializer,
+    CustomUserUpdateSerializer,
+)
 from .models import Language, CustomUser, Country, City, Follow
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -18,13 +27,16 @@ from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView
 
+
 class FollowingListView(ListAPIView):
     serializer_class = CustomUserUpdateSerializer
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
+        user_id = self.kwargs["user_id"]
         user = get_object_or_404(CustomUser, id=user_id)
-        following = Follow.objects.filter(follower=user).values_list('following', flat=True)
+        following = Follow.objects.filter(follower=user).values_list(
+            "following", flat=True
+        )
         return CustomUser.objects.filter(id__in=following)
 
     def list(self, request, *args, **kwargs):
@@ -37,9 +49,11 @@ class FollowerListView(ListAPIView):
     serializer_class = CustomUserUpdateSerializer
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
+        user_id = self.kwargs["user_id"]
         user = get_object_or_404(CustomUser, id=user_id)
-        followers = Follow.objects.filter(following=user).values_list('follower', flat=True)
+        followers = Follow.objects.filter(following=user).values_list(
+            "follower", flat=True
+        )
         return CustomUser.objects.filter(id__in=followers)
 
     def list(self, request, *args, **kwargs):
@@ -48,36 +62,33 @@ class FollowerListView(ListAPIView):
         return Response(serializer.data)
 
 
-
 class FollowViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ['follower', 'following']
-    search_fields = ['follower', 'following']
+    filterset_fields = ["follower", "following"]
+    search_fields = ["follower", "following"]
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == "list":
             return ListFollowSerializer
-        elif self.action == 'retrieve':
+        elif self.action == "retrieve":
             return ListFollowSerializer
         return FollowSerializer
+
 
 class CustomLoginView(LoginView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(
-            data=request.data, context={"request": request})
+            data=request.data, context={"request": request}
+        )
         if not serializer.is_valid():
             return Response(
-            {
-                "message": f"Fail to login",
-                "error": serializer.errors
-
-            },
-            status=status.HTTP_404_NOT_FOUND
-        )
+                {"message": f"Fail to login", "error": serializer.errors},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         # serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
@@ -87,16 +98,16 @@ class CustomLoginView(LoginView):
             {
                 "key": token.key,
                 "message": "Login successful",
-                'email' : user.email,
-                'username' : user.username,
-                'first_name' : user.first_name,
-                'last_name' : user.last_name,
-                'phone_number' : user.phone_number,
-                'error' : {}
-
+                "email": user.email,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "phone_number": user.phone_number,
+                "error": {},
             },
-            status=status.HTTP_200_OK
+            status=status.HTTP_200_OK,
         )
+
 
 # class CustomLoginView(LoginView):
 #     serializer_class = LoginSerializer
@@ -106,15 +117,16 @@ class CustomLoginView(LoginView):
 #         orginal_response.data.update(mydata)
 #         return orginal_response
 
-    # def post(self, request, *args, **kwargs):
-    #     response = super().post(request, *args, **kwargs)
-    #     user = self.request.user
-    #     response.data['email'] = user.email
-    #     response.data['username'] = user.username
-    #     response.data['first_name'] = user.first_name
-    #     response.data['last_name'] = user.last_name
-    #     response.data['phone_number'] = user.phone_number
-    #     return response
+
+# def post(self, request, *args, **kwargs):
+#     response = super().post(request, *args, **kwargs)
+#     user = self.request.user
+#     response.data['email'] = user.email
+#     response.data['username'] = user.username
+#     response.data['first_name'] = user.first_name
+#     response.data['last_name'] = user.last_name
+#     response.data['phone_number'] = user.phone_number
+#     return response
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
 
@@ -123,7 +135,9 @@ class CustomRegisterView(RegisterView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response({"message": "User created successfully."}, status=201, headers=headers)
+        return Response(
+            {"message": "User created successfully."}, status=201, headers=headers
+        )
 
     def perform_create(self, serializer):
         user = serializer.save(self.request)
@@ -135,8 +149,8 @@ class LanguageViewSet(ModelViewSet):
     serializer_class = LanguageSerializer
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ['name']
-    search_fields = ['name']
+    filterset_fields = ["name"]
+    search_fields = ["name"]
 
 
 class UserLanguageUpdate(generics.RetrieveUpdateAPIView):
@@ -149,12 +163,13 @@ class UserLanguageUpdate(generics.RetrieveUpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(
-            instance, data=request.data, partial=True)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         updated_instance = self.get_object()  # Get the updated user instance
-        return Response(UserSerializer(updated_instance).data, status=status.HTTP_200_OK)
+        return Response(
+            UserSerializer(updated_instance).data, status=status.HTTP_200_OK
+        )
 
 
 class CustomUserDetail(ModelViewSet):
@@ -163,12 +178,13 @@ class CustomUserDetail(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
-    search_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
+    filterset_fields = ["username", "email", "first_name", "last_name", "phone_number"]
+    search_fields = ["username", "email", "first_name", "last_name", "phone_number"]
+
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == "list":
             return GetCustomUserSerializer
-        elif self.action == 'retrieve':
+        elif self.action == "retrieve":
             return GetCustomUserSerializer
         return CustomUserSerializer
 
@@ -189,8 +205,8 @@ class CountryViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ['name']
-    search_fields = ['name']
+    filterset_fields = ["name"]
+    search_fields = ["name"]
 
 
 class CityViewSet(ModelViewSet):
@@ -199,4 +215,4 @@ class CityViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ['name', 'country']
+    filterset_fields = ["name", "country"]

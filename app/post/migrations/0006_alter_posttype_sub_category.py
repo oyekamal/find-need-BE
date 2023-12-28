@@ -5,15 +5,19 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('post', '0005_rename_maker_posttype_sub_category_and_more'),
+        ("post", "0005_rename_maker_posttype_sub_category_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='posttype',
-            name='sub_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.subcategory'),
+            model_name="posttype",
+            name="sub_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.subcategory",
+            ),
         ),
     ]

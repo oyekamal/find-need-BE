@@ -5,21 +5,24 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('post', '0004_color_alter_post_color'),
+        ("post", "0004_color_alter_post_color"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='posttype',
-            old_name='maker',
-            new_name='sub_category',
+            model_name="posttype",
+            old_name="maker",
+            new_name="sub_category",
         ),
         migrations.AddField(
-            model_name='subcategory',
-            name='category',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='post.category'),
+            model_name="subcategory",
+            name="category",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.category",
+            ),
             preserve_default=False,
         ),
     ]

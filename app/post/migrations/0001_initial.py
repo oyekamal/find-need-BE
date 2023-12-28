@@ -6,87 +6,250 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('accountProfile', '0001_initial'),
+        ("accountProfile", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CarMaker',
+            name="CarMaker",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='category')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(blank=True, null=True, upload_to="category"),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='CarModel',
+            name="CarModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='category')),
-                ('name', models.CharField(max_length=100)),
-                ('maker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.carmaker')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(blank=True, null=True, upload_to="category"),
+                ),
+                ("name", models.CharField(max_length=100)),
+                (
+                    "maker",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="post.carmaker"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='category')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(blank=True, null=True, upload_to="category"),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='Image',
+            name="Image",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='post')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("image", models.ImageField(blank=True, null=True, upload_to="post")),
             ],
         ),
         migrations.CreateModel(
-            name='Option',
+            name="Option",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='Region',
+            name="Region",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='region')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("image", models.ImageField(blank=True, null=True, upload_to="region")),
+                ("name", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='VehiclePost',
+            name="VehiclePost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('year', models.PositiveIntegerField()),
-                ('body_condition', models.CharField(choices=[('poor', 'Poor'), ('fair', 'Fair'), ('good', 'Good'), ('excellent', 'Excellent with No Defects'), ('other', 'Other')], max_length=20)),
-                ('mechanical_condition', models.CharField(choices=[('poor', 'Poor'), ('fair', 'Fair'), ('good', 'Good'), ('excellent', 'Excellent with No Defects'), ('other', 'Other')], max_length=20)),
-                ('kilometers', models.PositiveIntegerField()),
-                ('transmission', models.CharField(choices=[('automatic', 'Automatic'), ('manual', 'Manual')], max_length=20)),
-                ('fuel_type', models.CharField(choices=[('gasoline', 'Gasoline'), ('diesel', 'Diesel'), ('hybrid', 'Hybrid'), ('electric', 'Electric'), ('plug_in_hybrid', 'Plug-in-Hybrid')], max_length=20)),
-                ('insurance', models.CharField(choices=[('compulsory', 'Compulsory Insurance'), ('comprehensive', 'Comprehensive Insurance'), ('not_insured', 'Not Insured')], max_length=20)),
-                ('color', models.CharField(max_length=50)),
-                ('payment_method', models.CharField(choices=[('cash', 'Cash Only'), ('installments', 'Installments Only'), ('cash_installments', 'Cash or Installments')], max_length=20)),
-                ('title', models.CharField(max_length=200)),
-                ('description', models.TextField()),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('phone_number', models.CharField(max_length=50)),
-                ('car_maker', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.carmaker')),
-                ('car_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.carmodel')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.category')),
-                ('city', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accountProfile.city')),
-                ('images', models.ManyToManyField(to='post.image')),
-                ('options', models.ManyToManyField(to='post.option')),
-                ('region', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.region')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("year", models.PositiveIntegerField()),
+                (
+                    "body_condition",
+                    models.CharField(
+                        choices=[
+                            ("poor", "Poor"),
+                            ("fair", "Fair"),
+                            ("good", "Good"),
+                            ("excellent", "Excellent with No Defects"),
+                            ("other", "Other"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "mechanical_condition",
+                    models.CharField(
+                        choices=[
+                            ("poor", "Poor"),
+                            ("fair", "Fair"),
+                            ("good", "Good"),
+                            ("excellent", "Excellent with No Defects"),
+                            ("other", "Other"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("kilometers", models.PositiveIntegerField()),
+                (
+                    "transmission",
+                    models.CharField(
+                        choices=[("automatic", "Automatic"), ("manual", "Manual")],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "fuel_type",
+                    models.CharField(
+                        choices=[
+                            ("gasoline", "Gasoline"),
+                            ("diesel", "Diesel"),
+                            ("hybrid", "Hybrid"),
+                            ("electric", "Electric"),
+                            ("plug_in_hybrid", "Plug-in-Hybrid"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "insurance",
+                    models.CharField(
+                        choices=[
+                            ("compulsory", "Compulsory Insurance"),
+                            ("comprehensive", "Comprehensive Insurance"),
+                            ("not_insured", "Not Insured"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("color", models.CharField(max_length=50)),
+                (
+                    "payment_method",
+                    models.CharField(
+                        choices=[
+                            ("cash", "Cash Only"),
+                            ("installments", "Installments Only"),
+                            ("cash_installments", "Cash or Installments"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("description", models.TextField()),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("phone_number", models.CharField(max_length=50)),
+                (
+                    "car_maker",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="post.carmaker"
+                    ),
+                ),
+                (
+                    "car_model",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="post.carmodel"
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="post.category"
+                    ),
+                ),
+                (
+                    "city",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="accountProfile.city",
+                    ),
+                ),
+                ("images", models.ManyToManyField(to="post.image")),
+                ("options", models.ManyToManyField(to="post.option")),
+                (
+                    "region",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="post.region"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

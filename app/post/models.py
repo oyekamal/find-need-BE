@@ -6,7 +6,7 @@ from datetime import timedelta
 
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='post', blank=True, null=True)
+    image = models.ImageField(upload_to="post", blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -17,42 +17,42 @@ class Image(models.Model):
 
 class Condition(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='condition', blank=True, null=True)
+    image = models.ImageField(upload_to="condition", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Transmission(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='transmission', blank=True, null=True)
+    image = models.ImageField(upload_to="transmission", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class FuelType(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='fuel_type', blank=True, null=True)
+    image = models.ImageField(upload_to="fuel_type", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Insurance(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='insurance', blank=True, null=True)
+    image = models.ImageField(upload_to="insurance", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='payment_method', blank=True, null=True)
+    image = models.ImageField(upload_to="payment_method", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Option(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='option', blank=True, null=True)
+    image = models.ImageField(upload_to="option", blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -62,7 +62,7 @@ class Option(models.Model):
 
 
 class Region(models.Model):
-    image = models.ImageField(upload_to='region', blank=True, null=True)
+    image = models.ImageField(upload_to="region", blank=True, null=True)
     name = models.CharField(max_length=100)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
@@ -73,8 +73,7 @@ class Region(models.Model):
 
 
 class PreCategory(models.Model):
-    image = models.ImageField(
-        upload_to='pre_category', blank=True, null=True)
+    image = models.ImageField(upload_to="pre_category", blank=True, null=True)
     name = models.CharField(max_length=100)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
@@ -85,11 +84,11 @@ class PreCategory(models.Model):
 
 
 class Category(models.Model):
-    image = models.ImageField(
-        upload_to='category', blank=True, null=True)
+    image = models.ImageField(upload_to="category", blank=True, null=True)
     name = models.CharField(max_length=100)
     pre_category = models.ForeignKey(
-        PreCategory, on_delete=models.CASCADE, blank=True, null=True)
+        PreCategory, on_delete=models.CASCADE, blank=True, null=True
+    )
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -100,7 +99,7 @@ class Category(models.Model):
 
 class Color(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='color', blank=True, null=True)
+    image = models.ImageField(upload_to="color", blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -110,8 +109,7 @@ class Color(models.Model):
 
 
 class Subcategory(models.Model):
-    image = models.ImageField(
-        upload_to='category', blank=True, null=True)
+    image = models.ImageField(upload_to="category", blank=True, null=True)
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # Add created_at and updated_at fields
@@ -123,10 +121,10 @@ class Subcategory(models.Model):
 
 
 class PostType(models.Model):
-    image = models.ImageField(
-        upload_to='category', blank=True, null=True)
+    image = models.ImageField(upload_to="category", blank=True, null=True)
     sub_category = models.ForeignKey(
-        Subcategory, on_delete=models.CASCADE, null=True, blank=True)
+        Subcategory, on_delete=models.CASCADE, null=True, blank=True
+    )
     name = models.CharField(max_length=100)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
@@ -151,40 +149,63 @@ class BoostPackage(models.Model):
 class PostManager(models.Manager):
     def get_queryset(self):
         # Filter out expired boosted posts and order by boost score
-        return super().get_queryset().filter(
-            models.Q(boost_package__isnull=True) | models.Q(
-                expiration_date__gt=timezone.now())
-        ).order_by('-boost_score')
+        return (
+            super()
+            .get_queryset()
+            .filter(
+                models.Q(boost_package__isnull=True)
+                | models.Q(expiration_date__gt=timezone.now())
+            )
+            .order_by("-boost_score")
+        )
 
 
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, null=True, blank=True)  # Adding user field
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
+    )  # Adding user field
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
     pre_category = models.ForeignKey(
-        PreCategory, on_delete=models.CASCADE, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+        PreCategory, on_delete=models.CASCADE, blank=True, null=True
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, null=True, blank=True
+    )
     # Assuming you have an Image model
-    images = models.ManyToManyField('Image', null=True, blank=True)
+    images = models.ManyToManyField("Image", null=True, blank=True)
     # Other fields
-    sub_category = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True, blank=True)
-    post_type = models.ForeignKey(PostType, on_delete=models.CASCADE, null=True, blank=True)
+    sub_category = models.ForeignKey(
+        Subcategory, on_delete=models.CASCADE, null=True, blank=True
+    )
+    post_type = models.ForeignKey(
+        PostType, on_delete=models.CASCADE, null=True, blank=True
+    )
     year = models.PositiveIntegerField()
     region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True, blank=True)
     body_condition = models.ForeignKey(
-        Condition, on_delete=models.CASCADE, blank=True, null=True)
+        Condition, on_delete=models.CASCADE, blank=True, null=True
+    )
     mechanical_condition = models.ForeignKey(
-        Condition, on_delete=models.CASCADE, related_name='mechanical_posts', blank=True, null=True)
+        Condition,
+        on_delete=models.CASCADE,
+        related_name="mechanical_posts",
+        blank=True,
+        null=True,
+    )
     transmission = models.ForeignKey(
-        Transmission, on_delete=models.CASCADE, blank=True, null=True)
+        Transmission, on_delete=models.CASCADE, blank=True, null=True
+    )
     fuel_type = models.ForeignKey(
-        FuelType, on_delete=models.CASCADE, blank=True, null=True)
+        FuelType, on_delete=models.CASCADE, blank=True, null=True
+    )
     insurance = models.ForeignKey(
-        Insurance, on_delete=models.CASCADE, blank=True, null=True)
+        Insurance, on_delete=models.CASCADE, blank=True, null=True
+    )
     payment_method = models.ForeignKey(
-        PaymentMethod, on_delete=models.CASCADE, blank=True, null=True)
+        PaymentMethod, on_delete=models.CASCADE, blank=True, null=True
+    )
     kilometers = models.PositiveIntegerField(null=True, blank=True)
-    options = models.ManyToManyField('Option')
+    options = models.ManyToManyField("Option")
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -192,7 +213,8 @@ class Post(models.Model):
     phone_number = models.CharField(max_length=50, null=True, blank=True)
     # ForeignKey to represent the selected boost package
     boost_package = models.ForeignKey(
-        BoostPackage, on_delete=models.SET_NULL, null=True, blank=True)
+        BoostPackage, on_delete=models.SET_NULL, null=True, blank=True
+    )
     # Add a field for the boost score
     boost_score = models.IntegerField(default=0, null=True, blank=True)
     # Add an expiration date field
@@ -213,7 +235,9 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         # Calculate the expiration date based on the boost package duration
         if self.boost_package:
-            self.expiration_date = timezone.now() + timedelta(days=self.boost_package.duration_days)
+            self.expiration_date = timezone.now() + timedelta(
+                days=self.boost_package.duration_days
+            )
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('post', '0014_alter_post_category_alter_post_city_alter_post_color_and_more'),
+        ("post", "0014_alter_post_category_alter_post_city_alter_post_color_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='condition',
-            name='delete',
+            model_name="condition",
+            name="delete",
             field=models.BooleanField(default=False),
         ),
     ]

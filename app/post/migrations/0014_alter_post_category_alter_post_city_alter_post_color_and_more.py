@@ -6,57 +6,94 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('accountProfile', '0006_rename_flag_pictures_language_image_city_image_and_more'),
+        (
+            "accountProfile",
+            "0006_rename_flag_pictures_language_image_city_image_and_more",
+        ),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('post', '0013_alter_post_boost_score_alter_post_phone_number_and_more'),
+        ("post", "0013_alter_post_boost_score_alter_post_phone_number_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.category'),
+            model_name="post",
+            name="category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.category",
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='city',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='accountProfile.city'),
+            model_name="post",
+            name="city",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="accountProfile.city",
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='color',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.color'),
+            model_name="post",
+            name="color",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.color",
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='images',
-            field=models.ManyToManyField(blank=True, null=True, to='post.image'),
+            model_name="post",
+            name="images",
+            field=models.ManyToManyField(blank=True, null=True, to="post.image"),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='kilometers',
+            model_name="post",
+            name="kilometers",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='post_type',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.posttype'),
+            model_name="post",
+            name="post_type",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.posttype",
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='region',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.region'),
+            model_name="post",
+            name="region",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.region",
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='sub_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='post.subcategory'),
+            model_name="post",
+            name="sub_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="post.subcategory",
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="post",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

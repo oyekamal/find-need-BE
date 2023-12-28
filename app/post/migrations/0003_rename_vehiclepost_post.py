@@ -5,16 +5,15 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('accountProfile', '0001_initial'),
-        ('post', '0002_rename_carmodel_posttype_rename_carmaker_subcategory_and_more'),
+        ("accountProfile", "0001_initial"),
+        ("post", "0002_rename_carmodel_posttype_rename_carmaker_subcategory_and_more"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='VehiclePost',
-            new_name='Post',
+            old_name="VehiclePost",
+            new_name="Post",
         ),
     ]

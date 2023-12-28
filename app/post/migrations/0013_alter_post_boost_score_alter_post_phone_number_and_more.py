@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('post', '0012_color_image_condition_image_fueltype_image_and_more'),
+        ("post", "0012_color_image_condition_image_fueltype_image_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='boost_score',
+            model_name="post",
+            name="boost_score",
             field=models.IntegerField(blank=True, default=0, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='phone_number',
+            model_name="post",
+            name="phone_number",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='view_count',
+            model_name="post",
+            name="view_count",
             field=models.PositiveIntegerField(blank=True, default=0, null=True),
         ),
     ]

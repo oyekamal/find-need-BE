@@ -31,7 +31,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ListFollowSerializer(serializers.ModelSerializer):
@@ -40,7 +40,7 @@ class ListFollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Follow
-        fields = '__all__'
+        fields = "__all__"
         # depth = 1
 
     def get_follower_username(self, obj):
@@ -60,26 +60,34 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class UserLanguageUpdateSerializer(serializers.ModelSerializer):
     languages = serializers.PrimaryKeyRelatedField(
-        queryset=Language.objects.all(), many=True)
+        queryset=Language.objects.all(), many=True
+    )
 
     class Meta:
         model = CustomUser
-        fields = ['languages']
+        fields = ["languages"]
 
     def update(self, instance, validated_data):
-        languages = validated_data.get('languages')
+        languages = validated_data.get("languages")
         instance.languages.set(languages)
         return instance
 
 
 class UserSerializer(serializers.ModelSerializer):
     languages = serializers.PrimaryKeyRelatedField(
-        queryset=Language.objects.all(), many=True)
+        queryset=Language.objects.all(), many=True
+    )
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name',
-                  'last_name', 'phone_number', 'languages']
+        fields = [
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "languages",
+        ]
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -87,8 +95,18 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'first_name',
-                  'last_name', 'phone_number', 'languages', 'profile_picture', 'created_at', 'updated_at']
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "languages",
+            "profile_picture",
+            "created_at",
+            "updated_at",
+        ]
 
 
 class GetCustomUserSerializer(serializers.ModelSerializer):
@@ -98,8 +116,20 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'first_name', 'follower', 'following',
-                  'last_name', 'phone_number', 'languages', 'profile_picture', 'created_at', 'updated_at']
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "follower",
+            "following",
+            "last_name",
+            "phone_number",
+            "languages",
+            "profile_picture",
+            "created_at",
+            "updated_at",
+        ]
 
     def get_follower(self, obj):
         # follower = Follow.objects.filter(follower=obj)
@@ -115,11 +145,16 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
 
 
 class CustomUserUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'first_name',
-                  'last_name', 'phone_number', 'profile_picture']
+        fields = [
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "profile_picture",
+        ]
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -130,7 +165,7 @@ class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
-        fields = '__all__'
+        fields = "__all__"
 
     # def get_flag(self, obj):
     #     flag_path = obj.name.flag
@@ -149,5 +184,5 @@ class CitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = City
-        fields = '__all__'
+        fields = "__all__"
         # depth = 1

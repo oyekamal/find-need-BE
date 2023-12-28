@@ -4,28 +4,27 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('post', '0001_initial'),
+        ("post", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='CarModel',
-            new_name='PostType',
+            old_name="CarModel",
+            new_name="PostType",
         ),
         migrations.RenameModel(
-            old_name='CarMaker',
-            new_name='Subcategory',
+            old_name="CarMaker",
+            new_name="Subcategory",
         ),
         migrations.RenameField(
-            model_name='vehiclepost',
-            old_name='car_model',
-            new_name='post_type',
+            model_name="vehiclepost",
+            old_name="car_model",
+            new_name="post_type",
         ),
         migrations.RenameField(
-            model_name='vehiclepost',
-            old_name='car_maker',
-            new_name='sub_category',
+            model_name="vehiclepost",
+            old_name="car_maker",
+            new_name="sub_category",
         ),
     ]
