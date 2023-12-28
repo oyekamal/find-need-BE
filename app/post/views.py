@@ -15,6 +15,7 @@ from .models import (
     FuelType,
     Insurance,
     PaymentMethod,
+    BoostPackage,
 )
 from .serializers import (
     OptionSerializer,
@@ -34,6 +35,7 @@ from .serializers import (
     ListCategorySerializer,
     ListSubcategorySerializer,
     ListPostTypeSerializer,
+    BoostPackageSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -45,6 +47,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from django_filters import rest_framework as drf_filters
+
+
+class BoostPackageViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = BoostPackage.objects.all()
+    serializer_class = BoostPackageSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["name", "price"]
+    search_fields = ["name", "price"]
 
 
 class ConditionViewSet(ModelViewSet):

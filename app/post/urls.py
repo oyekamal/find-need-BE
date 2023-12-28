@@ -14,6 +14,7 @@ from .views import (
     FuelTypeViewSet,
     InsuranceViewSet,
     PaymentMethodViewSet,
+    BoostPackageViewSet,
 )
 from rest_framework.routers import DefaultRouter
 
@@ -33,6 +34,7 @@ router.register("transmission", TransmissionViewSet)
 router.register("fuel_type", FuelTypeViewSet)
 router.register("insurance", InsuranceViewSet)
 router.register("payment_method", PaymentMethodViewSet)
+router.register("boost_package", BoostPackageViewSet)
 
 
 urlpatterns = [

@@ -14,8 +14,15 @@ from .models import (
     FuelType,
     Insurance,
     PaymentMethod,
+    BoostPackage,
 )
 from drf_extra_fields.fields import Base64ImageField
+
+
+class BoostPackageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BoostPackage
+        fields = "__all__"
 
 
 class ConditionSerializer(serializers.ModelSerializer):
