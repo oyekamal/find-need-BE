@@ -212,5 +212,5 @@ class PostAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    raw_id_fields = ("images", "options")
+    # raw_id_fields = ("images", "options")
     date_hierarchy = "created_at"

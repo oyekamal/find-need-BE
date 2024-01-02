@@ -11,8 +11,7 @@ class Image(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.image.name
+
 
 
 class Condition(models.Model):
@@ -21,12 +20,18 @@ class Condition(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Transmission(models.Model):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to="transmission", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class FuelType(models.Model):
@@ -35,6 +40,9 @@ class FuelType(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Insurance(models.Model):
     name = models.CharField(max_length=200)
@@ -42,12 +50,18 @@ class Insurance(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to="payment_method", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Option(models.Model):
@@ -172,7 +186,7 @@ class Post(models.Model):
         Category, on_delete=models.CASCADE, null=True, blank=True
     )
     # Assuming you have an Image model
-    images = models.ManyToManyField("Image", null=True, blank=True)
+    # images = models.ManyToManyField("Image", null=True, blank=True)
     # Other fields
     sub_category = models.ForeignKey(
         Subcategory, on_delete=models.CASCADE, null=True, blank=True
@@ -242,3 +256,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Image(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, null=True, blank=True
+    )
+    image = models.ImageField(upload_to="post", blank=True, null=True)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+

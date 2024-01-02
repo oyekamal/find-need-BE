@@ -182,9 +182,14 @@ class ListPostSerializer(serializers.ModelSerializer):
     payment_method = PaymentMethodSerializer()
     color = ColorSerializer()
     boost_package = BoostPackageSerializer()
-    images = ImageSerializer()
+    images = serializers.SerializerMethodField()
     options = OptionSerializer()
 
+    def get_images(self, obj):
+        Images = Image.objects.filter(post=obj)
+        serializer = ImageSerializer(Images, many=True)
+        return serializer.data
+        
     class Meta:
         model = Post
         fields = "__all__"

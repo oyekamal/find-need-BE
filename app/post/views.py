@@ -196,6 +196,8 @@ class ImageViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["post"]
 
 
 class ColorViewSet(ModelViewSet):
