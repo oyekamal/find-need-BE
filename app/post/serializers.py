@@ -17,6 +17,7 @@ from .models import (
     BoostPackage,
 )
 from drf_extra_fields.fields import Base64ImageField
+from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
 
 
 class BoostPackageSerializer(serializers.ModelSerializer):
@@ -163,3 +164,28 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = "__all__"
         # depth = 2
+
+
+class ListPostSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    user = CustomUserSerializer()
+    city = ListCitySerializer()
+    pre_category = PreCategorySerializer()
+    sub_category = SubcategorySerializer()
+    post_type = PostTypeSerializer()
+    region = RegionSerializer()
+    body_condition = ConditionSerializer()
+    mechanical_condition = ConditionSerializer()
+    transmission = TransmissionSerializer()
+    fuel_type = FuelTypeSerializer()
+    insurance = InsuranceSerializer()
+    payment_method = PaymentMethodSerializer()
+    color = ColorSerializer()
+    boost_package = BoostPackageSerializer()
+    images = ImageSerializer()
+    options = OptionSerializer()
+
+    class Meta:
+        model = Post
+        fields = "__all__"
+        # depth = 1

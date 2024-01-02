@@ -186,3 +186,13 @@ class CitySerializer(serializers.ModelSerializer):
         model = City
         fields = "__all__"
         # depth = 1
+
+
+class ListCitySerializer(serializers.ModelSerializer):
+    # country = CountrySerializer()
+    image = Base64ImageField(required=False)
+
+    class Meta:
+        model = City
+        fields = "__all__"
+        depth = 1

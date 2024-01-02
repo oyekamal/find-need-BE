@@ -36,6 +36,7 @@ from .serializers import (
     ListSubcategorySerializer,
     ListPostTypeSerializer,
     BoostPackageSerializer,
+    ListPostSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -254,6 +255,13 @@ class PostViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_class = PostFilter
     search_fields = ["title", "description"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ListPostSerializer
+        elif self.action == "retrieve":
+            return ListPostSerializer
+        return PostSerializer
 
     pagination_class = PageNumberPaginationCustom  # Default pagination style
 
