@@ -92,7 +92,10 @@ class CustomLoginView(LoginView):
 
         # serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        user.auth_token.delete()
+        try:
+            user.auth_token.delete()
+        except:
+            pass
         token, created = Token.objects.get_or_create(user=user)
         return Response(
             {
