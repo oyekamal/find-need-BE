@@ -167,23 +167,101 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class ListPostSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
+    category = serializers.SerializerMethodField()
     user = CustomUserSerializer()
-    city = ListCitySerializer()
-    pre_category = PreCategorySerializer()
-    sub_category = SubcategorySerializer()
-    post_type = PostTypeSerializer()
-    region = RegionSerializer()
-    body_condition = ConditionSerializer()
-    mechanical_condition = ConditionSerializer()
-    transmission = TransmissionSerializer()
-    fuel_type = FuelTypeSerializer()
-    insurance = InsuranceSerializer()
-    payment_method = PaymentMethodSerializer()
-    color = ColorSerializer()
+    city = serializers.SerializerMethodField()
+    pre_category = serializers.SerializerMethodField()
+    sub_category = serializers.SerializerMethodField()
+    post_type = serializers.SerializerMethodField()
+    region = serializers.SerializerMethodField()
+    body_condition = serializers.SerializerMethodField()
+    mechanical_condition = serializers.SerializerMethodField()
+    transmission = serializers.SerializerMethodField()
+    fuel_type = serializers.SerializerMethodField()
+    insurance = serializers.SerializerMethodField()
+    payment_method = serializers.SerializerMethodField()
+    color = serializers.SerializerMethodField()
     boost_package = BoostPackageSerializer()
     images = serializers.SerializerMethodField()
-    options = OptionSerializer()
+    options = OptionSerializer(many=True)
+
+    def get_category(self, obj):
+        if obj.category:
+            return obj.category.name
+        else:
+            return None
+
+    def get_pre_category(self, obj):
+        if obj.pre_category:
+            return obj.pre_category.name
+        else:
+            return None
+
+    def get_sub_category(self, obj):
+        if obj.sub_category:
+            return obj.sub_category.name
+        else:
+            return None
+
+    def get_post_type(self, obj):
+        if obj.post_type:
+            return obj.post_type.name
+        else:
+            return None
+
+    def get_region(self, obj):
+        if obj.region:
+            return obj.region.name
+        else:
+            return None
+
+    def get_body_condition(self, obj):
+        if obj.body_condition:
+            return obj.body_condition.name
+        else:
+            return None
+
+    def get_mechanical_condition(self, obj):
+        if obj.mechanical_condition:
+            return obj.mechanical_condition.name
+        else:
+            return None
+
+    def get_city(self, obj):
+        if obj.city:
+            return obj.city.name
+        else:
+            return None
+
+    def get_transmission(self, obj):
+        if obj.transmission:
+            return obj.transmission.name
+        else:
+            return None
+
+    def get_fuel_type(self, obj):
+        if obj.fuel_type:
+            return obj.fuel_type.name
+        else:
+            return None
+
+    def get_insurance(self, obj):
+        if obj.insurance:
+            return obj.insurance.name
+        else:
+            return None
+
+    def get_payment_method(self, obj):
+        if obj.payment_method:
+            return obj.payment_method.name
+        else:
+            return None
+
+    def get_color(self, obj):
+        if obj.color:
+            return obj.color.name
+        else:
+            return None
 
     def get_images(self, obj):
         Images = Image.objects.filter(post=obj)
