@@ -189,7 +189,7 @@ class ListPostSerializer(serializers.ModelSerializer):
         Images = Image.objects.filter(post=obj)
         serializer = ImageSerializer(Images, many=True)
         return serializer.data
-        
+
     class Meta:
         model = Post
         fields = "__all__"
