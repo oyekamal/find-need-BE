@@ -54,7 +54,8 @@ class Insurance(models.Model):
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="payment_method", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="payment_method", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -168,6 +169,7 @@ class PostManager(models.Manager):
                 models.Q(boost_package__isnull=True)
                 | models.Q(expiration_date__gt=timezone.now())
             )
+            .filter(delete=False)  # Filter out posts where delete=True
             .order_by("-boost_score")
         )
 
@@ -176,7 +178,8 @@ class Post(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
     )  # Adding user field
-    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
+    city = models.ForeignKey(
+        City, on_delete=models.CASCADE, null=True, blank=True)
     pre_category = models.ForeignKey(
         PreCategory, on_delete=models.CASCADE, blank=True, null=True
     )
@@ -193,7 +196,8 @@ class Post(models.Model):
         PostType, on_delete=models.CASCADE, null=True, blank=True
     )
     year = models.PositiveIntegerField()
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True, blank=True)
+    region = models.ForeignKey(
+        Region, on_delete=models.CASCADE, null=True, blank=True)
     body_condition = models.ForeignKey(
         Condition, on_delete=models.CASCADE, blank=True, null=True
     )
@@ -218,10 +222,12 @@ class Post(models.Model):
     )
     kilometers = models.PositiveIntegerField(null=True, blank=True)
     options = models.ManyToManyField("Option")
-    color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
+    color = models.ForeignKey(
+        Color, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
     # ForeignKey to represent the selected boost package
     boost_package = models.ForeignKey(
@@ -253,11 +259,14 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        if self.title:
+            return self.title
+        return ''
 
 
 class Image(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to="post", blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)

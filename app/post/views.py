@@ -48,6 +48,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from django_filters import rest_framework as drf_filters
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.mixins import DestroyModelMixin
 
 
 class BoostPackageViewSet(ModelViewSet):
@@ -249,7 +252,7 @@ class LimitOffsetPaginationCustom(LimitOffsetPagination):
     max_limit = 1000
 
 
-class PostViewSet(ModelViewSet):
+class PostViewSet(ModelViewSet, DestroyModelMixin):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Post.objects.all()
@@ -275,3 +278,15 @@ class PostViewSet(ModelViewSet):
             self.pagination_class = PageNumberPaginationCustom
 
         return super().list(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        # Check if the delete field is already True
+        if not instance.delete:
+            # Soft delete by updating the 'delete' field to True
+            instance.delete = True
+            instance.save()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Post deleted Successfully."}, status=status.HTTP_204_NO_CONTENT)
