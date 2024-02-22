@@ -16,6 +16,7 @@ from .models import (
     Insurance,
     PaymentMethod,
     BoostPackage,
+    Report
 )
 from .serializers import (
     OptionSerializer,
@@ -37,6 +38,7 @@ from .serializers import (
     ListPostTypeSerializer,
     BoostPackageSerializer,
     ListPostSerializer,
+    ReportSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -62,6 +64,15 @@ class BoostPackageViewSet(ModelViewSet):
     filterset_fields = ["name", "price"]
     search_fields = ["name", "price"]
 
+
+class ReportViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["post", "user"]
+    search_fields = ["post", "user"]
 
 class ConditionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]

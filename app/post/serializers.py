@@ -15,10 +15,16 @@ from .models import (
     Insurance,
     PaymentMethod,
     BoostPackage,
+    Report
 )
 from drf_extra_fields.fields import Base64ImageField
 from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
 
+
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = "__all__"
 
 class BoostPackageSerializer(serializers.ModelSerializer):
     class Meta:

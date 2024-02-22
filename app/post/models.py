@@ -264,6 +264,18 @@ class Post(models.Model):
         return ''
 
 
+
+class Report(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='reports')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    reason = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report #{self.id} - {self.post}"
+
 class Image(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, null=True, blank=True)
