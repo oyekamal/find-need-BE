@@ -227,17 +227,21 @@ class ColorViewSet(ModelViewSet):
 class PostFilter(drf_filters.FilterSet):
     title = CharFilter(lookup_expr="icontains")
     city = CharFilter(field_name="city__name", lookup_expr="icontains")
-    category = CharFilter(field_name="category__name", lookup_expr="icontains")
+    # category = CharFilter(field_name="category__name", lookup_expr="icontains")
     price = NumberFilter(lookup_expr="lte")
     kilometers = NumberFilter(lookup_expr="lte")
     year = NumberFilter(lookup_expr="exact")
+    user = NumberFilter(field_name="user__id", lookup_expr="exact")
+    pre_category = NumberFilter(field_name="pre_category__id", lookup_expr="exact")
+    category = NumberFilter(field_name="category__id", lookup_expr="exact")
+    sub_category = NumberFilter(field_name="sub_category__id", lookup_expr="exact")
+    post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
 
     class Meta:
         model = Post
         fields = [
             "title",
             "city",
-            "category",
             "price",
             "body_condition",
             "mechanical_condition",
@@ -247,6 +251,11 @@ class PostFilter(drf_filters.FilterSet):
             "payment_method",
             "kilometers",
             "year",
+            "user",
+            "pre_category",
+            "category",
+            "sub_category",
+            "post_type",
         ]
 
 
