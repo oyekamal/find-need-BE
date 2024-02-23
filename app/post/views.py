@@ -16,7 +16,8 @@ from .models import (
     Insurance,
     PaymentMethod,
     BoostPackage,
-    Report
+    Report,
+    ReportChat,
 )
 from .serializers import (
     OptionSerializer,
@@ -39,6 +40,7 @@ from .serializers import (
     BoostPackageSerializer,
     ListPostSerializer,
     ReportSerializer,
+    ReportChatSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -54,7 +56,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.mixins import DestroyModelMixin
 
+class PageNumberPaginationCustom(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"
+    max_page_size = 1000
 
+
+class LimitOffsetPaginationCustom(LimitOffsetPagination):
+    default_limit = 10
+    limit_query_param = "limit"
+    offset_query_param = "offset"
+    max_limit = 1000
+    
 class BoostPackageViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -73,6 +86,17 @@ class ReportViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["post", "user"]
     search_fields = ["post", "user"]
+
+
+class ReportChatViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = ReportChat.objects.all()
+    pagination_class = PageNumberPaginationCustom
+    serializer_class = ReportChatSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["report", "user"]
+    search_fields = ["report", "user"]
 
 class ConditionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -258,18 +282,6 @@ class PostFilter(drf_filters.FilterSet):
             "post_type",
         ]
 
-
-class PageNumberPaginationCustom(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
-    max_page_size = 1000
-
-
-class LimitOffsetPaginationCustom(LimitOffsetPagination):
-    default_limit = 10
-    limit_query_param = "limit"
-    offset_query_param = "offset"
-    max_limit = 1000
 
 
 class PostViewSet(ModelViewSet, DestroyModelMixin):

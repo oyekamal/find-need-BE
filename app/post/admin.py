@@ -15,7 +15,9 @@ from .models import (
     Subcategory,
     PostType,
     BoostPackage,
-    Post,
+    Post,ReportChat,
+    Report
+    
 )
 
 
@@ -214,3 +216,24 @@ class PostAdmin(admin.ModelAdmin):
     )
     # raw_id_fields = ("images", "options")
     date_hierarchy = "created_at"
+
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'post', 'user', 'reason', 'created_at')
+    list_filter = ('post', 'user', 'created_at')
+    date_hierarchy = 'created_at'
+
+
+@admin.register(ReportChat)
+class ReportChatAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'report',
+        'user',
+        'message',
+        'is_admin',
+        'created_at',
+    )
+    list_filter = ('report', 'user', 'is_admin', 'created_at')
+    date_hierarchy = 'created_at'
