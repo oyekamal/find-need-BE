@@ -31,6 +31,12 @@ class ReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = "__all__"
 
+class ListReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = "__all__"
+        depth = 1
+
 class BoostPackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoostPackage

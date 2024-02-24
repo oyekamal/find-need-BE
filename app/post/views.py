@@ -41,6 +41,7 @@ from .serializers import (
     ListPostSerializer,
     ReportSerializer,
     ReportChatSerializer,
+    ListReportSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -86,6 +87,12 @@ class ReportViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["post", "user"]
     search_fields = ["post", "user"]
+    
+    
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return ListReportSerializer
+        return ReportSerializer
 
 
 class ReportChatViewSet(ModelViewSet):
