@@ -287,6 +287,8 @@ class ReportChat(models.Model):
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()
+    image = models.ImageField(upload_to="report_chat", blank=True, null=True)
+    audio = models.FileField(upload_to="report_chat/audio", blank=True, null=True)  # Audio file field
     is_admin = models.BooleanField(
         default=False
     )  # Indicates whether the message is from an admin

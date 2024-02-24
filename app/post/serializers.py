@@ -23,6 +23,7 @@ from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
 
 
 class ReportChatSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
     class Meta:
         model = ReportChat
         fields = "__all__"
