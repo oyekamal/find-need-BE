@@ -57,6 +57,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.mixins import DestroyModelMixin
 
+
 class PageNumberPaginationCustom(PageNumberPagination):
     page_size = 10
     page_size_query_param = "page_size"
@@ -68,7 +69,8 @@ class LimitOffsetPaginationCustom(LimitOffsetPagination):
     limit_query_param = "limit"
     offset_query_param = "offset"
     max_limit = 1000
-    
+
+
 class BoostPackageViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -87,8 +89,7 @@ class ReportViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["post", "user"]
     search_fields = ["post", "user"]
-    
-    
+
     def get_serializer_class(self):
         if self.action == "retrieve":
             return ListReportSerializer
@@ -104,6 +105,7 @@ class ReportChatViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["report", "user"]
     search_fields = ["report", "user"]
+
 
 class ConditionViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -290,7 +292,6 @@ class PostFilter(drf_filters.FilterSet):
         ]
 
 
-
 class PostViewSet(ModelViewSet, DestroyModelMixin):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -328,4 +329,6 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response({"message": "Post deleted Successfully."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"message": "Post deleted Successfully."}, status=status.HTTP_204_NO_CONTENT
+        )

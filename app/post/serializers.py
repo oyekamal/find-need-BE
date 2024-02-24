@@ -16,26 +16,30 @@ from .models import (
     PaymentMethod,
     BoostPackage,
     Report,
-    ReportChat
+    ReportChat,
 )
 from drf_extra_fields.fields import Base64ImageField
 from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
+
 
 class ReportChatSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportChat
         fields = "__all__"
 
+
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = "__all__"
+
 
 class ListReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = "__all__"
         depth = 1
+
 
 class BoostPackageSerializer(serializers.ModelSerializer):
     class Meta:

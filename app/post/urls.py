@@ -41,7 +41,6 @@ router.register("report", ReportViewSet)
 router.register("report_chat", ReportChatViewSet)
 
 
-
 urlpatterns = [
     path("", include(router.urls)),
 ]
