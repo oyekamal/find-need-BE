@@ -3,6 +3,7 @@ from accountProfile.models import City
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+from enum import Enum
 
 
 class Image(models.Model):
@@ -259,14 +260,25 @@ class Post(models.Model):
         return ""
 
 
+class ReportStatus(Enum):
+    PENDING = "pending"  # Default state
+    BLOCKED = "blocked"
+    RESOLVED = "resolved"
+
+
 class Report(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="reports")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reason = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[(status.value, status.name) for status in ReportStatus],
+        default=ReportStatus.PENDING.value,
+    )
 
     def __str__(self):
-        return f"Report #{self.id} - {self.post}"
+        return f"Report #{self.id} - {self.post} ({self.status})"
 
 
 class ReportChat(models.Model):
