@@ -36,6 +36,13 @@ class ReportSerializer(serializers.ModelSerializer):
 
 
 class ListReportSerializer(serializers.ModelSerializer):
+    
+    images = serializers.SerializerMethodField()
+    
+    def get_images(self, obj):
+        Images = Image.objects.filter(post=obj.post)
+        serializer = ImageSerializer(Images, many=True)
+        return serializer.data
     class Meta:
         model = Report
         fields = "__all__"
