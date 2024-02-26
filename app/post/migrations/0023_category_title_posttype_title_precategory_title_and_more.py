@@ -6,28 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0022_reportchat_audio_reportchat_image'),
+        ("post", "0022_reportchat_audio_reportchat_image"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='category',
-            name='title',
+            model_name="category",
+            name="title",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
         migrations.AddField(
-            model_name='posttype',
-            name='title',
+            model_name="posttype",
+            name="title",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
         migrations.AddField(
-            model_name='precategory',
-            name='title',
+            model_name="precategory",
+            name="title",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
         migrations.AddField(
-            model_name='subcategory',
-            name='title',
+            model_name="subcategory",
+            name="title",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
     ]

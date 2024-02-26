@@ -85,13 +85,14 @@ class ReportViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Report.objects.all()
+    pagination_class = PageNumberPaginationCustom
     serializer_class = ReportSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["post", "user"]
     search_fields = ["post", "user"]
 
     def get_serializer_class(self):
-        if self.action == "retrieve":
+        if self.action == "retrieve" or self.action == "list":
             return ListReportSerializer
         return ReportSerializer
 

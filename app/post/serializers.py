@@ -24,6 +24,7 @@ from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
 
 class ReportChatSerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
+
     class Meta:
         model = ReportChat
         fields = "__all__"
@@ -33,20 +34,6 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = "__all__"
-
-
-class ListReportSerializer(serializers.ModelSerializer):
-    
-    images = serializers.SerializerMethodField()
-    
-    def get_images(self, obj):
-        Images = Image.objects.filter(post=obj.post)
-        serializer = ImageSerializer(Images, many=True)
-        return serializer.data
-    class Meta:
-        model = Report
-        fields = "__all__"
-        depth = 1
 
 
 class BoostPackageSerializer(serializers.ModelSerializer):
@@ -299,5 +286,20 @@ class ListPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
+        fields = "__all__"
+        # depth = 1
+
+
+class ListReportSerializer(serializers.ModelSerializer):
+
+    post = serializers.SerializerMethodField()
+    user = CustomUserSerializer()
+
+    def get_post(self, obj):
+        serializer = ListPostSerializer(obj.post)
+        return serializer.data
+
+    class Meta:
+        model = Report
         fields = "__all__"
         # depth = 1

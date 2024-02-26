@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0021_report_status'),
+        ("post", "0021_report_status"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='reportchat',
-            name='audio',
-            field=models.FileField(blank=True, null=True, upload_to='report_chat/audio'),
+            model_name="reportchat",
+            name="audio",
+            field=models.FileField(
+                blank=True, null=True, upload_to="report_chat/audio"
+            ),
         ),
         migrations.AddField(
-            model_name='reportchat',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='report_chat'),
+            model_name="reportchat",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to="report_chat"),
         ),
     ]
