@@ -86,6 +86,7 @@ class Region(models.Model):
 
 
 class PreCategory(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to="pre_category", blank=True, null=True)
     name = models.CharField(max_length=100)
     # Add created_at and updated_at fields
@@ -97,6 +98,7 @@ class PreCategory(models.Model):
 
 
 class Category(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to="category", blank=True, null=True)
     name = models.CharField(max_length=100)
     pre_category = models.ForeignKey(
@@ -122,6 +124,7 @@ class Color(models.Model):
 
 
 class Subcategory(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to="category", blank=True, null=True)
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -134,6 +137,7 @@ class Subcategory(models.Model):
 
 
 class PostType(models.Model):
+    title = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to="category", blank=True, null=True)
     sub_category = models.ForeignKey(
         Subcategory, on_delete=models.CASCADE, null=True, blank=True
