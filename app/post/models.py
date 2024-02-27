@@ -301,7 +301,7 @@ class ReportChat(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["created_at"]  # Order by created_at in ascending order
+        ordering = ["-created_at"]  # Order by created_at in ascending order
 
     def __str__(self):
         return f"Chat #{self.id} - {self.report}"
