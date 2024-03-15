@@ -92,10 +92,10 @@ class CustomLoginView(LoginView):
 
         # serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
-        try:
-            user.auth_token.delete()
-        except:
-            pass
+        # try:
+        #     user.auth_token.delete()
+        # except:
+        #     pass
         token, created = Token.objects.get_or_create(user=user)
         return Response(
             {
@@ -106,6 +106,7 @@ class CustomLoginView(LoginView):
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "phone_number": user.phone_number,
+                "id": user.id,
                 "error": {},
             },
             status=status.HTTP_200_OK,
