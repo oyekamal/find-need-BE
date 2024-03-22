@@ -225,6 +225,7 @@ class ListPostSerializer(serializers.ModelSerializer):
     boost_package = BoostPackageSerializer()
     images = serializers.SerializerMethodField()
     options = OptionSerializer(many=True)
+    extra = ExtraSerializer(many=True)
     favourite = serializers.SerializerMethodField()
 
     def get_favourite(self, obj):
