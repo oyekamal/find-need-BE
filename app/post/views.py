@@ -19,6 +19,8 @@ from .models import (
     Report,
     ReportChat,
     Favourite,
+    Extra,
+    Warranty,
 )
 from .serializers import (
     OptionSerializer,
@@ -44,6 +46,8 @@ from .serializers import (
     ReportChatSerializer,
     ListReportSerializer,
     FavouriteSerializer,
+    ExtraSerializer,
+    WarrantySerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -81,6 +85,26 @@ class BoostPackageViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name", "price"]
     search_fields = ["name", "price"]
+
+
+class ExtraViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Extra.objects.all()
+    serializer_class = ExtraSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["name"]
+    search_fields = ["name"]
+
+
+class WarrantyViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Warranty.objects.all()
+    serializer_class = WarrantySerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["name"]
+    search_fields = ["name"]
 
 
 class FavouriteViewSet(ModelViewSet):

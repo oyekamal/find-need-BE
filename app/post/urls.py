@@ -18,11 +18,16 @@ from .views import (
     ReportViewSet,
     ReportChatViewSet,
     FavouriteViewSet,
+    ExtraViewSet,
+    WarrantyViewSet,
 )
 from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
+router.register("extra", ExtraViewSet)
+router.register("warranty", WarrantyViewSet)
+router.register("favourite", FavouriteViewSet)
 router.register("favourite", FavouriteViewSet)
 router.register("posts", PostViewSet)
 router.register("option", OptionViewSet)

@@ -18,6 +18,8 @@ from .models import (
     Report,
     ReportChat,
     Favourite,
+    Extra,
+    Warranty,
 )
 from drf_extra_fields.fields import Base64ImageField
 from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
@@ -28,6 +30,22 @@ class ReportChatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportChat
+        fields = "__all__"
+
+
+class WarrantySerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+
+    class Meta:
+        model = Warranty
+        fields = "__all__"
+
+
+class ExtraSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+
+    class Meta:
+        model = Extra
         fields = "__all__"
 
 
