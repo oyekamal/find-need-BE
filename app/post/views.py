@@ -18,6 +18,7 @@ from .models import (
     BoostPackage,
     Report,
     ReportChat,
+    Favourite
 )
 from .serializers import (
     OptionSerializer,
@@ -42,6 +43,7 @@ from .serializers import (
     ReportSerializer,
     ReportChatSerializer,
     ListReportSerializer,
+    FavouriteSerializer
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -79,6 +81,16 @@ class BoostPackageViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name", "price"]
     search_fields = ["name", "price"]
+
+
+class FavouriteViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Favourite.objects.all()
+    serializer_class = FavouriteSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["user", "post"]
+    search_fields = ["user", "post"]
 
 
 class ReportViewSet(ModelViewSet):
@@ -266,11 +278,9 @@ class PostFilter(drf_filters.FilterSet):
     kilometers = NumberFilter(lookup_expr="lte")
     year = NumberFilter(lookup_expr="exact")
     user = NumberFilter(field_name="user__id", lookup_expr="exact")
-    pre_category = NumberFilter(
-        field_name="pre_category__id", lookup_expr="exact")
+    pre_category = NumberFilter(field_name="pre_category__id", lookup_expr="exact")
     category = NumberFilter(field_name="category__id", lookup_expr="exact")
-    sub_category = NumberFilter(
-        field_name="sub_category__id", lookup_expr="exact")
+    sub_category = NumberFilter(field_name="sub_category__id", lookup_expr="exact")
     post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
 
     class Meta:
@@ -324,7 +334,7 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = ListPostSerializer(instance)  # Use new serializer
+        serializer = ListPostSerializer(instance, context={'request': request})  # Pass request context
         instance.view_count += 1  # Increment view_count before saving
         instance.save()  # Save the updated view_count
 

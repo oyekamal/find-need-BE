@@ -263,6 +263,24 @@ class Post(models.Model):
             return self.title
         return ""
 
+    class Meta:
+        ordering = ["-created_at"]  # Order by created_at in ascending order
+
+
+class Favourite(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = (
+            "user",
+            "post",
+        )  # Ensure only one favourite per user/post combo
+        ordering = ["-created_at"]  # Order by created_at in ascending order
+
 
 class ReportStatus(Enum):
     PENDING = "pending"  # Default state

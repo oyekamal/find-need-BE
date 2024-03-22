@@ -17,6 +17,7 @@ from .models import (
     BoostPackage,
     Report,
     ReportChat,
+    Favourite
 )
 from drf_extra_fields.fields import Base64ImageField
 from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
@@ -33,6 +34,11 @@ class ReportChatSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
+        fields = "__all__"
+        
+class FavouriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favourite
         fields = "__all__"
 
 
@@ -200,6 +206,13 @@ class ListPostSerializer(serializers.ModelSerializer):
     boost_package = BoostPackageSerializer()
     images = serializers.SerializerMethodField()
     options = OptionSerializer(many=True)
+    favourite = serializers.SerializerMethodField()
+    
+    def get_favourite(self, obj):
+        request = self.context.get('request')
+        if request.user.is_authenticated:
+            return Favourite.objects.filter(user=request.user, post=obj).exists()
+        return False  # Return False if user is not authenticated
 
     def get_category(self, obj):
         if obj.category:
@@ -287,6 +300,7 @@ class ListPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
+        # fields = ("id", "boost_package", "boost_score", "created_at", "view_count", "favourite")
         # depth = 1
 
 

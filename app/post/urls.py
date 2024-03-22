@@ -17,11 +17,13 @@ from .views import (
     BoostPackageViewSet,
     ReportViewSet,
     ReportChatViewSet,
+    FavouriteViewSet
 )
 from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
+router.register("favourite", FavouriteViewSet)
 router.register("posts", PostViewSet)
 router.register("option", OptionViewSet)
 router.register("region", RegionViewSet)

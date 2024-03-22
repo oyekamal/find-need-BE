@@ -16,21 +16,22 @@ from .models import (
     PostType,
     BoostPackage,
     Post,
-    ReportChat,
+    Favourite,
     Report,
+    ReportChat,
 )
 
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("id", "image", "created_at", "updated_at")
-    list_filter = ("created_at", "updated_at")
+    list_display = ("id", "post", "image", "created_at", "updated_at")
+    list_filter = ("post", "created_at", "updated_at")
     date_hierarchy = "created_at"
 
 
 @admin.register(Condition)
 class ConditionAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -38,7 +39,7 @@ class ConditionAdmin(admin.ModelAdmin):
 
 @admin.register(Transmission)
 class TransmissionAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -46,7 +47,7 @@ class TransmissionAdmin(admin.ModelAdmin):
 
 @admin.register(FuelType)
 class FuelTypeAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -54,7 +55,7 @@ class FuelTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Insurance)
 class InsuranceAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -62,7 +63,7 @@ class InsuranceAdmin(admin.ModelAdmin):
 
 @admin.register(PaymentMethod)
 class PaymentMethodAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -70,7 +71,7 @@ class PaymentMethodAdmin(admin.ModelAdmin):
 
 @admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -86,7 +87,14 @@ class RegionAdmin(admin.ModelAdmin):
 
 @admin.register(PreCategory)
 class PreCategoryAdmin(admin.ModelAdmin):
-    list_display = ("id", "image", "name", "created_at", "updated_at")
+    list_display = (
+        "id",
+        "title",
+        "image",
+        "name",
+        "created_at",
+        "updated_at",
+    )
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -96,6 +104,7 @@ class PreCategoryAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "title",
         "image",
         "name",
         "pre_category",
@@ -109,7 +118,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created_at", "updated_at")
+    list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
@@ -119,6 +128,7 @@ class ColorAdmin(admin.ModelAdmin):
 class SubcategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "title",
         "image",
         "name",
         "category",
@@ -134,6 +144,7 @@ class SubcategoryAdmin(admin.ModelAdmin):
 class PostTypeAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "title",
         "image",
         "sub_category",
         "name",
@@ -193,6 +204,7 @@ class PostAdmin(admin.ModelAdmin):
         "loaction_name",
         "created_at",
         "updated_at",
+        "delete",
     )
     list_filter = (
         "user",
@@ -213,14 +225,22 @@ class PostAdmin(admin.ModelAdmin):
         "expiration_date",
         "created_at",
         "updated_at",
+        "delete",
     )
-    # raw_id_fields = ("images", "options")
+    raw_id_fields = ("options",)
+    date_hierarchy = "created_at"
+
+
+@admin.register(Favourite)
+class FavouriteAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "post", "created_at", "updated_at")
+    list_filter = ("user", "post", "created_at", "updated_at")
     date_hierarchy = "created_at"
 
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ("id", "post", "user", "reason", "created_at")
+    list_display = ("id", "post", "user", "reason", "created_at", "status")
     list_filter = ("post", "user", "created_at")
     date_hierarchy = "created_at"
 
@@ -232,6 +252,8 @@ class ReportChatAdmin(admin.ModelAdmin):
         "report",
         "user",
         "message",
+        "image",
+        "audio",
         "is_admin",
         "created_at",
     )
