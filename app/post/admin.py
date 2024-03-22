@@ -8,10 +8,12 @@ from .models import (
     Insurance,
     PaymentMethod,
     Option,
+    Extra,
     Region,
     PreCategory,
     Category,
     Color,
+    Warranty,
     Subcategory,
     PostType,
     BoostPackage,
@@ -77,6 +79,14 @@ class OptionAdmin(admin.ModelAdmin):
     date_hierarchy = "created_at"
 
 
+@admin.register(Extra)
+class ExtraAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "image", "created_at", "updated_at")
+    list_filter = ("created_at", "updated_at")
+    search_fields = ("name",)
+    date_hierarchy = "created_at"
+
+
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
     list_display = ("id", "image", "name", "created_at", "updated_at")
@@ -118,6 +128,14 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "image", "created_at", "updated_at")
+    list_filter = ("created_at", "updated_at")
+    search_fields = ("name",)
+    date_hierarchy = "created_at"
+
+
+@admin.register(Warranty)
+class WarrantyAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "image", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
@@ -191,6 +209,7 @@ class PostAdmin(admin.ModelAdmin):
         "payment_method",
         "kilometers",
         "color",
+        "warranty",
         "title",
         "description",
         "price",
@@ -199,6 +218,8 @@ class PostAdmin(admin.ModelAdmin):
         "boost_score",
         "expiration_date",
         "view_count",
+        "doors",
+        "cylinders",
         "latitude",
         "longitude",
         "loaction_name",
@@ -221,13 +242,14 @@ class PostAdmin(admin.ModelAdmin):
         "insurance",
         "payment_method",
         "color",
+        "warranty",
         "boost_package",
         "expiration_date",
         "created_at",
         "updated_at",
         "delete",
     )
-    raw_id_fields = ("options",)
+    # raw_id_fields = ("options", "extra")
     date_hierarchy = "created_at"
 
 

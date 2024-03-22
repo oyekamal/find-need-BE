@@ -18,7 +18,7 @@ from .models import (
     BoostPackage,
     Report,
     ReportChat,
-    Favourite
+    Favourite,
 )
 from .serializers import (
     OptionSerializer,
@@ -43,7 +43,7 @@ from .serializers import (
     ReportSerializer,
     ReportChatSerializer,
     ListReportSerializer,
-    FavouriteSerializer
+    FavouriteSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -334,7 +334,9 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = ListPostSerializer(instance, context={'request': request})  # Pass request context
+        serializer = ListPostSerializer(
+            instance, context={"request": request}
+        )  # Pass request context
         instance.view_count += 1  # Increment view_count before saving
         instance.save()  # Save the updated view_count
 

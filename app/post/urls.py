@@ -17,7 +17,7 @@ from .views import (
     BoostPackageViewSet,
     ReportViewSet,
     ReportChatViewSet,
-    FavouriteViewSet
+    FavouriteViewSet,
 )
 from rest_framework.routers import DefaultRouter
 
