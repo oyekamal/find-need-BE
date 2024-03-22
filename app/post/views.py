@@ -266,9 +266,11 @@ class PostFilter(drf_filters.FilterSet):
     kilometers = NumberFilter(lookup_expr="lte")
     year = NumberFilter(lookup_expr="exact")
     user = NumberFilter(field_name="user__id", lookup_expr="exact")
-    pre_category = NumberFilter(field_name="pre_category__id", lookup_expr="exact")
+    pre_category = NumberFilter(
+        field_name="pre_category__id", lookup_expr="exact")
     category = NumberFilter(field_name="category__id", lookup_expr="exact")
-    sub_category = NumberFilter(field_name="sub_category__id", lookup_expr="exact")
+    sub_category = NumberFilter(
+        field_name="sub_category__id", lookup_expr="exact")
     post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
 
     class Meta:
@@ -319,6 +321,14 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
             self.pagination_class = PageNumberPaginationCustom
 
         return super().list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = ListPostSerializer(instance)  # Use new serializer
+        instance.view_count += 1  # Increment view_count before saving
+        instance.save()  # Save the updated view_count
+
+        return Response(serializer.data)
 
     def perform_destroy(self, instance):
         # Check if the delete field is already True
