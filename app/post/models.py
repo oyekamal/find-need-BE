@@ -96,6 +96,17 @@ class Region(models.Model):
         return self.name
 
 
+class RegionSpecs(models.Model):
+    image = models.ImageField(upload_to="region_specs", blank=True, null=True)
+    name = models.CharField(max_length=100)
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
 class PreCategory(models.Model):
     title = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(upload_to="pre_category", blank=True, null=True)
@@ -222,6 +233,9 @@ class Post(models.Model):
     )
     year = models.PositiveIntegerField()
     region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True, blank=True)
+    region_specs = models.ForeignKey(
+        RegionSpecs, on_delete=models.CASCADE, null=True, blank=True
+    )
     body_condition = models.ForeignKey(
         Condition, on_delete=models.CASCADE, blank=True, null=True
     )

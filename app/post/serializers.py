@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import (
     Option,
     Region,
+    RegionSpecs,
     PreCategory,
     Category,
     Subcategory,
@@ -120,6 +121,14 @@ class RegionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Region
+        fields = "__all__"
+
+
+class RegionSpecsSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+
+    class Meta:
+        model = RegionSpecs
         fields = "__all__"
 
 

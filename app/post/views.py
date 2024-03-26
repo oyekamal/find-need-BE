@@ -3,6 +3,7 @@ from rest_framework import generics, mixins
 from .models import (
     Option,
     Region,
+    RegionSpecs,
     PreCategory,
     Category,
     Subcategory,
@@ -25,6 +26,7 @@ from .models import (
 from .serializers import (
     OptionSerializer,
     RegionSerializer,
+    RegionSpecsSerializer,
     CategorySerializer,
     SubcategorySerializer,
     PostTypeSerializer,
@@ -209,6 +211,16 @@ class RegionViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["name"]
+    search_fields = ["name"]
+
+
+class RegionSpecsViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = RegionSpecs.objects.all()
+    serializer_class = RegionSpecsSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name"]
     search_fields = ["name"]

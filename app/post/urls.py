@@ -5,6 +5,7 @@ from .views import (
     PostViewSet,
     OptionViewSet,
     RegionViewSet,
+    RegionSpecsViewSet,
     CategoryViewSet,
     SubcategoryViewSet,
     PostTypeViewSet,
@@ -32,6 +33,7 @@ router.register("favourite", FavouriteViewSet)
 router.register("posts", PostViewSet)
 router.register("option", OptionViewSet)
 router.register("region", RegionViewSet)
+router.register("region_specs", RegionSpecsViewSet)
 router.register("preCategory", PreCategoryViewSet)
 router.register("category", CategoryViewSet)
 router.register("subcategory", SubcategoryViewSet)
