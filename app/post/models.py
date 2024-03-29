@@ -258,7 +258,8 @@ class Post(models.Model):
     payment_method = models.ForeignKey(
         PaymentMethod, on_delete=models.CASCADE, blank=True, null=True
     )
-    kilometers = models.PositiveIntegerField(null=True, blank=True)
+    # kilometers = models.PositiveIntegerField(null=True, blank=True)
+    kilometers = models.CharField(max_length=200, null=True, blank=True)
     options = models.ManyToManyField("Option", blank=True, null=True)
     extra = models.ManyToManyField(Extra, blank=True, null=True)
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
