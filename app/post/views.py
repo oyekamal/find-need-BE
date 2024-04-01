@@ -133,6 +133,11 @@ class ReportViewSet(ModelViewSet):
         if self.action == "retrieve" or self.action == "list":
             return ListReportSerializer
         return ReportSerializer
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
 
 class ReportChatViewSet(ModelViewSet):

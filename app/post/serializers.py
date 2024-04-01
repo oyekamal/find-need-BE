@@ -336,11 +336,20 @@ class ListPostSerializer(serializers.ModelSerializer):
 class ListReportSerializer(serializers.ModelSerializer):
 
     post = serializers.SerializerMethodField()
-    user = CustomUserSerializer()
+    user = serializers.SerializerMethodField()
+    # user = CustomUserSerializer()
 
     def get_post(self, obj):
-        serializer = ListPostSerializer(obj.post)
+        # Access the request from the serializer's context
+        request = self.context.get('request')
+        # Pass the request to ListPostSerializer
+        serializer = ListPostSerializer(obj.post, context={'request': request})
         return serializer.data
+    
+    def get_user(self, obj):
+        if obj.user:
+            serializer = CustomUserSerializer(obj.user)
+            return serializer.data
 
     class Meta:
         model = Report
