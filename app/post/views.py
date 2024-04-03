@@ -22,6 +22,7 @@ from .models import (
     Favourite,
     Extra,
     Warranty,
+    BoostRequest,
 )
 from .serializers import (
     OptionSerializer,
@@ -50,6 +51,7 @@ from .serializers import (
     FavouriteSerializer,
     ExtraSerializer,
     WarrantySerializer,
+    BoostRequestSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -87,6 +89,16 @@ class BoostPackageViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name", "price"]
     search_fields = ["name", "price"]
+
+
+class BoostRequestViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = BoostRequest.objects.all()
+    serializer_class = BoostRequestSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["user", "post", "boost_package"]
+    search_fields = ["user", "post", "boost_package"]
 
 
 class ExtraViewSet(ModelViewSet):
@@ -133,7 +145,7 @@ class ReportViewSet(ModelViewSet):
         if self.action == "retrieve" or self.action == "list":
             return ListReportSerializer
         return ReportSerializer
-    
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update({"request": self.request})

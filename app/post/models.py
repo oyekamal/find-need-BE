@@ -376,3 +376,28 @@ class Image(models.Model):
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class BoostRequest(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    boost_package = models.ForeignKey(
+        BoostPackage, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    message = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ("PENDING", "Pending"),
+            ("APPROVED", "Approved"),
+            ("REJECTED", "Rejected"),
+        ],
+        default="PENDING",
+    )
+    # ... other fields as needed
+    # Add created_at and updated_at fields
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]  # Order by created_at in ascending order

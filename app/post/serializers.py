@@ -21,9 +21,16 @@ from .models import (
     Favourite,
     Extra,
     Warranty,
+    BoostRequest,
 )
 from drf_extra_fields.fields import Base64ImageField
 from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
+
+
+class BoostRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BoostRequest
+        fields = "__all__"
 
 
 class ReportChatSerializer(serializers.ModelSerializer):
@@ -341,11 +348,11 @@ class ListReportSerializer(serializers.ModelSerializer):
 
     def get_post(self, obj):
         # Access the request from the serializer's context
-        request = self.context.get('request')
+        request = self.context.get("request")
         # Pass the request to ListPostSerializer
-        serializer = ListPostSerializer(obj.post, context={'request': request})
+        serializer = ListPostSerializer(obj.post, context={"request": request})
         return serializer.data
-    
+
     def get_user(self, obj):
         if obj.user:
             serializer = CustomUserSerializer(obj.user)
