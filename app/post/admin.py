@@ -10,6 +10,7 @@ from .models import (
     Option,
     Extra,
     Region,
+    RegionSpecs,
     PreCategory,
     Category,
     Color,
@@ -21,6 +22,7 @@ from .models import (
     Favourite,
     Report,
     ReportChat,
+    BoostRequest,
 )
 
 
@@ -89,6 +91,14 @@ class ExtraAdmin(admin.ModelAdmin):
 
 @admin.register(Region)
 class RegionAdmin(admin.ModelAdmin):
+    list_display = ("id", "image", "name", "created_at", "updated_at")
+    list_filter = ("created_at", "updated_at")
+    search_fields = ("name",)
+    date_hierarchy = "created_at"
+
+
+@admin.register(RegionSpecs)
+class RegionSpecsAdmin(admin.ModelAdmin):
     list_display = ("id", "image", "name", "created_at", "updated_at")
     list_filter = ("created_at", "updated_at")
     search_fields = ("name",)
@@ -201,6 +211,7 @@ class PostAdmin(admin.ModelAdmin):
         "post_type",
         "year",
         "region",
+        "region_specs",
         "body_condition",
         "mechanical_condition",
         "transmission",
@@ -235,6 +246,7 @@ class PostAdmin(admin.ModelAdmin):
         "sub_category",
         "post_type",
         "region",
+        "region_specs",
         "body_condition",
         "mechanical_condition",
         "transmission",
@@ -249,7 +261,7 @@ class PostAdmin(admin.ModelAdmin):
         "updated_at",
         "delete",
     )
-    # raw_id_fields = ("options", "extra")
+    raw_id_fields = ("options", "extra")
     date_hierarchy = "created_at"
 
 
@@ -280,4 +292,26 @@ class ReportChatAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_filter = ("report", "user", "is_admin", "created_at")
+    date_hierarchy = "created_at"
+
+
+@admin.register(BoostRequest)
+class BoostRequestAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "user",
+        "post",
+        "boost_package",
+        "message",
+        "status",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = (
+        "user",
+        "post",
+        "boost_package",
+        "created_at",
+        "updated_at",
+    )
     date_hierarchy = "created_at"
