@@ -66,6 +66,8 @@ from django_filters import rest_framework as drf_filters
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.mixins import DestroyModelMixin
+import random
+from django.utils import timezone
 
 
 class PageNumberPaginationCustom(PageNumberPagination):
@@ -383,7 +385,25 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
         else:
             self.pagination_class = PageNumberPaginationCustom
 
-        return super().list(request, *args, **kwargs)
+        response = super().list(request, *args, **kwargs)
+        results = response.data.get("results", [])
+
+        # Get random boosted post
+        today = timezone.now()
+        boosted_posts = Post.objects.filter(
+            boost_package__isnull=False, expiration_date__gt=today
+        ).order_by("-boost_score")
+
+        # Insert the boosted post into the results list
+        if boosted_posts:
+            random_boosted_post = random.choice(boosted_posts)
+            boosted_data = ListPostSerializer(
+                random_boosted_post, context={"request": request}
+            ).data
+            results.insert(random.randint(0, len(results)), boosted_data)
+
+        response.data["results"] = results
+        return response
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
