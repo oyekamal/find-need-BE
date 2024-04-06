@@ -343,6 +343,8 @@ class Report(models.Model):
         choices=[(status.value, status.name) for status in ReportStatus],
         default=ReportStatus.PENDING.value,
     )
+    class Meta:
+        ordering = ["-created_at"]  # Order by created_at in ascending order
 
     def __str__(self):
         return f"Report #{self.id} - {self.post} ({self.status})"

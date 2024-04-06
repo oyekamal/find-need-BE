@@ -26,6 +26,20 @@ from dj_rest_auth.views import LoginView
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+
+
+class PageNumberPaginationCustom(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"
+    max_page_size = 1000
+
+
+class LimitOffsetPaginationCustom(LimitOffsetPagination):
+    default_limit = 10
+    limit_query_param = "limit"
+    offset_query_param = "offset"
+    max_limit = 1000
 
 
 class FollowingListView(ListAPIView):
@@ -181,6 +195,7 @@ class CustomUserDetail(ModelViewSet):
     serializer_class = CustomUserSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPaginationCustom
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["username", "email", "first_name", "last_name", "phone_number"]
     search_fields = ["username", "email", "first_name", "last_name", "phone_number"]
