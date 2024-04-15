@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Language, Country, City, CustomUser, Follow, ChatMessage
+from .models import Language, Country, City, CustomUser, Follow, ChatMessage, Block
 
 
 @admin.register(Language)
@@ -79,3 +79,10 @@ class FollowAdmin(admin.ModelAdmin):
 class ChatMessageAdmin(admin.ModelAdmin):
     list_display = ("id", "sender", "receiver", "message", "timestamp")
     list_filter = ("sender", "receiver", "timestamp")
+
+
+@admin.register(Block)
+class BlockAdmin(admin.ModelAdmin):
+    list_display = ("id", "blocker", "blocked", "created_at")
+    list_filter = ("blocker", "blocked", "created_at")
+    date_hierarchy = "created_at"

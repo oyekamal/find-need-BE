@@ -1,6 +1,6 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from .models import Language, CustomUser, Country, City, Follow
+from .models import Language, CustomUser, Country, City, Follow, Block
 from django.conf import settings
 from django.templatetags.static import static
 from drf_extra_fields.fields import Base64ImageField
@@ -212,3 +212,9 @@ class ListCitySerializer(serializers.ModelSerializer):
         model = City
         fields = "__all__"
         depth = 1
+
+
+class BlockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Block
+        fields = ["blocker", "blocked", "created_at"]

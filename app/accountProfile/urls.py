@@ -10,6 +10,7 @@ from .views import (
     FollowViewSet,
     FollowerListView,
     FollowingListView,
+    BlockViewSet,
 )
 
 from rest_framework.routers import DefaultRouter
@@ -22,7 +23,7 @@ router.register("city", CityViewSet)
 router.register("languages", LanguageViewSet)
 router.register("user", CustomUserDetail)
 router.register("follow", FollowViewSet)
-
+router.register(r"blocks", BlockViewSet)
 
 urlpatterns = [
     path("account/login/", CustomLoginView.as_view(), name="rest_login"),

@@ -8,8 +8,9 @@ from .serializers import (
     UserLanguageUpdateSerializer,
     UserSerializer,
     CustomUserUpdateSerializer,
+    BlockSerializer,
 )
-from .models import Language, CustomUser, Country, City, Follow
+from .models import Language, CustomUser, Country, City, Follow, Block
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -212,6 +213,13 @@ class CustomUserDetail(ModelViewSet):
         context["request"] = self.request
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_authenticated:
+            # Exclude users who are blocked by the current user
+            queryset = queryset.exclude(blocking__blocker=self.request.user)
+        return queryset
+
 
 class CustomUserUpdate(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
@@ -240,3 +248,16 @@ class CityViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name", "country"]
+
+
+class BlockViewSet(ModelViewSet):
+    queryset = Block.objects.all()
+    serializer_class = BlockSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(blocker=self.request.user)
+
+    def get_queryset(self):
+        return Block.objects.filter(blocker=self.request.user)

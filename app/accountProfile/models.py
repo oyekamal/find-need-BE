@@ -97,3 +97,19 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"From {self.sender.username} to {self.receiver.username} at {self.timestamp}"
+
+
+class Block(models.Model):
+    blocker = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="blocking"
+    )
+    blocked = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="blocked_by"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (
+            "blocker",
+            "blocked",
+        )
