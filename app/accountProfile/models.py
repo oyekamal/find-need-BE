@@ -81,6 +81,8 @@ class Follow(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('follower', 'following')
 
 class ChatMessage(models.Model):
     sender = models.ForeignKey(
