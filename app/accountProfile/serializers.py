@@ -92,6 +92,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     languages = LanguageSerializer(many=True)
+    # is_following = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
@@ -106,13 +107,21 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "profile_picture",
             "created_at",
             "updated_at",
+            # "is_following",
         ]
+
+    # def get_is_following(self, obj):
+    #     request = self.context.get('request')
+    #     if request and hasattr(request, 'user'):
+    #         return Follow.objects.filter(follower=request.user, following=obj).exists()
+    #     return False
 
 
 class GetCustomUserSerializer(serializers.ModelSerializer):
     languages = LanguageSerializer(many=True)
     follower = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
@@ -127,9 +136,16 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
             "phone_number",
             "languages",
             "profile_picture",
+            "is_following",
             "created_at",
             "updated_at",
         ]
+
+    def get_is_following(self, obj):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            return Follow.objects.filter(follower=request.user, following=obj).exists()
+        return False
 
     def get_follower(self, obj):
         # follower = Follow.objects.filter(follower=obj)

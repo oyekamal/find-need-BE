@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accountProfile', '0007_remove_customuser_followers_follow'),
+        ("accountProfile", "0007_remove_customuser_followers_follow"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='follow',
-            unique_together={('follower', 'following')},
+            name="follow",
+            unique_together={("follower", "following")},
         ),
     ]

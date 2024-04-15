@@ -207,6 +207,11 @@ class CustomUserDetail(ModelViewSet):
             return GetCustomUserSerializer
         return CustomUserSerializer
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+        return context
+
 
 class CustomUserUpdate(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
