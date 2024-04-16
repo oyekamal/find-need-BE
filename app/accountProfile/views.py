@@ -255,6 +255,8 @@ class BlockViewSet(ModelViewSet):
     serializer_class = BlockSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["blocker", "blocked"]
 
     def perform_create(self, serializer):
         serializer.save(blocker=self.request.user)
