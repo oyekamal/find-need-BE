@@ -217,4 +217,4 @@ class ListCitySerializer(serializers.ModelSerializer):
 class BlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Block
-        fields = ["blocker", "blocked", "created_at"]
+        fields = "__all__"
