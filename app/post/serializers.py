@@ -247,6 +247,7 @@ class ListPostSerializer(serializers.ModelSerializer):
     options = OptionSerializer(many=True)
     extra = ExtraSerializer(many=True)
     favourite = serializers.SerializerMethodField()
+    warranty = WarrantySerializer()
 
     def get_favourite(self, obj):
         request = self.context.get("request")

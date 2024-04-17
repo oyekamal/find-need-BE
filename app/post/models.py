@@ -291,6 +291,7 @@ class Post(models.Model):
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    sold = models.BooleanField(default=False)
     delete = models.BooleanField(default=False)
     # Add the custom manager
     objects = PostManager()
