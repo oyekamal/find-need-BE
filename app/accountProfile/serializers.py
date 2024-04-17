@@ -91,7 +91,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    languages = LanguageSerializer(many=True)
+    # languages = LanguageSerializer(many=True)
     # is_following = serializers.SerializerMethodField()
 
     class Meta:
@@ -107,6 +107,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "profile_picture",
             "created_at",
             "updated_at",
+            "is_active",
+            "is_staff",
             # "is_following",
         ]
 
@@ -137,6 +139,8 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
             "languages",
             "profile_picture",
             "is_following",
+            "is_active",
+            "is_staff",
             "created_at",
             "updated_at",
         ]

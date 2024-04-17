@@ -122,6 +122,8 @@ class CustomLoginView(LoginView):
                 "last_name": user.last_name,
                 "phone_number": user.phone_number,
                 "id": user.id,
+                "is_staff": user.is_staff,
+                "is_active": user.is_active,
                 "error": {},
             },
             status=status.HTTP_200_OK,
@@ -198,7 +200,15 @@ class CustomUserDetail(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPaginationCustom
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ["username", "email", "first_name", "last_name", "phone_number"]
+    filterset_fields = [
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "phone_number",
+        "is_active",
+        "is_staff",
+    ]
     search_fields = ["username", "email", "first_name", "last_name", "phone_number"]
 
     def get_serializer_class(self):

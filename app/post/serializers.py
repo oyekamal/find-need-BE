@@ -24,7 +24,11 @@ from .models import (
     BoostRequest,
 )
 from drf_extra_fields.fields import Base64ImageField
-from accountProfile.serializers import CustomUserSerializer, ListCitySerializer
+from accountProfile.serializers import (
+    CustomUserSerializer,
+    ListCitySerializer,
+    GetCustomUserSerializer,
+)
 
 
 class BoostRequestSerializer(serializers.ModelSerializer):
@@ -225,7 +229,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class ListPostSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField()
-    user = CustomUserSerializer()
+    user = GetCustomUserSerializer()
     city = serializers.SerializerMethodField()
     pre_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
@@ -355,7 +359,7 @@ class ListReportSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         if obj.user:
-            serializer = CustomUserSerializer(obj.user)
+            serializer = GetCustomUserSerializer(obj.user)
             return serializer.data
 
     class Meta:

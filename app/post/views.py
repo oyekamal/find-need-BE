@@ -337,7 +337,9 @@ class PostFilter(drf_filters.FilterSet):
     category = NumberFilter(field_name="category__id", lookup_expr="exact")
     sub_category = NumberFilter(field_name="sub_category__id", lookup_expr="exact")
     post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
-    boost_package = ModelChoiceFilter(queryset=BoostPackage.objects.all()) # Add this line
+    boost_package = ModelChoiceFilter(
+        queryset=BoostPackage.objects.all()
+    )  # Add this line
 
     class Meta:
         model = Post
@@ -358,7 +360,7 @@ class PostFilter(drf_filters.FilterSet):
             "category",
             "sub_category",
             "post_type",
-            "boost_package", # Include boost_package in the fields list
+            "boost_package",  # Include boost_package in the fields list
         ]
 
 
@@ -379,14 +381,14 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
         return PostSerializer
 
     pagination_class = PageNumberPaginationCustom  # Default pagination style
-    
+
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     if self.request.user.is_authenticated:
     #         # Exclude posts from users who are blocked by the current user
     #         queryset = queryset.exclude(user__in=self.request.user.blocked_by.all())
     #     return queryset
-    
+
     def list(self, request, *args, **kwargs):
         # Determine the pagination style based on the request query parameters
         if "limit" in request.query_params and "offset" in request.query_params:
