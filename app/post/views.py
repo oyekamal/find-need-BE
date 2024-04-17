@@ -58,7 +58,13 @@ from rest_framework import filters
 from django_filters import rest_framework as drf_filters
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
-from django_filters import CharFilter, NumberFilter, ChoiceFilter, ModelChoiceFilter
+from django_filters import (
+    CharFilter,
+    NumberFilter,
+    ChoiceFilter,
+    ModelChoiceFilter,
+    BooleanFilter,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
@@ -340,6 +346,7 @@ class PostFilter(drf_filters.FilterSet):
     boost_package = ModelChoiceFilter(
         queryset=BoostPackage.objects.all()
     )  # Add this line
+    sold = BooleanFilter(field_name="sold", lookup_expr="exact")
 
     class Meta:
         model = Post
@@ -361,6 +368,7 @@ class PostFilter(drf_filters.FilterSet):
             "sub_category",
             "post_type",
             "boost_package",  # Include boost_package in the fields list
+            "sold",
         ]
 
 
@@ -399,19 +407,27 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
         response = super().list(request, *args, **kwargs)
         results = response.data.get("results", [])
 
-        # Get random boosted post
-        today = timezone.now()
-        boosted_posts = Post.objects.filter(
-            boost_package__isnull=False, expiration_date__gt=today
-        ).order_by("-boost_score")
+        add_boost = False
+        if len(request.query_params) == 0:  # if no parameters provided add boost post
+            add_boost = True
+        elif len(request.query_params) >= 1:
+            if "offset" in request.query_params or "page" in request.query_params:
+                add_boost = True
 
-        # Insert the boosted post into the results list
-        if boosted_posts:
-            random_boosted_post = random.choice(boosted_posts)
-            boosted_data = ListPostSerializer(
-                random_boosted_post, context={"request": request}
-            ).data
-            results.insert(random.randint(0, len(results)), boosted_data)
+        if add_boost:
+            # Get random boosted post
+            today = timezone.now()
+            boosted_posts = Post.objects.filter(
+                boost_package__isnull=False, expiration_date__gt=today
+            ).order_by("-boost_score")
+
+            # Insert the boosted post into the results list
+            if boosted_posts:
+                random_boosted_post = random.choice(boosted_posts)
+                boosted_data = ListPostSerializer(
+                    random_boosted_post, context={"request": request}
+                ).data
+                results.insert(random.randint(0, len(results)), boosted_data)
 
         response.data["results"] = results
         return response
