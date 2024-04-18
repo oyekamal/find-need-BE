@@ -51,7 +51,7 @@ class CustomUser(AbstractUser):
     address = models.CharField(max_length=255, blank=True, null=True)
     latitude = models.CharField(max_length=2505, blank=True, null=True)
     longitude = models.CharField(max_length=255, blank=True, null=True)
-    device_id  = models.CharField(max_length=255, blank=True, null=True)
+    device_id = models.CharField(max_length=255, blank=True, null=True)
     # followers = models.ManyToManyField('self', symmetrical=False, related_name='following', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
