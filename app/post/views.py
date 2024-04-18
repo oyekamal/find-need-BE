@@ -409,6 +409,13 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
     #         queryset = queryset.exclude(user__in=self.request.user.blocked_by.all())
     #     return queryset
 
+    def get_queryset(self):
+        queryset = Post.objects.all().order_by("-created_at")
+        # if self.request.user.is_authenticated:
+        #     # Exclude posts from users who are blocked by the current user
+        #     queryset = queryset.exclude(user__in=self.request.user.blocked_by.all())
+        return queryset
+
     def list(self, request, *args, **kwargs):
         # Determine the pagination style based on the request query parameters
         if "limit" in request.query_params and "offset" in request.query_params:

@@ -311,6 +311,33 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-created_at"]  # Order by created_at in ascending order
+        indexes = [
+            models.Index(fields=["user"], name="post_user_idx"),
+            models.Index(fields=["city"], name="post_city_idx"),
+            models.Index(fields=["category"], name="post_category_idx"),
+            models.Index(fields=["sub_category"], name="post_sub_category_idx"),
+            models.Index(fields=["post_type"], name="post_post_type_idx"),
+            models.Index(fields=["year"], name="post_year_idx"),
+            models.Index(fields=["region"], name="post_region_idx"),
+            models.Index(fields=["region_specs"], name="post_region_specs_idx"),
+            models.Index(fields=["body_condition"], name="post_body_condition_idx"),
+            models.Index(
+                fields=["mechanical_condition"], name="post_mechanical_condition_idx"
+            ),
+            models.Index(fields=["transmission"], name="post_transmission_idx"),
+            models.Index(fields=["fuel_type"], name="post_fuel_type_idx"),
+            models.Index(fields=["insurance"], name="post_insurance_idx"),
+            models.Index(fields=["payment_method"], name="post_payment_method_idx"),
+            models.Index(fields=["color"], name="post_color_idx"),
+            models.Index(fields=["warranty"], name="post_warranty_idx"),
+            models.Index(fields=["boost_score"], name="post_boost_score_idx"),
+            models.Index(fields=["view_count"], name="post_view_count_idx"),
+            models.Index(fields=["doors"], name="post_doors_idx"),
+            models.Index(fields=["cylinders"], name="post_cylinders_idx"),
+            models.Index(fields=["latitude", "longitude"], name="post_location_idx"),
+            models.Index(fields=["created_at"], name="post_created_at_idx"),
+            models.Index(fields=["updated_at"], name="post_updated_at_idx"),
+        ]
 
 
 class Favourite(models.Model):
