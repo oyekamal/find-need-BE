@@ -345,7 +345,9 @@ class PostFilter(drf_filters.FilterSet):
     post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
     # boost_package = NumberFilter(field_name="boost_package__id", lookup_expr="exact")
 
-    boost_package = BooleanFilter(method='filter_boost_package')    # boost_package = ModelChoiceFilter(
+    boost_package = BooleanFilter(
+        method="filter_boost_package"
+    )  # boost_package = ModelChoiceFilter(
     #     queryset=BoostPackage.objects.all()
     # )  # Add this line
     sold = BooleanFilter(lookup_expr="exact")
@@ -372,6 +374,7 @@ class PostFilter(drf_filters.FilterSet):
             "boost_package",  # Include boost_package in the fields list
             "sold",
         ]
+
     def filter_boost_package(self, queryset, name, value):
         """
         Filters posts based on whether `boost_package` is not null.
