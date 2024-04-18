@@ -109,6 +109,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "updated_at",
             "is_active",
             "is_staff",
+            "address",
+            "latitude",
+            "longitude",
+            "device_id",
             # "is_following",
         ]
 
@@ -141,6 +145,10 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
             "is_following",
             "is_active",
             "is_staff",
+            "address",
+            "latitude",
+            "longitude",
+            "device_id",
             "created_at",
             "updated_at",
         ]
