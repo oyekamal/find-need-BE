@@ -343,10 +343,12 @@ class PostFilter(drf_filters.FilterSet):
     category = NumberFilter(field_name="category__id", lookup_expr="exact")
     sub_category = NumberFilter(field_name="sub_category__id", lookup_expr="exact")
     post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
-    boost_package = ModelChoiceFilter(
-        queryset=BoostPackage.objects.all()
-    )  # Add this line
-    sold = BooleanFilter(field_name="sold", lookup_expr="exact")
+    # boost_package = NumberFilter(field_name="boost_package__id", lookup_expr="exact")
+
+    boost_package = BooleanFilter(method='filter_boost_package')    # boost_package = ModelChoiceFilter(
+    #     queryset=BoostPackage.objects.all()
+    # )  # Add this line
+    sold = BooleanFilter(lookup_expr="exact")
 
     class Meta:
         model = Post
@@ -370,6 +372,13 @@ class PostFilter(drf_filters.FilterSet):
             "boost_package",  # Include boost_package in the fields list
             "sold",
         ]
+    def filter_boost_package(self, queryset, name, value):
+        """
+        Filters posts based on whether `boost_package` is not null.
+        """
+        if value:
+            return queryset.filter(boost_package__isnull=False)
+        return queryset
 
 
 class PostViewSet(ModelViewSet, DestroyModelMixin):
