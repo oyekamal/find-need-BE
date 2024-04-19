@@ -433,7 +433,7 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
             if "offset" in request.query_params or "page" in request.query_params:
                 add_boost = True
 
-        if add_boost:
+        if add_boost and "view_boost" in request.query_params:
             # Get random boosted post
             today = timezone.now()
             boosted_posts = Post.objects.filter(

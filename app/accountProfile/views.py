@@ -227,7 +227,7 @@ class CustomUserDetail(ModelViewSet):
         queryset = super().get_queryset()
         if self.request.user.is_authenticated:
             # Exclude users who are blocked by the current user
-            queryset = queryset.exclude(blocking__blocker=self.request.user)
+            queryset = queryset.exclude(blocking__blocker=self.request.user).order_by("-created_at")
         return queryset
 
 
