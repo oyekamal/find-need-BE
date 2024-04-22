@@ -22,6 +22,9 @@ from .models import (
     Extra,
     Warranty,
     BoostRequest,
+    PostExampleImage,
+    ImageGroup,
+    ImageGroupName,
 )
 from drf_extra_fields.fields import Base64ImageField
 from accountProfile.serializers import (
@@ -29,6 +32,35 @@ from accountProfile.serializers import (
     ListCitySerializer,
     GetCustomUserSerializer,
 )
+
+
+class PostExampleImageSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+
+    class Meta:
+        model = PostExampleImage
+        fields = "__all__"
+
+
+class ImageGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageGroup
+        fields = "__all__"
+
+
+class ImageGroupNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageGroupName
+        fields = "__all__"
+
+
+class ListImageGroupSerializer(serializers.ModelSerializer):
+    group_name = ImageGroupNameSerializer()
+    image = PostExampleImageSerializer()
+
+    class Meta:
+        model = ImageGroup
+        fields = "__all__"
 
 
 class BoostRequestSerializer(serializers.ModelSerializer):

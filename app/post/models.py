@@ -6,6 +6,41 @@ from datetime import timedelta
 from enum import Enum
 
 
+class PostExampleImage(models.Model):
+    name = models.CharField(max_length=255, db_index=True)
+    description = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to="post_example", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ImageGroupName(models.Model):
+    name = models.CharField(max_length=255, db_index=True)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ImageGroup(models.Model):
+    group_name = models.ForeignKey(
+        ImageGroupName, on_delete=models.CASCADE, related_name="groups"
+    )
+    image = models.ForeignKey(
+        PostExampleImage, on_delete=models.CASCADE, related_name="groups"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.group_name.name
+
+
 class Image(models.Model):
     image = models.ImageField(upload_to="post", blank=True, null=True)
     # Add created_at and updated_at fields

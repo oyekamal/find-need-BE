@@ -23,6 +23,9 @@ from .models import (
     Extra,
     Warranty,
     BoostRequest,
+    PostExampleImage,
+    ImageGroup,
+    ImageGroupName,
 )
 from .serializers import (
     OptionSerializer,
@@ -52,6 +55,10 @@ from .serializers import (
     ExtraSerializer,
     WarrantySerializer,
     BoostRequestSerializer,
+    PostExampleImageSerializer,
+    ImageGroupSerializer,
+    ImageGroupNameSerializer,
+    ListImageGroupSerializer,
 )
 from django.shortcuts import get_object_or_404
 from rest_framework import filters
@@ -97,6 +104,43 @@ class BoostPackageViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name", "price"]
     search_fields = ["name", "price"]
+
+
+class PostExampleImageViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = PostExampleImage.objects.all()
+    serializer_class = PostExampleImageSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["name"]
+    search_fields = ["name"]
+
+
+class ImageGroupNameViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = ImageGroupName.objects.all()
+    serializer_class = ImageGroupNameSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["name"]
+    search_fields = ["name"]
+
+
+class ImageGroupViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = ImageGroup.objects.all()
+    serializer_class = ImageGroupSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["group_name"]
+    search_fields = ["group_name"]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ListImageGroupSerializer
+        elif self.action == "retrieve":
+            return ListImageGroupSerializer
+        return ImageGroupSerializer
 
 
 class BoostRequestViewSet(ModelViewSet):

@@ -22,6 +22,9 @@ from .views import (
     ExtraViewSet,
     WarrantyViewSet,
     BoostRequestViewSet,
+    PostExampleImageViewSet,
+    ImageGroupViewSet,
+    ImageGroupNameViewSet,
 )
 from rest_framework.routers import DefaultRouter
 
@@ -50,7 +53,9 @@ router.register("boost_package", BoostPackageViewSet)
 router.register("boost_request", BoostRequestViewSet)
 router.register("report", ReportViewSet)
 router.register("report_chat", ReportChatViewSet)
-
+router.register("post_example_image", PostExampleImageViewSet)
+router.register("image_group", ImageGroupViewSet)
+router.register("image_group_name", ImageGroupNameViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

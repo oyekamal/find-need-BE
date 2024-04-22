@@ -1,6 +1,9 @@
 from django.contrib import admin
 
 from .models import (
+    PostExampleImage,
+    ImageGroupName,
+    ImageGroup,
     Image,
     Condition,
     Transmission,
@@ -24,6 +27,36 @@ from .models import (
     ReportChat,
     BoostRequest,
 )
+
+
+@admin.register(PostExampleImage)
+class PostExampleImageAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "description",
+        "image",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = ("created_at", "updated_at")
+    search_fields = ("name",)
+    date_hierarchy = "created_at"
+
+
+@admin.register(ImageGroupName)
+class ImageGroupNameAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "description", "created_at", "updated_at")
+    list_filter = ("created_at", "updated_at")
+    search_fields = ("name",)
+    date_hierarchy = "created_at"
+
+
+@admin.register(ImageGroup)
+class ImageGroupAdmin(admin.ModelAdmin):
+    list_display = ("id", "group_name", "image", "created_at", "updated_at")
+    list_filter = ("group_name", "image", "created_at", "updated_at")
+    date_hierarchy = "created_at"
 
 
 @admin.register(Image)
@@ -189,6 +222,7 @@ class BoostPackageAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "description",
         "duration_days",
         "price",
         "created_at",
@@ -236,9 +270,17 @@ class PostAdmin(admin.ModelAdmin):
         "loaction_name",
         "created_at",
         "updated_at",
+        "sold",
         "delete",
     )
     list_filter = (
+        "expiration_date",
+        "created_at",
+        "updated_at",
+        "sold",
+        "delete",
+    )
+    raw_id_fields = (
         "user",
         "city",
         "pre_category",
@@ -256,12 +298,7 @@ class PostAdmin(admin.ModelAdmin):
         "color",
         "warranty",
         "boost_package",
-        "expiration_date",
-        "created_at",
-        "updated_at",
-        "delete",
     )
-    raw_id_fields = ("options", "extra")
     date_hierarchy = "created_at"
 
 
