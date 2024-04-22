@@ -186,6 +186,7 @@ class PostType(models.Model):
 
 class BoostPackage(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
     duration_days = models.PositiveIntegerField()  # Duration of boost in days
     price = models.DecimalField(max_digits=10, decimal_places=2)
     # Add created_at and updated_at fields
