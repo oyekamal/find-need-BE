@@ -29,11 +29,12 @@ class ImageGroupName(models.Model):
 
 class ImageGroup(models.Model):
     group_name = models.ForeignKey(
-        ImageGroupName, on_delete=models.CASCADE, related_name="groups"
+        ImageGroupName, on_delete=models.CASCADE
     )
     image = models.ForeignKey(
-        PostExampleImage, on_delete=models.CASCADE, related_name="groups"
+        PostExampleImage, on_delete=models.CASCADE
     )
+    index = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -160,6 +161,9 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     pre_category = models.ForeignKey(
         PreCategory, on_delete=models.CASCADE, blank=True, null=True
+    )
+    group_name = models.ForeignKey(
+        ImageGroupName, on_delete=models.CASCADE, blank=True, null=True
     )
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
