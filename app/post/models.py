@@ -28,12 +28,8 @@ class ImageGroupName(models.Model):
 
 
 class ImageGroup(models.Model):
-    group_name = models.ForeignKey(
-        ImageGroupName, on_delete=models.CASCADE
-    )
-    image = models.ForeignKey(
-        PostExampleImage, on_delete=models.CASCADE
-    )
+    group_name = models.ForeignKey(ImageGroupName, on_delete=models.CASCADE)
+    image = models.ForeignKey(PostExampleImage, on_delete=models.CASCADE)
     index = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
