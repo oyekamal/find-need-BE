@@ -54,7 +54,14 @@ class ImageGroupNameAdmin(admin.ModelAdmin):
 
 @admin.register(ImageGroup)
 class ImageGroupAdmin(admin.ModelAdmin):
-    list_display = ("id", "group_name", "image", "created_at", "updated_at")
+    list_display = (
+        "id",
+        "group_name",
+        "image",
+        "index",
+        "created_at",
+        "updated_at",
+    )
     list_filter = ("group_name", "image", "created_at", "updated_at")
     date_hierarchy = "created_at"
 
@@ -161,10 +168,11 @@ class CategoryAdmin(admin.ModelAdmin):
         "image",
         "name",
         "pre_category",
+        "group_name",
         "created_at",
         "updated_at",
     )
-    list_filter = ("pre_category", "created_at", "updated_at")
+    list_filter = ("pre_category", "group_name", "created_at", "updated_at")
     search_fields = ("name",)
     date_hierarchy = "created_at"
 
