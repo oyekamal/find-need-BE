@@ -6,6 +6,27 @@ from django.templatetags.static import static
 from drf_extra_fields.fields import Base64ImageField
 
 
+class CountrySerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=False)
+    # flag = serializers.SerializerMethodField()
+    # name = serializers.SerializerMethodField()
+    # code = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Country
+        fields = "__all__"
+
+    # def get_flag(self, obj):
+    #     flag_path = obj.name.flag
+    #     return flag_path
+
+    # def get_name(self, obj):
+    #     return obj.name.name
+
+    # def get_code(self, obj):
+    #     return obj.name.code
+
+
 class CustomRegisterSerializer(RegisterSerializer):
     phone_number = serializers.CharField(max_length=150, required=False)
     languages = serializers.PrimaryKeyRelatedField(
@@ -113,6 +134,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "latitude",
             "longitude",
             "device_id",
+            "country"
             # "is_following",
         ]
 
@@ -128,6 +150,7 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
     follower = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
+    country = CountrySerializer()
 
     class Meta:
         model = CustomUser
@@ -141,6 +164,7 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
             "last_name",
             "phone_number",
             "languages",
+            "country",
             "profile_picture",
             "is_following",
             "is_active",
@@ -183,27 +207,6 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
             "phone_number",
             "profile_picture",
         ]
-
-
-class CountrySerializer(serializers.ModelSerializer):
-    image = Base64ImageField(required=False)
-    # flag = serializers.SerializerMethodField()
-    # name = serializers.SerializerMethodField()
-    # code = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Country
-        fields = "__all__"
-
-    # def get_flag(self, obj):
-    #     flag_path = obj.name.flag
-    #     return flag_path
-
-    # def get_name(self, obj):
-    #     return obj.name.name
-
-    # def get_code(self, obj):
-    #     return obj.name.code
 
 
 class CitySerializer(serializers.ModelSerializer):
