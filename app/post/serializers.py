@@ -54,6 +54,33 @@ class ImageGroupNameSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ListImageGroupNameSerializer(serializers.ModelSerializer):
+    post_example_images = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ImageGroupName
+        fields = "__all__"
+
+    def get_post_example_images(self, obj):
+        """
+        Return all related PostExampleImage instances for the category.
+        """
+        # Assuming there's a direct relation between Category and PostExampleImage,
+        # adjust the query accordingly if the relation is indirect or requires filtering.
+        image_groups = ImageGroup.objects.filter(group_name=obj)
+        # Extract unique PostExampleImage IDs from the filtered ImageGroups
+        post_example_image_ids = set(
+            image_group.image.id for image_group in image_groups
+        )
+
+        # Fetch the PostExampleImage instances using the extracted IDs
+        post_example_images = PostExampleImage.objects.filter(
+            id__in=post_example_image_ids
+        )
+        # post_example_images = obj.postexampleimage_set.all()
+        return PostExampleImageSerializer(post_example_images, many=True).data
+
+
 class ListImageGroupSerializer(serializers.ModelSerializer):
     group_name = ImageGroupNameSerializer()
     image = PostExampleImageSerializer()
@@ -193,6 +220,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ListCategorySerializer(serializers.ModelSerializer):
     image = Base64ImageField(required=False)
+    group_name = ListImageGroupNameSerializer()
 
     class Meta:
         model = Category
