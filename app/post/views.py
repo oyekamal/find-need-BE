@@ -81,6 +81,8 @@ from rest_framework import status
 from rest_framework.mixins import DestroyModelMixin
 import random
 from django.utils import timezone
+from rest_framework import viewsets
+from django.core.cache import cache
 
 
 class PageNumberPaginationCustom(PageNumberPagination):
@@ -518,3 +520,57 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
         return Response(
             {"message": "Post deleted Successfully."}, status=status.HTTP_204_NO_CONTENT
         )
+
+
+class DetailsAPIViewSet(viewsets.ViewSet):
+    def list(self, request):
+        cache_key = "api_combined_data"
+        combined_data = cache.get(cache_key)
+
+        if not combined_data:
+            pre_category = PreCategorySerializer(
+                PreCategory.objects.all(), many=True
+            ).data
+            category = CategorySerializer(Category.objects.all(), many=True).data
+            subcategories = ListSubcategorySerializer(
+                Subcategory.objects.all(), many=True
+            ).data
+            post_types = PostTypeSerializer(PostType.objects.all(), many=True).data
+            colors = ColorSerializer(Color.objects.all(), many=True).data
+            option = OptionSerializer(Option.objects.all(), many=True).data
+            region = RegionSerializer(Region.objects.all(), many=True).data
+            condition = ConditionSerializer(Condition.objects.all(), many=True).data
+            transmission = TransmissionSerializer(
+                Transmission.objects.all(), many=True
+            ).data
+            fuel_type = FuelTypeSerializer(FuelType.objects.all(), many=True).data
+            insureace = InsuranceSerializer(Insurance.objects.all(), many=True).data
+            pyament_method = PaymentMethodSerializer(
+                PaymentMethod.objects.all(), many=True
+            ).data
+            boost_package = BoostPackageSerializer().data
+            extra = ExtraSerializer(Extra.objects.all(), many=True).data
+            warranty = WarrantySerializer(Warranty.objects.all(), many=True).data
+
+            combined_data = {
+                "pre_category": pre_category,
+                "category": category,
+                "subcategories": subcategories,
+                "post_types": post_types,
+                "colors": colors,
+                "option": option,
+                "region": region,
+                "condition": condition,
+                "transmission": transmission,
+                "fuel_type": fuel_type,
+                "insureace": insureace,
+                "pyament_method": pyament_method,
+                "boost_package": boost_package,
+                "extra": extra,
+                "warranty": warranty,
+            }
+
+            # Set the cache
+            cache.set(cache_key, combined_data, timeout=60 * 30)  # Cache for 30 minutes
+
+        return Response(combined_data)

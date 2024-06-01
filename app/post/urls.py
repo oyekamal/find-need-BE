@@ -25,6 +25,7 @@ from .views import (
     PostExampleImageViewSet,
     ImageGroupViewSet,
     ImageGroupNameViewSet,
+    DetailsAPIViewSet,
 )
 from rest_framework.routers import DefaultRouter
 
@@ -56,7 +57,7 @@ router.register("report_chat", ReportChatViewSet)
 router.register("post_example_image", PostExampleImageViewSet)
 router.register("image_group", ImageGroupViewSet)
 router.register("image_group_name", ImageGroupNameViewSet)
-
+router.register(r"details", DetailsAPIViewSet, basename="details")
 urlpatterns = [
     path("", include(router.urls)),
 ]
