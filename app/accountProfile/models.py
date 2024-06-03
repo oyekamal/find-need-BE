@@ -40,6 +40,7 @@ class City(models.Model):
 
 
 class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=150, blank=True, null=True)
     languages = models.ManyToManyField(Language, blank=True, null=True)
     country = models.ForeignKey(
@@ -56,6 +57,9 @@ class CustomUser(AbstractUser):
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []  # Removed 'email' from REQUIRED_FIELDS
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
