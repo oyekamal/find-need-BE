@@ -38,10 +38,10 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("accountProfile.urls")),
+    path("accounts/", include("allauth.urls")),
     path("account/", include("dj_rest_auth.urls")),
     path("", include("post.urls")),
     # path('account/registration/', include('dj_rest_auth.registration.urls')),

@@ -234,3 +234,18 @@ class BlockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Block
         fields = "__all__"
+
+
+# Serializer for the Country model, including a nested serializer for its cities
+class DetailCountrySerializer(serializers.ModelSerializer):
+    cities = serializers.SerializerMethodField()  # Nested serializer for cities
+
+    class Meta:
+        model = Country
+        fields = "__all__"
+
+    def get_cities(self, obj):
+        if obj:
+            return CitySerializer(City.objects.filter(country=obj), many=True).data
+        else:
+            return None

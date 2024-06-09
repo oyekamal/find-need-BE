@@ -72,6 +72,9 @@ from django_filters import (
     ModelChoiceFilter,
     BooleanFilter,
 )
+
+from accountProfile.serializers import DetailCountrySerializer
+from accountProfile.models import Country
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
@@ -524,9 +527,9 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
 
 class DetailsAPIViewSet(viewsets.ViewSet):
     def list(self, request):
-        cache_key = "api_combined_data"
-        combined_data = cache.get(cache_key)
-
+        # cache_key = "api_combined_data"
+        # combined_data = cache.get(cache_key)
+        combined_data = 0
         if not combined_data:
             pre_category = PreCategorySerializer(
                 PreCategory.objects.all(), many=True
@@ -551,6 +554,7 @@ class DetailsAPIViewSet(viewsets.ViewSet):
             boost_package = BoostPackageSerializer().data
             extra = ExtraSerializer(Extra.objects.all(), many=True).data
             warranty = WarrantySerializer(Warranty.objects.all(), many=True).data
+            country = DetailCountrySerializer(Country.objects.all(), many=True).data
 
             combined_data = {
                 "pre_category": pre_category,
@@ -568,9 +572,10 @@ class DetailsAPIViewSet(viewsets.ViewSet):
                 "boost_package": boost_package,
                 "extra": extra,
                 "warranty": warranty,
+                "country": country,
             }
 
             # Set the cache
-            cache.set(cache_key, combined_data, timeout=60 * 30)  # Cache for 30 minutes
+            # cache.set(cache_key, combined_data, timeout=60 * 30)  # Cache for 30 minutes
 
         return Response(combined_data)
