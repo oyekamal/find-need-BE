@@ -527,9 +527,8 @@ class PostViewSet(ModelViewSet, DestroyModelMixin):
 
 class DetailsAPIViewSet(viewsets.ViewSet):
     def list(self, request):
-        # cache_key = "api_combined_data"
-        # combined_data = cache.get(cache_key)
-        combined_data = 0
+        cache_key = "api_combined_data"
+        combined_data = cache.get(cache_key)
         if not combined_data:
             pre_category = PreCategorySerializer(
                 PreCategory.objects.all(), many=True
@@ -576,6 +575,6 @@ class DetailsAPIViewSet(viewsets.ViewSet):
             }
 
             # Set the cache
-            # cache.set(cache_key, combined_data, timeout=60 * 30)  # Cache for 30 minutes
+            cache.set(cache_key, combined_data, timeout=60 * 30)  # Cache for 30 minutes
 
         return Response(combined_data)
