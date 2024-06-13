@@ -247,6 +247,7 @@ class PostAdmin(admin.ModelAdmin):
         "id",
         "user",
         "city",
+        "country",
         "pre_category",
         "category",
         "sub_category",
@@ -290,7 +291,6 @@ class PostAdmin(admin.ModelAdmin):
     )
     raw_id_fields = (
         "user",
-        "city",
         "pre_category",
         "category",
         "sub_category",

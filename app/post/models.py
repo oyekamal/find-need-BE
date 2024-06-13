@@ -1,5 +1,5 @@
 from django.db import models
-from accountProfile.models import City
+from accountProfile.models import City, Country
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
@@ -264,6 +264,9 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
     )  # Adding user field
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
+    country = models.ForeignKey(
+        Country, on_delete=models.CASCADE, null=True, blank=True
+    )
     pre_category = models.ForeignKey(
         PreCategory, on_delete=models.CASCADE, blank=True, null=True
     )
@@ -316,7 +319,7 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
     # ForeignKey to represent the selected boost package
     boost_package = models.ForeignKey(

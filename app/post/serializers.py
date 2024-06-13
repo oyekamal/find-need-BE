@@ -291,6 +291,7 @@ class ListPostSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField()
     user = GetCustomUserSerializer()
     city = serializers.SerializerMethodField()
+    country = serializers.SerializerMethodField()
     pre_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
     post_type = serializers.SerializerMethodField()
@@ -360,6 +361,12 @@ class ListPostSerializer(serializers.ModelSerializer):
     def get_city(self, obj):
         if obj.city:
             return obj.city.name
+        else:
+            return None
+
+    def get_country(self, obj):
+        if obj.country:
+            return obj.country.name
         else:
             return None
 

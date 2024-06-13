@@ -382,7 +382,9 @@ class ColorViewSet(ModelViewSet):
 
 class PostFilter(drf_filters.FilterSet):
     title = CharFilter(lookup_expr="icontains")
-    city = CharFilter(field_name="city__name", lookup_expr="icontains")
+    # city = CharFilter(field_name="city__name", lookup_expr="icontains")
+    city = CharFilter(field_name="city__id", lookup_expr="exact")
+    country = CharFilter(field_name="country__id", lookup_expr="exact")
     # category = CharFilter(field_name="category__name", lookup_expr="icontains")
     price = NumberFilter(lookup_expr="lte")
     kilometers = NumberFilter(lookup_expr="lte")
