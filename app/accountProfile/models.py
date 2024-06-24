@@ -42,7 +42,9 @@ class City(models.Model):
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=150, blank=True, null=True)
-    languages = models.ManyToManyField(Language, blank=True, null=True)
+    # languages = models.ManyToManyField(Language, blank=True, null=True)
+    languages = models.CharField(max_length=255, blank=True, null=True)
+
     country = models.ForeignKey(
         Country, on_delete=models.CASCADE, blank=True, null=True
     )

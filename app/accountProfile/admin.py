@@ -64,7 +64,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    raw_id_fields = ("groups", "user_permissions", "languages")
+    raw_id_fields = ("groups", "user_permissions")
     date_hierarchy = "created_at"
 
 
