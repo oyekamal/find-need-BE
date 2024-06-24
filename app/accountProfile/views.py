@@ -29,6 +29,8 @@ from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 class PageNumberPaginationCustom(PageNumberPagination):
@@ -278,11 +280,6 @@ class BlockViewSet(ModelViewSet):
         return Block.objects.filter(blocker=self.request.user)
 
 
-from django.db.models import Q
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
-
 class ChatMessageViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -312,7 +309,5 @@ class ChatMessageViewSet(ModelViewSet):
         )
         chat_user_ids = set(sent_messages).union(set(received_messages))
         chat_users = CustomUser.objects.filter(id__in=chat_user_ids)
-        chat_user_data = [
-            {"id": user.id, "username": user.username} for user in chat_users
-        ]
-        return Response(chat_user_data)
+        serialize = GetCustomUserSerializer(chat_users, many=True)
+        return Response(serialize.data)
