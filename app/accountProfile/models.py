@@ -105,6 +105,10 @@ class ChatMessage(models.Model):
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+
+        ordering = ["-timestamp"]  # Order by created_at in ascending order
+
     def __str__(self):
         return f"From {self.sender.username} to {self.receiver.username} at {self.timestamp}"
 

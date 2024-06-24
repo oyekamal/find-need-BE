@@ -11,6 +11,7 @@ from .views import (
     FollowerListView,
     FollowingListView,
     BlockViewSet,
+    ChatMessageViewSet,
 )
 
 from rest_framework.routers import DefaultRouter
@@ -24,6 +25,8 @@ router.register("languages", LanguageViewSet)
 router.register("user", CustomUserDetail)
 router.register("follow", FollowViewSet)
 router.register(r"blocks", BlockViewSet)
+router.register("chat", ChatMessageViewSet)
+
 
 urlpatterns = [
     path("account/login/", CustomLoginView.as_view(), name="rest_login"),

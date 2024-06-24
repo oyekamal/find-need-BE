@@ -9,8 +9,9 @@ from .serializers import (
     UserSerializer,
     CustomUserUpdateSerializer,
     BlockSerializer,
+    ChatMessageSerializer,
 )
-from .models import Language, CustomUser, Country, City, Follow, Block
+from .models import Language, CustomUser, Country, City, Follow, Block, ChatMessage
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -275,3 +276,43 @@ class BlockViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Block.objects.filter(blocker=self.request.user)
+
+
+from django.db.models import Q
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+
+class ChatMessageViewSet(ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = ChatMessage.objects.all()
+    pagination_class = PageNumberPaginationCustom
+    serializer_class = ChatMessageSerializer
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["sender", "receiver"]
+    search_fields = ["sender", "receiver"]
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return ChatMessage.objects.filter(sender=user) | ChatMessage.objects.filter(receiver=user)
+
+    @action(detail=False, methods=["get"], url_path="chat-users")
+    def chat_users(self, request):
+        user = request.user
+        sent_messages = (
+            ChatMessage.objects.filter(sender=user)
+            .values_list("receiver", flat=True)
+            .distinct()
+        )
+        received_messages = (
+            ChatMessage.objects.filter(receiver=user)
+            .values_list("sender", flat=True)
+            .distinct()
+        )
+        chat_user_ids = set(sent_messages).union(set(received_messages))
+        chat_users = CustomUser.objects.filter(id__in=chat_user_ids)
+        chat_user_data = [
+            {"id": user.id, "username": user.username} for user in chat_users
+        ]
+        return Response(chat_user_data)

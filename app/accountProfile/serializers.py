@@ -1,6 +1,6 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from .models import Language, CustomUser, Country, City, Follow, Block
+from .models import Language, CustomUser, Country, City, Follow, Block, ChatMessage
 from django.conf import settings
 from django.templatetags.static import static
 from drf_extra_fields.fields import Base64ImageField
@@ -249,3 +249,11 @@ class DetailCountrySerializer(serializers.ModelSerializer):
             return CitySerializer(City.objects.filter(country=obj), many=True).data
         else:
             return None
+
+
+class ChatMessageSerializer(serializers.ModelSerializer):
+    # image = Base64ImageField(required=False)
+
+    class Meta:
+        model = ChatMessage
+        fields = "__all__"
