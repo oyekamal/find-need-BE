@@ -103,6 +103,10 @@ class ChatMessage(models.Model):
         CustomUser, on_delete=models.CASCADE, related_name="received_messages"
     )
     message = models.TextField()
+    # image = models.ImageField(upload_to="normal_chat", blank=True, null=True)
+    # file = models.FileField(
+    #     upload_to="normal_chat/file", blank=True, null=True
+    # )  # Audio file field
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:

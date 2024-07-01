@@ -86,6 +86,7 @@ class UserLanguageUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
+        fields = "__all__"
         # fields = ["languages"]
 
     # def update(self, instance, validated_data):
