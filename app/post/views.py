@@ -387,6 +387,8 @@ class PostFilter(drf_filters.FilterSet):
     country = CharFilter(field_name="country__id", lookup_expr="exact")
     # category = CharFilter(field_name="category__name", lookup_expr="icontains")
     price = NumberFilter(lookup_expr="lte")
+    price_min = drf_filters.NumberFilter(field_name="price", lookup_expr="gte")
+    price_max = drf_filters.NumberFilter(field_name="price", lookup_expr="lte")
     kilometers = NumberFilter(lookup_expr="lte")
     year = NumberFilter(lookup_expr="exact")
     user = NumberFilter(field_name="user__id", lookup_expr="exact")
@@ -421,6 +423,8 @@ class PostFilter(drf_filters.FilterSet):
             "pre_category",
             "category",
             "sub_category",
+            "price_min",
+            "price_max",
             "post_type",
             "boost_package",  # Include boost_package in the fields list
             "sold",
