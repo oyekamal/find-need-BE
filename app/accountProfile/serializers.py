@@ -253,7 +253,7 @@ class DetailCountrySerializer(serializers.ModelSerializer):
 
 
 class ChatMessageSerializer(serializers.ModelSerializer):
-    # image = Base64ImageField(required=False)
+    image = Base64ImageField(required=False)
 
     class Meta:
         model = ChatMessage
