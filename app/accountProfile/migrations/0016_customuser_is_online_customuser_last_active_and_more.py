@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accountProfile', '0015_rename_tokens_notification_token'),
+        ("accountProfile", "0015_rename_tokens_notification_token"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='customuser',
-            name='is_online',
+            model_name="customuser",
+            name="is_online",
             field=models.BooleanField(blank=True, default=False, null=True),
         ),
         migrations.AddField(
-            model_name='customuser',
-            name='last_active',
+            model_name="customuser",
+            name="last_active",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='customuser',
-            name='tokens',
+            model_name="customuser",
+            name="tokens",
             field=models.TextField(blank=True, null=True),
         ),
     ]
