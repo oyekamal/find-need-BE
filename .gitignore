@@ -10,6 +10,7 @@
 # **/migrations/*.py
 # **/migrations/*.pyc
 **/migrations/__pycache__/
+app/serviceAccountKey.json
 
 # Ignore database files (if you use SQLite)
 *.sqlite3
