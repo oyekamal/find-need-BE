@@ -12,6 +12,7 @@ from .views import (
     FollowingListView,
     BlockViewSet,
     ChatMessageViewSet,
+    NotificationViewSet,
 )
 
 from rest_framework.routers import DefaultRouter
@@ -26,6 +27,7 @@ router.register("user", CustomUserDetail)
 router.register("follow", FollowViewSet)
 router.register(r"blocks", BlockViewSet)
 router.register("chat", ChatMessageViewSet)
+router.register("notification", NotificationViewSet)
 
 
 urlpatterns = [

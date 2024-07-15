@@ -55,6 +55,10 @@ class CustomUser(AbstractUser):
     latitude = models.CharField(max_length=2505, blank=True, null=True)
     longitude = models.CharField(max_length=255, blank=True, null=True)
     device_id = models.CharField(max_length=255, blank=True, null=True)
+    tokens = models.TextField(blank=True, null=True)
+    is_online = models.BooleanField(default=False, null=True, blank=True)
+    last_active = models.DateTimeField(null=True, blank=True)
+
     # followers = models.ManyToManyField('self', symmetrical=False, related_name='following', blank=True, null=True)
     # Add created_at and updated_at fields
     created_at = models.DateTimeField(auto_now_add=True)
@@ -131,3 +135,49 @@ class Block(models.Model):
             "blocker",
             "blocked",
         )
+
+
+class Notification(models.Model):
+    # List of tokens
+    token = models.TextField(help_text="JSON-encoded list of tokens")
+
+    # Notification type
+    NOTIFICATION_TYPE_CHOICES = [
+        ("info", "Information"),
+        ("warning", "Warning"),
+        ("alert", "Alert"),
+        # Add other types as needed
+    ]
+    notification_type = models.CharField(
+        max_length=20, choices=NOTIFICATION_TYPE_CHOICES, blank=True, null=True
+    )
+
+    # Title
+    title = models.CharField(max_length=255, blank=True, null=True)
+
+    # Body
+    body = models.TextField(blank=True, null=True)
+
+    # Document ID
+    doc_id = models.CharField(max_length=255, blank=True, null=True)
+
+    # Name
+    name = models.CharField(max_length=255, blank=True, null=True)
+
+    # Image
+    image = models.URLField(
+        blank=True, null=True
+    )  # Use ImageField if you are uploading images
+
+    # User ID (Foreign Key to User model)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    user = models.CharField(max_length=255, blank=True, null=True)
+
+    # def set_tokens(self, tokens_list):
+    #     self.tokens = json.dumps(tokens_list)
+
+    # def get_tokens(self):
+    #     return json.loads(self.tokens)
+
+    def __str__(self):
+        return self.title

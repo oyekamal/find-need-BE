@@ -1,6 +1,15 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from .models import Language, CustomUser, Country, City, Follow, Block, ChatMessage
+from .models import (
+    Language,
+    CustomUser,
+    Country,
+    City,
+    Follow,
+    Block,
+    ChatMessage,
+    Notification,
+)
 from django.conf import settings
 from django.templatetags.static import static
 from drf_extra_fields.fields import Base64ImageField
@@ -108,6 +117,9 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "phone_number",
+            "tokens",
+            "is_online",
+            "last_active",
             # "languages",
         ]
 
@@ -136,7 +148,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "latitude",
             "longitude",
             "device_id",
-            "country"
+            "country" "tokens",
+            "is_online",
+            "last_active",
             # "is_following",
         ]
 
@@ -171,6 +185,9 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
             "is_following",
             "is_active",
             "is_staff",
+            "tokens",
+            "is_online",
+            "last_active",
             "address",
             "latitude",
             "longitude",
@@ -208,6 +225,9 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
             "last_name",
             "phone_number",
             "profile_picture",
+            "tokens",
+            "is_online",
+            "last_active",
         ]
 
 
@@ -257,4 +277,10 @@ class ChatMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChatMessage
+        fields = "__all__"
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
         fields = "__all__"

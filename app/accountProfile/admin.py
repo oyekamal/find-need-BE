@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import Language, Country, City, CustomUser, Follow, ChatMessage, Block
+from .models import (
+    Language,
+    Country,
+    City,
+    CustomUser,
+    Follow,
+    ChatMessage,
+    Block,
+    Notification,
+)
 
 
 @admin.register(Language)
@@ -86,3 +95,19 @@ class BlockAdmin(admin.ModelAdmin):
     list_display = ("id", "blocker", "blocked", "created_at")
     list_filter = ("blocker", "blocked", "created_at")
     date_hierarchy = "created_at"
+
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "token",
+        "notification_type",
+        "title",
+        "body",
+        "doc_id",
+        "name",
+        "image",
+        "user",
+    )
+    search_fields = ("name",)

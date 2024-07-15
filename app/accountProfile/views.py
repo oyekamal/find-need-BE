@@ -10,8 +10,18 @@ from .serializers import (
     CustomUserUpdateSerializer,
     BlockSerializer,
     ChatMessageSerializer,
+    NotificationSerializer,
 )
-from .models import Language, CustomUser, Country, City, Follow, Block, ChatMessage
+from .models import (
+    Language,
+    CustomUser,
+    Country,
+    City,
+    Follow,
+    Block,
+    ChatMessage,
+    Notification,
+)
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -311,3 +321,12 @@ class ChatMessageViewSet(ModelViewSet):
         chat_users = CustomUser.objects.filter(id__in=chat_user_ids)
         serialize = GetCustomUserSerializer(chat_users, many=True)
         return Response(serialize.data)
+
+
+class NotificationViewSet(ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
+    filterset_fields = ["title", "body", "name", "user"]
