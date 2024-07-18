@@ -38,9 +38,9 @@ class CountrySerializer(serializers.ModelSerializer):
 
 class CustomRegisterSerializer(RegisterSerializer):
     phone_number = serializers.CharField(max_length=150, required=False)
-    # languages = serializers.PrimaryKeyRelatedField(
-    #     queryset=Language.objects.all(), many=True, required=False
-    # )
+    languages = serializers.PrimaryKeyRelatedField(
+        queryset=Language.objects.all(), many=True, required=False
+    )
     profile_picture = Base64ImageField(required=False)
     first_name = serializers.CharField(max_length=150, required=True)
     last_name = serializers.CharField(max_length=150, required=True)
@@ -50,8 +50,8 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.first_name = self.validated_data.get("first_name", "")
         user.last_name = self.validated_data.get("last_name", "")
         user.save()
-        # languages = self.validated_data.get("languages", [])
-        # user.languages.set(languages)
+        languages = self.validated_data.get("languages", [])
+        user.languages.set(languages)
         profile_picture = self.validated_data.get("profile_picture", None)
         if profile_picture:
             user.profile_picture = profile_picture
@@ -89,9 +89,9 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 
 class UserLanguageUpdateSerializer(serializers.ModelSerializer):
-    # languages = serializers.PrimaryKeyRelatedField(
-    #     queryset=Language.objects.all(), many=True
-    # )
+    languages = serializers.PrimaryKeyRelatedField(
+        queryset=Language.objects.all(), many=True
+    )
 
     class Meta:
         model = CustomUser
@@ -105,9 +105,9 @@ class UserLanguageUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # languages = serializers.PrimaryKeyRelatedField(
-    #     queryset=Language.objects.all(), many=True
-    # )
+    languages = serializers.PrimaryKeyRelatedField(
+        queryset=Language.objects.all(), many=True
+    )
 
     class Meta:
         model = CustomUser
@@ -120,12 +120,12 @@ class UserSerializer(serializers.ModelSerializer):
             "tokens",
             "is_online",
             "last_active",
-            # "languages",
+            "languages",
         ]
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    # languages = LanguageSerializer(many=True)
+    languages = LanguageSerializer(many=True)
     # is_following = serializers.SerializerMethodField()
     profile_picture = Base64ImageField(required=False)
 
@@ -148,7 +148,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "latitude",
             "longitude",
             "device_id",
-            "country" "tokens",
+            "country",
+            "tokens",
             "is_online",
             "last_active",
             # "is_following",
@@ -162,7 +163,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class GetCustomUserSerializer(serializers.ModelSerializer):
-    # languages = LanguageSerializer(many=True)
+    languages = LanguageSerializer(many=True)
     follower = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
