@@ -171,7 +171,9 @@ class Notification(models.Model):
     # User ID (Foreign Key to User model)
     # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     user = models.CharField(max_length=255, blank=True, null=True)
-
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     # def set_tokens(self, tokens_list):
     #     self.tokens = json.dumps(tokens_list)
 

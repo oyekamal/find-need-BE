@@ -382,6 +382,7 @@ class ColorViewSet(ModelViewSet):
 
 class PostFilter(drf_filters.FilterSet):
     title = CharFilter(lookup_expr="icontains")
+    loaction_name = CharFilter(lookup_expr="icontains")
     # city = CharFilter(field_name="city__name", lookup_expr="icontains")
     city = CharFilter(field_name="city__id", lookup_expr="exact")
     country = CharFilter(field_name="country__id", lookup_expr="exact")
@@ -390,12 +391,36 @@ class PostFilter(drf_filters.FilterSet):
     price_min = drf_filters.NumberFilter(field_name="price", lookup_expr="gte")
     price_max = drf_filters.NumberFilter(field_name="price", lookup_expr="lte")
     kilometers = NumberFilter(lookup_expr="lte")
+    kilometer_min = drf_filters.NumberFilter(field_name="kilometers", lookup_expr="gte")
+    kilometer_max = drf_filters.NumberFilter(field_name="kilometers", lookup_expr="lte")
     year = NumberFilter(lookup_expr="exact")
+    year_min = drf_filters.NumberFilter(field_name="year", lookup_expr="gte")
+    year_max = drf_filters.NumberFilter(field_name="year", lookup_expr="lte")
     user = NumberFilter(field_name="user__id", lookup_expr="exact")
     pre_category = NumberFilter(field_name="pre_category__id", lookup_expr="exact")
     category = NumberFilter(field_name="category__id", lookup_expr="exact")
     sub_category = NumberFilter(field_name="sub_category__id", lookup_expr="exact")
     post_type = NumberFilter(field_name="post_type__id", lookup_expr="exact")
+    color = NumberFilter(field_name="color__id", lookup_expr="exact")
+    region = NumberFilter(field_name="region__id", lookup_expr="exact")
+    region_specs = NumberFilter(field_name="region_specs__id", lookup_expr="exact")
+    body_condition = NumberFilter(field_name="body_condition__id", lookup_expr="exact")
+    mechanical_condition = NumberFilter(
+        field_name="mechanical_condition__id", lookup_expr="exact"
+    )
+    transmission = NumberFilter(field_name="transmission__id", lookup_expr="exact")
+    fuel_type = NumberFilter(field_name="fuel_type__id", lookup_expr="exact")
+    mechanical_condition = NumberFilter(
+        field_name="mechanical_condition__id", lookup_expr="exact"
+    )
+    fuel_type = NumberFilter(field_name="fuel_type__id", lookup_expr="exact")
+    insurance = NumberFilter(field_name="insurance__id", lookup_expr="exact")
+    payment_method = NumberFilter(field_name="payment_method__id", lookup_expr="exact")
+    fuel_type = NumberFilter(field_name="fuel_type__id", lookup_expr="exact")
+
+    doors = CharFilter(lookup_expr="exact")
+    cylinders = CharFilter(lookup_expr="exact")
+
     # boost_package = NumberFilter(field_name="boost_package__id", lookup_expr="exact")
 
     boost_package = BooleanFilter(
@@ -409,6 +434,7 @@ class PostFilter(drf_filters.FilterSet):
         model = Post
         fields = [
             "title",
+            "loaction_name",
             "city",
             "price",
             "body_condition",
@@ -418,7 +444,11 @@ class PostFilter(drf_filters.FilterSet):
             "insurance",
             "payment_method",
             "kilometers",
+            "kilometer_min",
+            "kilometer_max",
             "year",
+            "year_min",
+            "year_max",
             "user",
             "pre_category",
             "category",
@@ -426,8 +456,22 @@ class PostFilter(drf_filters.FilterSet):
             "price_min",
             "price_max",
             "post_type",
+            "color",
             "boost_package",  # Include boost_package in the fields list
             "sold",
+            "region",
+            "region_specs",
+            "body_condition",
+            "mechanical_condition",
+            "transmission",
+            "fuel_type",
+            "mechanical_condition",
+            "fuel_type",
+            "insurance",
+            "payment_method",
+            "fuel_type",
+            "doors",
+            "cylinders",
         ]
 
     def filter_boost_package(self, queryset, name, value):
