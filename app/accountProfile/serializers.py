@@ -125,7 +125,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    languages = LanguageSerializer(many=True)
+    # languages = LanguageSerializer(many=True)
     # is_following = serializers.SerializerMethodField()
     profile_picture = Base64ImageField(required=False)
 

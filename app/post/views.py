@@ -420,7 +420,7 @@ class PostFilter(drf_filters.FilterSet):
 
     doors = CharFilter(lookup_expr="exact")
     cylinders = CharFilter(lookup_expr="exact")
-
+    view_count = drf_filters.NumberFilter(field_name="view_count", lookup_expr="gte")
     # boost_package = NumberFilter(field_name="boost_package__id", lookup_expr="exact")
 
     boost_package = BooleanFilter(
@@ -472,6 +472,7 @@ class PostFilter(drf_filters.FilterSet):
             "fuel_type",
             "doors",
             "cylinders",
+            "view_count",
         ]
 
     def filter_boost_package(self, queryset, name, value):
