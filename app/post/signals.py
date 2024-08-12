@@ -2,6 +2,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
 from .models import ImageGroup
+from django.utils import timezone
+from datetime import timedelta
+from .models import BoostRequest
 
 # Assuming the models are defined in the same file or imported correctly
 
@@ -20,3 +23,17 @@ def set_image_group_index(sender, instance, created, **kwargs):
             instance.index = max_index + 1
 
         instance.save()  # Save the instance with the updated index
+
+
+@receiver(post_save, sender=BoostRequest)
+def update_post_expiration(sender, instance, **kwargs):
+    if instance.status == "APPROVED" and instance.boost_package:
+        # Calculate the new expiration date
+        new_expiration_date = timezone.now() + timedelta(
+            days=instance.boost_package.duration_days
+        )
+
+        # Update the expiration date of the related Post
+        instance.post.expiration_date = new_expiration_date
+        instance.post.boost_package = instance.boost_package
+        instance.post.save()
