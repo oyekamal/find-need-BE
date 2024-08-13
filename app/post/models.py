@@ -431,9 +431,27 @@ class Report(models.Model):
 
 
 class ReportChat(models.Model):
-    report = models.ForeignKey(
-        Report, on_delete=models.CASCADE, related_name="report_chats"
+    REPORT = "report"
+    SUPPORT = "support"
+
+    CHAT_TYPE_CHOICES = [
+        (REPORT, "Report"),
+        (SUPPORT, "Support"),
+    ]
+
+    chat_type = models.CharField(
+        max_length=10,
+        choices=CHAT_TYPE_CHOICES,
+        default=REPORT,
     )
+    report = models.ForeignKey(
+        Report,
+        on_delete=models.CASCADE,
+        related_name="report_chats",
+        blank=True,
+        null=True,
+    )
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField()
     image = models.ImageField(upload_to="report_chat", blank=True, null=True)

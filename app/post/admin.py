@@ -335,6 +335,7 @@ class ReportChatAdmin(admin.ModelAdmin):
         "audio",
         "is_admin",
         "created_at",
+        "chat_type",
     )
     list_filter = ("report", "user", "is_admin", "created_at")
     date_hierarchy = "created_at"
