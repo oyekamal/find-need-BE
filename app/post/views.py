@@ -195,8 +195,8 @@ class ReportViewSet(ModelViewSet):
     pagination_class = PageNumberPaginationCustom
     serializer_class = ReportSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ["post", "user"]
-    search_fields = ["post", "user"]
+    filterset_fields = ["status", "post", "user"]
+    search_fields = ["status", "post", "user"]
 
     def get_serializer_class(self):
         if self.action == "retrieve" or self.action == "list":
@@ -216,8 +216,8 @@ class ReportChatViewSet(ModelViewSet):
     pagination_class = PageNumberPaginationCustom
     serializer_class = ReportChatSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ["report", "user", "is_admin","chat_type"]
-    search_fields = ["report", "user", "is_admin","chat_type"]
+    filterset_fields = ["report", "user", "is_admin", "chat_type"]
+    search_fields = ["report", "user", "is_admin", "chat_type"]
 
 
 class ConditionViewSet(ModelViewSet):

@@ -24,6 +24,8 @@ cred_info = {
 # Initialize Firebase only once
 cred = credentials.Certificate(cred_info)
 firebase_admin.initialize_app(cred)
+
+
 # Assuming the models are defined in the same file or imported correctly
 def send_notification(
     id, token, notification_type, title, body, doc_id, name, is_group, image, member_ids

@@ -1,8 +1,35 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from PIL import Image
+from django.contrib.auth.models import BaseUserManager
 
-# from django_countries.fields import CountryField
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        """
+        Create and return a regular user with an email and password.
+        """
+        if not email:
+            raise ValueError("The Email field must be set")
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        """
+        Create and return a superuser with an email and password.
+        """
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
+        return self.create_user(email, password, **extra_fields)
 
 
 class Language(models.Model):
@@ -42,7 +69,7 @@ class City(models.Model):
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=150, blank=True, null=True)
-    languages = models.ManyToManyField(Language, blank=True, null=True)
+    languages = models.ManyToManyField(Language, blank=True)
 
     country = models.ForeignKey(
         Country, on_delete=models.CASCADE, blank=True, null=True
@@ -51,12 +78,13 @@ class CustomUser(AbstractUser):
         upload_to="profile_pictures", blank=True, null=True
     )
     address = models.CharField(max_length=255, blank=True, null=True)
-    latitude = models.CharField(max_length=2505, blank=True, null=True)
+    latitude = models.CharField(max_length=255, blank=True, null=True)
     longitude = models.CharField(max_length=255, blank=True, null=True)
     device_id = models.CharField(max_length=255, blank=True, null=True)
     tokens = models.TextField(blank=True, null=True)
-    is_online = models.BooleanField(default=False, null=True, blank=True)
-    last_active = models.DateTimeField(null=True, blank=True)
+    is_online = models.BooleanField(default=False)
+    # last_active = models.DateTimeField(null=True, blank=True)
+    last_active = models.CharField(max_length=255, blank=True, null=True)
 
     # followers = models.ManyToManyField('self', symmetrical=False, related_name='following', blank=True, null=True)
     # Add created_at and updated_at fields
@@ -65,6 +93,8 @@ class CustomUser(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []  # Removed 'email' from REQUIRED_FIELDS
+    # Use the custom manager
+    objects = CustomUserManager()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -75,8 +105,8 @@ class CustomUser(AbstractUser):
             image.thumbnail((300, 300))
             image.save(self.profile_picture.path)
 
-    def __str__(self):
-        return self.username
+    # def __str__(self):
+    #     return self.username
 
     def get_followers_count(self):
         return self.followers.count()
