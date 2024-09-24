@@ -329,4 +329,4 @@ class NotificationViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
-    filterset_fields = ["title", "body", "name", "user"]
+    filterset_fields = ["title", "body", "name", "user", "notification_type"]

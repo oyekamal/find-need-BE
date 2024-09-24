@@ -423,8 +423,8 @@ class PostFilter(drf_filters.FilterSet):
     view_count = drf_filters.NumberFilter(field_name="view_count", lookup_expr="gte")
     # boost_package = NumberFilter(field_name="boost_package__id", lookup_expr="exact")
 
-    boost_package = BooleanFilter(
-        method="filter_boost_package"
+    is_boosted = BooleanFilter(
+        method="filter_is_boosted"
     )  # boost_package = ModelChoiceFilter(
     #     queryset=BoostPackage.objects.all()
     # )  # Add this line
@@ -458,7 +458,7 @@ class PostFilter(drf_filters.FilterSet):
             "price_max",
             "post_type",
             "color",
-            "boost_package",  # Include boost_package in the fields list
+            "is_boosted",  # Include is_boosted in the fields list
             "sold",
             "region",
             "region_specs",
@@ -467,9 +467,9 @@ class PostFilter(drf_filters.FilterSet):
             "view_count",
         ]
 
-    def filter_boost_package(self, queryset, name, value):
+    def filter_is_boosted(self, queryset, name, value):
         """
-        Filters posts based on whether `boost_package` is not null.
+        Filters posts based on whether `is_boosted` is not null.
         """
         if value:
             return queryset.filter(boost_package__isnull=False)
