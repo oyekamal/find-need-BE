@@ -175,6 +175,9 @@ class Notification(models.Model):
         ("info", "Information"),
         ("warning", "Warning"),
         ("alert", "Alert"),
+        ("chat", "Chat"),
+        ("chat", "Chat"),
+        ("general", "General"),
         # Add other types as needed
     ]
     notification_type = models.CharField(
