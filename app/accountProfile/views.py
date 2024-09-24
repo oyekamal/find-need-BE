@@ -330,3 +330,30 @@ class NotificationViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["title", "body", "name", "user", "notification_type"]
+
+    # Custom patch action to mark notifications as read
+    @action(detail=False, methods=["patch"], url_path="mark-as-read")
+    def mark_as_read(self, request):
+        # Extract the list of notification IDs from the request data
+        notification_ids = request.data.get("ids", [])
+
+        if not notification_ids:
+            return Response(
+                {"detail": "No notification IDs provided."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Update notifications where id is in the list
+        notifications = Notification.objects.filter(id__in=notification_ids)
+        updated_count = notifications.update(is_read=True)
+
+        if updated_count > 0:
+            return Response(
+                {"detail": f"{updated_count} notifications marked as read."},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"detail": "No notifications were updated."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
