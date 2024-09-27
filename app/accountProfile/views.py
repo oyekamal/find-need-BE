@@ -328,6 +328,7 @@ class NotificationViewSet(ModelViewSet):
     serializer_class = NotificationSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPaginationCustom
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["title", "body", "name", "user", "notification_type"]
 
