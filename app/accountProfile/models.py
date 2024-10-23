@@ -176,7 +176,7 @@ class Notification(models.Model):
         ("warning", "Warning"),
         ("alert", "Alert"),
         ("chat", "Chat"),
-        ("chat", "Chat"),
+        ("post", "Post"),
         ("general", "General"),
         # Add other types as needed
     ]
