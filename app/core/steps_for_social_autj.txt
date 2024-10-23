@@ -1,0 +1,16 @@
+$ curl localhost:8000/google_auth/code_url
+https://accounts.google.com/o/oauth2/v2/auth?client_id=64624562613-m1nuql57v83qpt65cvmd6n6kk9dom7u3.apps.googleusercontent.com&redirect_uri=http://localhost:8000&scope=email+profile&access_type=offline&response_type=code
+
+
+it worked
+1.
+https://accounts.google.com/o/oauth2/v2/auth?client_id=64624562613-m1nuql57v83qpt65cvmd6n6kk9dom7u3.apps.googleusercontent.com&redirect_uri=http://localhost:8000&scope=email+profile&access_type=offline&response_type=code&prompt=consent
+https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=64624562613-m1nuql57v83qpt65cvmd6n6kk9dom7u3.apps.googleusercontent.com&redirect_uri=http://localhost:8000/accounts/google/login/callback/&scope=openid%20email%20profile&prompt=consent
+
+2.
+GET /?code=4%2F0AVG7fiRENQtPKy2scRw58D8F4zTnpbLyv5_JBjLpdM8cpNUt5BxN1VRV_0v4uIpUa376pg&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=1&prompt=consent
+
+
+3.
+curl -X POST "localhost:8000/google_auth/authenticate/?code=4%2F0AVG7fiRENQtPKy2scRw58D8F4zTnpbLyv5_JBjLpdM8cpNUt5BxN1VRV_0v4uIpUa376pg"
+{"token": "xxxxxxxxx-xxxxxxxxxxxxxx-xxxxxxxxxxxxxxx", "email": "me@felipejfc.com"}

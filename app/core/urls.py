@@ -28,6 +28,45 @@ from django.conf.urls.static import static
 
 from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView
 from django.urls import path, include, re_path
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+import requests
+from django.contrib.auth import get_user_model
+from rest_framework.authtoken.models import Token
+
+User = get_user_model()
+
+class GoogleLoginAPIView(APIView):
+    def validate_access_token(self, access_token):
+        url = f'https://oauth2.googleapis.com/tokeninfo?access_token={access_token}'
+        response = requests.get(url)
+        return response.json()
+
+    def post(self, request):
+        access_token = request.data.get('access_token')
+
+        if not access_token:
+            return Response({"error": "Access token is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        token_info = self.validate_access_token(access_token)
+
+        # Check if the token is valid and contains the required information
+        if 'sub' in token_info:
+            # Extract user info
+            user_id = token_info['sub']
+            email = token_info.get('email')
+
+            # Get or create the user
+            user, created = User.objects.get_or_create(username=user_id, defaults={'email': email})
+
+            # Generate or retrieve the auth token
+            token, created = Token.objects.get_or_create(user=user)
+
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid access token."}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 schema_view = get_schema_view(
@@ -42,8 +81,13 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("accountProfile.urls")),
-    path("accounts/", include("allauth.urls")),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('accounts/', include('allauth.urls')),  # Required for social login
     path("account/", include("dj_rest_auth.urls")),
+    path('api/google-login/', GoogleLoginAPIView.as_view(), name='google-login'),
+    
+
     path("", include("post.urls")),
     # path('account/registration/', include('dj_rest_auth.registration.urls')),
     path("account/registration/", CustomRegisterView.as_view(), name="custom_register"),

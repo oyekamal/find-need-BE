@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -47,9 +48,10 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "drf_yasg",
     "dj_rest_auth",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     "dj_rest_auth.registration",
     "django_countries",
     "django_extensions",
@@ -101,6 +103,15 @@ EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = "kamal.umar0987@gmail.com"
 EMAIL_HOST_PASSWORD = "guhwrrcrmkxanuaz"
 EMAIL_SUBJECT_PREFIX = "Find-Need"
 
+
+GOOGLE_AUTH_CLIENT_ID="64624562613-m1nuql57v83qpt65cvmd6n6kk9dom7u3.apps.googleusercontent.com"
+GOOGLE_AUTH_CLIENT_SECRET="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"
+GOOGLE_AUTH_AUTHORIZED_DOMAINS="autocratickamal1@gmail.com"
+GOOGLE_AUTH_SCOPE="email profile"
+# GOOGLE_AUTH_REDIRECT_URL="http://localhost:8000"
+GOOGLE_AUTH_REDIRECT_URL = "http://localhost:8000/auth/google/callback/"
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -137,8 +148,40 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
+    
 )
 
+
+
+REST_USE_JWT = False  # If you want to use JWT tokens, else leave it out
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '64624562613-m1nuql57v83qpt65cvmd6n6kk9dom7u3.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+
+# Redirect URLs (optional)
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+FIREBASE_CREDENTIALS = {
+    "type": os.getenv("FIREBASE_TYPE"),
+    "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+    "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID"),
+    "private_key": "",
+    "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+    "client_id": os.getenv("FIREBASE_CLIENT_ID"),
+    "auth_uri": os.getenv("FIREBASE_AUTH_URI"),
+    "token_uri": os.getenv("FIREBASE_TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL"),
+    "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN"),
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
