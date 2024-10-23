@@ -331,6 +331,11 @@ class NotificationViewSet(ModelViewSet):
     pagination_class = PageNumberPaginationCustom
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["title", "body", "name", "user", "notification_type"]
+    search_fields = [
+        "title",
+        "name",
+        "user",
+    ]
 
     # Custom patch action to mark notifications as read
     @action(detail=False, methods=["patch"], url_path="mark-as-read")
