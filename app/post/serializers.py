@@ -310,6 +310,15 @@ class ListPostSerializer(serializers.ModelSerializer):
     favourite = serializers.SerializerMethodField()
     warranty = WarrantySerializer()
 
+    # New field to indicate whether the post is boosted/premium
+    boost_status = serializers.SerializerMethodField()
+
+    # New method to determine boost status
+    def get_boost_status(self, obj):
+        if obj.boost_package:
+            return "PREMIUM"  # or "PREMIUM" if preferred
+        return "STANDARD"
+
     def get_favourite(self, obj):
         request = self.context.get("request")
         if request.user.is_authenticated:
