@@ -363,3 +363,21 @@ class NotificationViewSet(ModelViewSet):
                 {"detail": "No notifications were updated."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+
+    @action(detail=False, methods=["get"], url_path="unread-ids")
+    def get_unread_notification_ids(self, request):
+        user = request.user
+        unread_notifications = Notification.objects.filter(
+            user=user, is_read=False
+        ).values_list("id", flat=True)
+
+        if unread_notifications:
+            return Response(
+                {"unread_ids": list(unread_notifications)},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            return Response(
+                {"detail": "No unread notifications."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
