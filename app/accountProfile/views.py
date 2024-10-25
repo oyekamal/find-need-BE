@@ -364,11 +364,20 @@ class NotificationViewSet(ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
+    # Get unread notification IDs for a specific user using a query param
     @action(detail=False, methods=["get"], url_path="unread-ids")
     def get_unread_notification_ids(self, request):
-        user = request.user
+        user_id = request.query_params.get("user")
+
+        if not user_id:
+            return Response(
+                {"detail": "User identifier is required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Retrieve unread notifications for the specified user
         unread_notifications = Notification.objects.filter(
-            user=user, is_read=False
+            user=user_id, is_read=False
         ).values_list("id", flat=True)
 
         if unread_notifications:
