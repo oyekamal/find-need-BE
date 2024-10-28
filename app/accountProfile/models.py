@@ -82,6 +82,7 @@ class CustomUser(AbstractUser):
     longitude = models.CharField(max_length=255, blank=True, null=True)
     device_id = models.CharField(max_length=255, blank=True, null=True)
     tokens = models.TextField(blank=True, null=True)
+    information = models.TextField(blank=True, null=True)
     is_online = models.BooleanField(default=False)
     # last_active = models.DateTimeField(null=True, blank=True)
     last_active = models.CharField(max_length=255, blank=True, null=True)

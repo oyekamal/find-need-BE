@@ -118,7 +118,7 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "phone_number",
             "tokens",
-            "is_online",
+            "information" "is_online",
             "last_active",
             "languages",
         ]
@@ -150,6 +150,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "device_id",
             "country",
             "tokens",
+            "information",
             "is_online",
             "last_active",
             # "is_following",
@@ -187,6 +188,7 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
             "is_active",
             "is_staff",
             "tokens",
+            "information",
             "is_online",
             "last_active",
             "address",
@@ -227,6 +229,7 @@ class CustomUserUpdateSerializer(serializers.ModelSerializer):
             "phone_number",
             "profile_picture",
             "tokens",
+            "information",
             "is_online",
             "last_active",
         ]
