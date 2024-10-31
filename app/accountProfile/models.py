@@ -214,5 +214,10 @@ class Notification(models.Model):
     # def get_tokens(self):
     #     return json.loads(self.tokens)
 
+
+    # Model metadata for ordering
+    class Meta:
+        ordering = ['-created_at']  # Orders notifications by latest first
+        
     def __str__(self):
         return self.title
