@@ -78,6 +78,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Add WhiteNoise here
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -91,7 +92,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [BASE_DIR / "templates"],  # Ensure this points to your custom templates directory
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -107,8 +108,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 
-SITE_ID = 1
-
+SITE_ID = 1  # Needed by django-allauth
 ACCOUNT_EMAIL_VERIFICATION = "none"
 EMAIL_TIMEOUT = 5
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -214,7 +214,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = "static/"
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(
     BASE_DIR, "staticfiles/"
 )  ##specify static root# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
@@ -222,6 +223,7 @@ STATIC_ROOT = os.path.join(
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")  # specify static root
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 
