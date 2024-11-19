@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accountProfile', '0023_customuser_information'),
+        ("accountProfile", "0023_customuser_information"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='notification',
-            options={'ordering': ['-created_at']},
+            name="notification",
+            options={"ordering": ["-created_at"]},
         ),
     ]

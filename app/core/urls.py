@@ -36,6 +36,7 @@ from rest_framework import status
 import requests
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
+from accountProfile.serializers import GetCustomUserSerializer
 
 User = get_user_model()
 
@@ -63,9 +64,14 @@ class GoogleLoginAPIView(APIView):
             user, created = User.objects.get_or_create(
                 username=user_id, defaults={"email": email}
             )
+            # Serialize the user data
+            user_serializer = GetCustomUserSerializer(user)
             # Generate or retrieve the auth token
             token, created = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key}, status=status.HTTP_200_OK)
+            return Response(
+                {"token": token.key, "user": user_serializer.data},
+                status=status.HTTP_200_OK,
+            )
         else:
             return Response(
                 {"error": "Invalid access token."}, status=status.HTTP_401_UNAUTHORIZED
