@@ -515,10 +515,10 @@ class StripeCustomer(models.Model):
 
 class StripePaymentIntent(models.Model):
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('succeeded', 'Succeeded'),
-        ('failed', 'Failed'),
-        ('cancelled', 'Cancelled'),
+        ("pending", "Pending"),
+        ("succeeded", "Succeeded"),
+        ("failed", "Failed"),
+        ("cancelled", "Cancelled"),
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -526,8 +526,8 @@ class StripePaymentIntent(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     payment_intent_id = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    currency = models.CharField(max_length=3, default='USD')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    currency = models.CharField(max_length=3, default="USD")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

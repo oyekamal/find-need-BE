@@ -453,7 +453,7 @@ class CreatePaymentIntentSerializer(serializers.Serializer):
 
 class PaymentIntentResponseSerializer(serializers.ModelSerializer):
     client_secret = serializers.CharField(read_only=True)
-    
+
     class Meta:
         model = StripePaymentIntent
-        fields = ['id', 'amount', 'currency', 'status', 'client_secret']
+        fields = ["id", "amount", "currency", "status", "client_secret"]

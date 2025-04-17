@@ -637,20 +637,17 @@ class StripePaymentViewSet(viewsets.ViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=["post"])
     def create_payment_intent(self, request):
         serializer = CreatePaymentIntentSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         boost_package = get_object_or_404(
-            BoostPackage, 
-            id=serializer.validated_data['boost_package_id']
+            BoostPackage, id=serializer.validated_data["boost_package_id"]
         )
         post = get_object_or_404(
-            Post, 
-            id=serializer.validated_data['post_id'],
-            user=request.user
+            Post, id=serializer.validated_data["post_id"], user=request.user
         )
 
         try:
@@ -658,23 +655,22 @@ class StripePaymentViewSet(viewsets.ViewSet):
             customer, created = StripeCustomer.objects.get_or_create(
                 user=request.user,
                 defaults={
-                    'stripe_customer_id': stripe.Customer.create(
-                        email=request.user.email,
-                        metadata={'user_id': request.user.id}
+                    "stripe_customer_id": stripe.Customer.create(
+                        email=request.user.email, metadata={"user_id": request.user.id}
                     ).id
-                }
+                },
             )
 
             # Create payment intent
             intent = stripe.PaymentIntent.create(
                 customer=customer.stripe_customer_id,
                 amount=int(boost_package.price * 100),  # Convert to cents
-                currency='usd',
+                currency="usd",
                 metadata={
-                    'boost_package_id': boost_package.id,
-                    'post_id': post.id,
-                    'user_id': request.user.id
-                }
+                    "boost_package_id": boost_package.id,
+                    "post_id": post.id,
+                    "user_id": request.user.id,
+                },
             )
 
             # Save payment intent in database
@@ -684,26 +680,25 @@ class StripePaymentViewSet(viewsets.ViewSet):
                 post=post,
                 payment_intent_id=intent.id,
                 amount=boost_package.price,
-                status='pending'
+                status="pending",
             )
 
-            return Response({
-                'client_secret': intent.client_secret,
-                'publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
-                'payment_intent_id': payment_intent.id,
-                'amount': float(boost_package.price)
-            })
+            return Response(
+                {
+                    "client_secret": intent.client_secret,
+                    "publishable_key": settings.STRIPE_PUBLISHABLE_KEY,
+                    "payment_intent_id": payment_intent.id,
+                    "amount": float(boost_package.price),
+                }
+            )
 
         except Exception as e:
-            return Response(
-                {'error': str(e)}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=["post"])
     def webhook(self, request):
         payload = request.body
-        sig_header = request.headers.get('Stripe-Signature')
+        sig_header = request.headers.get("Stripe-Signature")
 
         try:
             event = stripe.Webhook.construct_event(
@@ -714,14 +709,14 @@ class StripePaymentViewSet(viewsets.ViewSet):
         except stripe.error.SignatureVerificationError as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        if event['type'] == 'payment_intent.succeeded':
-            payment_intent = event['data']['object']
-            
+        if event["type"] == "payment_intent.succeeded":
+            payment_intent = event["data"]["object"]
+
             # Update payment intent status
             stripe_payment = StripePaymentIntent.objects.get(
-                payment_intent_id=payment_intent['id']
+                payment_intent_id=payment_intent["id"]
             )
-            stripe_payment.status = 'succeeded'
+            stripe_payment.status = "succeeded"
             stripe_payment.save()
 
             # Create and approve boost request
@@ -729,7 +724,7 @@ class StripePaymentViewSet(viewsets.ViewSet):
                 user=stripe_payment.user,
                 post=stripe_payment.post,
                 boost_package=stripe_payment.boost_package,
-                status='APPROVED'
+                status="APPROVED",
             )
 
         return Response(status=status.HTTP_200_OK)
