@@ -26,6 +26,7 @@ from .views import (
     ImageGroupViewSet,
     ImageGroupNameViewSet,
     DetailsAPIViewSet,
+    StripePaymentViewSet,
 )
 from rest_framework.routers import DefaultRouter
 
@@ -58,6 +59,7 @@ router.register("post_example_image", PostExampleImageViewSet)
 router.register("image_group", ImageGroupViewSet)
 router.register("image_group_name", ImageGroupNameViewSet)
 router.register(r"details", DetailsAPIViewSet, basename="details")
+router.register(r'stripe', StripePaymentViewSet, basename='stripe')
 urlpatterns = [
     path("", include(router.urls)),
 ]

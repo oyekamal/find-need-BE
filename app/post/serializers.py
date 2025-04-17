@@ -5,6 +5,7 @@ from .models import (
     RegionSpecs,
     PreCategory,
     Category,
+    StripePaymentIntent,
     Subcategory,
     PostType,
     Image,
@@ -443,3 +444,16 @@ class ListReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = "__all__"
         # depth = 1
+
+
+class CreatePaymentIntentSerializer(serializers.Serializer):
+    boost_package_id = serializers.IntegerField()
+    post_id = serializers.IntegerField()
+
+
+class PaymentIntentResponseSerializer(serializers.ModelSerializer):
+    client_secret = serializers.CharField(read_only=True)
+    
+    class Meta:
+        model = StripePaymentIntent
+        fields = ['id', 'amount', 'currency', 'status', 'client_secret']
