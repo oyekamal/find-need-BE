@@ -4,13 +4,8 @@ if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
 
-    # Install netcat if not available
-    if ! command -v nc >/dev/null 2>&1; then
-        echo "Installing netcat..."
-        apt-get update && apt-get install -y netcat-openbsd
-    fi
-
-    # Wait for PostgreSQL to be ready
+    # Use netcat to wait for PostgreSQL to be ready
+    # netcat-openbsd is already installed in the Dockerfile
     while ! nc -z $SQL_HOST $SQL_PORT; do
       echo "PostgreSQL is unavailable - sleeping for 1 second"
       sleep 1
