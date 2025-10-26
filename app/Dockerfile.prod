@@ -11,8 +11,8 @@ RUN mkdir $APP_HOME/media
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install psycopg2 dependencies
-RUN apt update 
+# install system dependencies including netcat
+RUN apt update && apt install -y netcat-openbsd postgresql-client
 #     && apt add postgresql-dev gcc python3-dev musl-dev
 
 # install dependencies
@@ -22,6 +22,9 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
+
+# make entrypoint executable
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 # run entrypoint.sh
 # ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
