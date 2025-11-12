@@ -201,7 +201,7 @@ class GetCustomUserSerializer(serializers.ModelSerializer):
 
     def get_is_following(self, obj):
         request = self.context.get("request")
-        if request and hasattr(request, "user"):
+        if request and hasattr(request, "user") and request.user.is_authenticated:
             return Follow.objects.filter(follower=request.user, following=obj).exists()
         return False
 

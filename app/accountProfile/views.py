@@ -7,6 +7,7 @@ from .serializers import (
     LanguageSerializer,
     UserLanguageUpdateSerializer,
     UserSerializer,
+    CustomUserSerializer,
     CustomUserUpdateSerializer,
     BlockSerializer,
     ChatMessageSerializer,
@@ -166,16 +167,50 @@ class CustomRegisterView(RegisterView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        
+        if not serializer.is_valid():
+            # Format validation errors into a consistent message structure
+            error_messages = []
+            for field, errors in serializer.errors.items():
+                if field == 'username':
+                    error_messages.append("A user with that username already exists.")
+                elif field == 'email':
+                    error_messages.append("A user is already registered with this e-mail address.")
+                elif field == 'password1':
+                    error_messages.extend(errors)
+                elif field == 'password2':
+                    error_messages.extend(errors)
+                else:
+                    # Handle other field errors
+                    for error in errors:
+                        error_messages.append(f"{field.replace('_', ' ').title()}: {error}")
+            
+            # Join all error messages
+            message = " ".join(error_messages) if error_messages else "Registration failed due to validation errors."
+            
+            return Response(
+                {"message": message}, 
+                status=400
+            )
+        
+        user = self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+        
+        # Serialize user data for response (using CustomUserSerializer to avoid authentication issues)
+        user_serializer = CustomUserSerializer(user)
+        
         return Response(
-            {"message": "User created successfully."}, status=201, headers=headers
+            {
+                "message": "User created successfully.",
+                "user": user_serializer.data
+            }, 
+            status=201, 
+            headers=headers
         )
 
     def perform_create(self, serializer):
         user = serializer.save(self.request)
-        # Additional logic if needed
+        return user
 
 
 class LanguageViewSet(ModelViewSet):
