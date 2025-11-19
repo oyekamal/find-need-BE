@@ -471,7 +471,7 @@ class Command(BaseCommand):
             "A new user is now following you"
         ]
         
-        for _ in range(50):
+        for _ in range(100):
             user_id = str(random.choice(users).id)
             Notification.objects.create(
                 token='["dummy_token_123", "dummy_token_456"]',
