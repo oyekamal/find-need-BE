@@ -3,7 +3,7 @@ import os
 local = os.environ.get("LOCAL", "True")
 
 
-if local == "False":
+if local == "True":
     print("local settings...!")
     from .local_settings import *
 else:
