@@ -339,7 +339,7 @@ class Command(BaseCommand):
 
         posts = []
         # Create 50 posts with varied data
-        for _ in range(50):
+        for i in range(50):
             user = random.choice(users)
             city = random.choice(cities)
             
@@ -502,7 +502,7 @@ class Command(BaseCommand):
                 f"   - {Post.objects.count()} Posts\n"
                 f"   - {Favourite.objects.count()} Favourites\n"
                 f"   - {Report.objects.count()} Reports\n"
-                f"   - {PostImage.objects.count()} Post images\n"
+                # f"   - {Image.objects.count()} Post images\n"
                 f"   - {BoostRequest.objects.count()} Boost requests\n"
                 f"   - {Notification.objects.count()} Notifications\n"
             )
