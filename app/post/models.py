@@ -311,8 +311,8 @@ class Post(models.Model):
     )
     # kilometers = models.PositiveIntegerField(null=True, blank=True)
     kilometers = models.CharField(max_length=200, null=True, blank=True)
-    options = models.ManyToManyField("Option", blank=True, null=True)
-    extra = models.ManyToManyField(Extra, blank=True, null=True)
+    options = models.ManyToManyField("Option", blank=True)
+    extra = models.ManyToManyField(Extra, blank=True)
     color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True, blank=True)
     warranty = models.ForeignKey(
         Warranty, on_delete=models.CASCADE, null=True, blank=True

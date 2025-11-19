@@ -384,8 +384,8 @@ class PostFilter(drf_filters.FilterSet):
     title = CharFilter(lookup_expr="icontains")
     loaction_name = CharFilter(lookup_expr="icontains")
     # city = CharFilter(field_name="city__name", lookup_expr="icontains")
-    city = CharFilter(field_name="city__id", lookup_expr="exact")
-    country = CharFilter(field_name="country__id", lookup_expr="exact")
+    city = NumberFilter(field_name="city__id", lookup_expr="exact")
+    country = NumberFilter(field_name="country__id", lookup_expr="exact")
     # category = CharFilter(field_name="category__name", lookup_expr="icontains")
     price = NumberFilter(lookup_expr="lte")
     price_min = drf_filters.NumberFilter(field_name="price", lookup_expr="gte")
@@ -410,13 +410,8 @@ class PostFilter(drf_filters.FilterSet):
     )
     transmission = NumberFilter(field_name="transmission__id", lookup_expr="exact")
     fuel_type = NumberFilter(field_name="fuel_type__id", lookup_expr="exact")
-    mechanical_condition = NumberFilter(
-        field_name="mechanical_condition__id", lookup_expr="exact"
-    )
-    fuel_type = NumberFilter(field_name="fuel_type__id", lookup_expr="exact")
     insurance = NumberFilter(field_name="insurance__id", lookup_expr="exact")
     payment_method = NumberFilter(field_name="payment_method__id", lookup_expr="exact")
-    fuel_type = NumberFilter(field_name="fuel_type__id", lookup_expr="exact")
 
     doors = CharFilter(lookup_expr="exact")
     cylinders = CharFilter(lookup_expr="exact")
